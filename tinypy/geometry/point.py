@@ -54,6 +54,9 @@ class Point:
     def __repr__(self):
         return str(self.coords)
 
+    def __hash__(self):
+        return hash(repr(self))
+
     @staticmethod
     def __get_coords(args: tuple) -> tuple:
         if len(args) == 1:
