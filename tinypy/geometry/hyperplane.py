@@ -9,5 +9,3 @@ class Hyperplane:
 
         self.normal_vector = normal_vector
         self.d = kwargs.get('d') if 'd' in kwargs else normal_vector.dot(kwargs.get('p'))
-
-        print(self.d)

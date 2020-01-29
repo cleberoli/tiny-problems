@@ -1,4 +1,3 @@
-from math import factorial
 from typing import List
 
 from tinypy.geometry import Point, Hyperplane
@@ -43,7 +42,7 @@ class TSP(Polytope):
 
         return edges
 
-    def __get_edges_from_permutation(self, permutation: List[str]):
+    def __get_edges_from_permutation(self, permutation: List[str]) -> List[str]:
         edges = []
 
         for i in range(self.size):

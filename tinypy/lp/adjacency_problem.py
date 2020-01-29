@@ -1,16 +1,21 @@
+from typing import List
+
 from gurobipy.gurobipy import Model, GRB, quicksum
 
-from tinypy.polytopes import Polytope
+from tinypy.geometry import Point
 
 
-class EdgeProblem:
+class AdjacencyProblem:
+    STATUS_OPTIMAL = 2
+    STATUS_INFEASIBLE = 3
+    STATUS_UNBOUNDED = 5
 
-    def __init__(self, polytope: Polytope):
-        self.dim = polytope.dim
-        self.name = polytope.name
-        self.p = polytope.vertices
+    def __init__(self, dim: int, name: str, vertices: List[Point]):
+        self.dim = dim
+        self.name = name
+        self.p = vertices
 
-    def test_edge_primal(self, i: int, j: int):
+    def test_edge_primal(self, i: int, j: int) -> bool:
         model = Model()
         model.setParam('LogToConsole', 0)
         model.setParam('DualReductions', 0)
@@ -18,10 +23,10 @@ class EdgeProblem:
 
         model.update()
         model.optimize()
-        model.write(f'{self.name}_edge_primal_{i}_{j}.lp')
-        print(i, j, model.status)
+        # model.write(f'{self.name}_edge_primal_{i}_{j}.lp')
+        return True if model.status == AdjacencyProblem.STATUS_INFEASIBLE else False
 
-    def test_edge_dual(self, i: int, j: int):
+    def test_edge_dual(self, i: int, j: int) -> bool:
         model = Model()
         model.setParam('LogToConsole', 0)
         model.setParam('DualReductions', 0)
@@ -29,20 +34,23 @@ class EdgeProblem:
 
         model.update()
         model.optimize()
-        model.write(f'{self.name}_edge_dual_{i}_{j}.lp')
-        print(i, j, model.status)
+        # model.write(f'{self.name}_edge_dual_{i}_{j}.lp')
+        return True if model.status == AdjacencyProblem.STATUS_UNBOUNDED else False
 
     def __primal_model(self, m: Model, i: int, j: int):
         lbd = dict()
 
         for d in range(len(self.p)):
-            lbd[d] = m.addVar(name=f'lbd_{d}', vtype=GRB.CONTINUOUS, lb=0)
+            lbd[d] = m.addVar(name=f'lbd_{d}', vtype=GRB.CONTINUOUS, lb=0, ub=1)
 
         m.setObjective(0, GRB.MINIMIZE)
 
         for d in range(self.dim):
             m.addConstr(quicksum(lbd[k] * self.p[k].coords[d] for k in range(len(self.p)) if k != i and k != j) == lbd[i] * self.p[i].coords[d] +
                         lbd[j] * self.p[j].coords[d])
+
+        for d in range(len(self.p)):
+            m.addConstr(lbd[d] >= 0)
 
         m.addConstr(quicksum(lbd[k] for k in range(len(self.p)) if k != i and k != j) == 1)
         m.addConstr(lbd[i] + lbd[j] == 1)
