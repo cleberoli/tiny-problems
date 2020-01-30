@@ -13,11 +13,11 @@ class Hyperpyramid(Polytope):
 
         Polytope.__init__(self, dimension, dimension, 'pyr')
 
-    def get_vertices(self) -> List[Point]:
+    def get_vertices(self) -> List['Point']:
         vertices = combinatorics.get_permutations([0, 2], self.dim - 1)
         vertices = [Point(v + (0,)) for v in vertices]
         vertices.append(Point(tuple([1] * self.dim)))
         return vertices
 
-    def get_facets(self) -> List[Hyperplane]:
+    def get_facets(self) -> List['Hyperplane']:
         return []

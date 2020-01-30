@@ -11,7 +11,7 @@ class Point:
 
     @property
     def origin(self):
-        """A point of all zeros of the same ambient as the current point"""
+        """A point of all zeros of the same dimension as the current point"""
         return Point([0] * self.dim)
 
     @property
@@ -41,6 +41,9 @@ class Point:
             raise ValueError('The dimensions are not compatible.')
 
         return Point(tuple(map(lambda x, y: x - y, self.coords, other.coords)))
+
+    def times(self, c: int):
+        return Point(tuple(map(lambda x: x * c, self.coords)))
 
     def __eq__(self, other: 'Point'):
         return self.coords == other.coords

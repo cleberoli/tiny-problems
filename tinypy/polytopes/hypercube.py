@@ -13,10 +13,10 @@ class Hypercube(Polytope):
 
         Polytope.__init__(self, dimension, dimension, 'cub')
 
-    def get_vertices(self) -> List[Point]:
+    def get_vertices(self) -> List['Point']:
         vertices = combinatorics.get_permutations([0, 1], self.dim)
         vertices = [Point(v) for v in vertices]
         return vertices
 
-    def get_facets(self) -> List[Hyperplane]:
+    def get_facets(self) -> List['Hyperplane']:
         return []

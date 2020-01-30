@@ -1,3 +1,3 @@
-from tinypy.lp.adjacency_problem import AdjacencyProblem
+from tinypy.lp.adjacency import AdjacencyProblem
 
 __all__ = ['AdjacencyProblem']

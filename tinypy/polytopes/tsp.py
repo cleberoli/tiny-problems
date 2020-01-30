@@ -14,7 +14,7 @@ class TSP(Polytope):
         self.nodes = list(map(chr, range(65, 65 + size)))
         Polytope.__init__(self, size, int((size * (size - 1)) / 2), 'tsp')
 
-    def get_vertices(self) -> List[Point]:
+    def get_vertices(self) -> List['Point']:
         edges = self.__get_edges()
         permutations = combinatorics.get_permutations(self.nodes)
         permutations = [''.join(p) + p[0] for p in permutations]
@@ -30,7 +30,7 @@ class TSP(Polytope):
 
         return vertices
 
-    def get_facets(self) -> List[Hyperplane]:
+    def get_facets(self) -> List['Hyperplane']:
         return []
 
     def __get_edges(self) -> List[str]:

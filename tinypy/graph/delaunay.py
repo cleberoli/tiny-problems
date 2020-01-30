@@ -1,7 +1,5 @@
 import networkx as nx
 
-from tinypy.geometry import Hyperplane
-
 
 class DelaunayTriangulation:
 
@@ -12,8 +10,17 @@ class DelaunayTriangulation:
     def edges(self):
         return self.__graph.edges
 
-    def add_edge(self, i: int, j: int, h: Hyperplane = None):
+    def get_edge(self, i: int, j: int, key: str):
+        try:
+            return self.__graph[i][j][key]
+        except KeyError as e:
+            print(f'Invalid key: {e}')
+
+    def get_edges(self, i: int):
+        return self.__graph.adj[i]
+
+    def add_edge(self, i: int, j: int, h: int = None):
         if h is None:
             self.__graph.add_edge(i, j)
         else:
-            self.__graph.add_edge(i, j, hyperplane=h)
+            self.__graph.add_edge(i, j, h=h)
