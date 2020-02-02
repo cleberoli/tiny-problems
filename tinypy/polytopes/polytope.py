@@ -60,7 +60,7 @@ class Polytope(ABC):
 
             hyperplanes = [self.voronoi.hyperplanes[h] for h in hyperplanes]
             hyperplanes = [h if h.position(vertex) >= 0 else h.reflected for h in hyperplanes]
-            cones[v] = Cone(v, vertex, hyperplanes)
+            cones[v] = Cone(v, vertex, hyperplanes, self.dim)
 
         return cones
 

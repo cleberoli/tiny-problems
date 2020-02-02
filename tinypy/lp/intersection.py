@@ -1,8 +1,6 @@
-from typing import List
-
 from gurobipy.gurobipy import Model, GRB, quicksum
 
-from tinypy.geometry import Hyperplane
+from tinypy.geometry import Hyperplane, Region
 
 
 class IntersectionProblem:
@@ -11,7 +9,7 @@ class IntersectionProblem:
     STATUS_INFEASIBLE = 3
     STATUS_UNBOUNDED = 5
 
-    def __init__(self, region: List[Hyperplane], hyperplane: Hyperplane, dim: int, name: str = None):
+    def __init__(self, region: 'Region', hyperplane: 'Hyperplane', dim: int, name: str = None):
         self.region = region
         self.hyperplane = hyperplane
         self.dim = dim
@@ -28,7 +26,7 @@ class IntersectionProblem:
         model.update()
         model.optimize()
         model.write(f'model_{self.name}.lp')
-        return True if model.status == IntersectionProblem.STATUS_OPTIMAL else False
+        return 1 if model.status == IntersectionProblem.STATUS_OPTIMAL else 0
 
     def __model(self, m: Model):
         x = dict()
@@ -40,7 +38,7 @@ class IntersectionProblem:
 
         m.setObjective(quicksum(x[d] + y[d] for d in range(self.dim)), GRB.MAXIMIZE)
 
-        for r in self.region:
+        for r in self.region.hyperplanes:
             m.addConstr(quicksum(x[d] * r[d] for d in range(self.dim)) >= 0)
             m.addConstr(quicksum(y[d] * r[d] for d in range(self.dim)) >= 0)
 

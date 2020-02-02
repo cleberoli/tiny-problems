@@ -1,7 +1,8 @@
 from tinypy.geometry.point import Point
 from tinypy.geometry.hyperplane import Hyperplane
-from tinypy.geometry.voronoi import VoronoiDiagram
+from tinypy.geometry.region import Region
 from tinypy.geometry.cone import Cone
-from tinypy.geometry.intersection import Intersection
+from tinypy.geometry.voronoi import VoronoiDiagram
+from tinypy.geometry.intersections import Intersections
 
-__all__ = ['Point', 'Hyperplane', 'VoronoiDiagram', 'Cone', 'Intersection']
+__all__ = ['Point', 'Hyperplane', 'VoronoiDiagram', 'Region', 'Cone', 'Intersections']
