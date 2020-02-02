@@ -6,6 +6,7 @@ from tinypy.geometry import Point
 
 
 class AdjacencyProblem:
+
     STATUS_OPTIMAL = 2
     STATUS_INFEASIBLE = 3
     STATUS_UNBOUNDED = 5
@@ -46,8 +47,8 @@ class AdjacencyProblem:
         m.setObjective(0, GRB.MINIMIZE)
 
         for d in range(self.dim):
-            m.addConstr(quicksum(lbd[k] * self.p[k].coords[d] for k in range(len(self.p)) if k != i and k != j) == lbd[i] * self.p[i].coords[d] +
-                        lbd[j] * self.p[j].coords[d])
+            m.addConstr(quicksum(lbd[k] * self.p[k][d] for k in range(len(self.p)) if k != i and k != j) == lbd[i] * self.p[i][d] +
+                        lbd[j] * self.p[j][d])
 
         for d in range(len(self.p)):
             m.addConstr(lbd[d] >= 0)
@@ -65,9 +66,9 @@ class AdjacencyProblem:
 
         m.setObjective(x - y, GRB.MAXIMIZE)
 
-        m.addConstr(quicksum(self.p[i].coords[d] * q[d] for d in range(self.dim)) >= x)
-        m.addConstr(quicksum(self.p[j].coords[d] * q[d] for d in range(self.dim)) >= x)
+        m.addConstr(quicksum(self.p[i][d] * q[d] for d in range(self.dim)) >= x)
+        m.addConstr(quicksum(self.p[j][d] * q[d] for d in range(self.dim)) >= x)
 
         for k in range(len(self.p)):
             if k != i and k != j:
-                m.addConstr(quicksum(self.p[k].coords[d] * q[d] for d in range(self.dim)) <= y)
+                m.addConstr(quicksum(self.p[k][d] * q[d] for d in range(self.dim)) <= y)

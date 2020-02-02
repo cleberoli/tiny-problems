@@ -60,6 +60,9 @@ class Point:
     def __hash__(self):
         return hash(repr(self))
 
+    def __getitem__(self, item: int):
+        return self.coords[item]
+
     @staticmethod
     def __get_coords(args: tuple) -> tuple:
         if len(args) == 1:
