@@ -18,32 +18,17 @@ class Point:
     def norm(self):
         return self.distance(self.origin)
 
-    def dot(self, other: 'Point'):
-        if self.dim != other.dim:
-            raise ValueError('The dimensions are not compatible.')
-
-        return sum(tuple(map(lambda x, y: x * y, self.coords, other.coords)))
-
     def distance(self, other: 'Point'):
         if self.dim != other.dim:
             raise ValueError('The dimensions are not compatible.')
 
-        return sqrt(sum(tuple(map(lambda x: x * x, self.sub(other).coords))))
+        return sqrt(sum(tuple(map(lambda x: x * x, (self - other).coords))))
 
-    def add(self, other: 'Point'):
-        if self.dim != other.dim:
-            raise ValueError('The dimensions are not compatible.')
+    def __lt__(self, other: 'Point'):
+        return self.coords < other.coords
 
-        return Point(tuple(map(lambda x, y: x + y, self.coords, other.coords)))
-
-    def sub(self, other: 'Point'):
-        if self.dim != other.dim:
-            raise ValueError('The dimensions are not compatible.')
-
-        return Point(tuple(map(lambda x, y: x - y, self.coords, other.coords)))
-
-    def times(self, c: int):
-        return Point(tuple(map(lambda x: x * c, self.coords)))
+    def __gt__(self, other: 'Point'):
+        return self.coords > other.coords
 
     def __eq__(self, other: 'Point'):
         return self.coords == other.coords
@@ -51,8 +36,31 @@ class Point:
     def __ne__(self, other: 'Point'):
         return not (self == other)
 
-    def __lt__(self, other: 'Point'):
-        return self.coords < other.coords
+    def __add__(self, other: 'Point'):
+        if self.dim != other.dim:
+            raise ValueError('The dimensions are not compatible.')
+
+        return Point(tuple(map(lambda x, y: x + y, self.coords, other.coords)))
+
+    def __sub__(self, other: 'Point'):
+        if self.dim != other.dim:
+            raise ValueError('The dimensions are not compatible.')
+
+        return Point(tuple(map(lambda x, y: x - y, self.coords, other.coords)))
+
+    def __rmul__(self, other):
+        if isinstance(other, Point):
+            if self.dim != other.dim:
+                raise ValueError('The dimensions are not compatible.')
+
+            return sum(tuple(map(lambda x, y: x * y, self.coords, other.coords)))
+        elif isinstance(other, int) or isinstance(other, float):
+            return Point(tuple(map(lambda x: x * other, self.coords)))
+
+    __mul__ = __rmul__
+
+    def __neg__(self):
+        return Point([-c for c in self.coords])
 
     def __repr__(self):
         return str(self.coords)

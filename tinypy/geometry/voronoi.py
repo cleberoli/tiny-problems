@@ -33,7 +33,7 @@ class VoronoiDiagram:
         for i in range(n):
             for j in range(i + 1, n):
                 if adjacency_lp.test_edge_primal(i, j):
-                    h = Hyperplane(vertices[i].sub(vertices[j]), d=0)
+                    h = Hyperplane(vertices[i] - vertices[j], d=0)
                     hyperplanes.add(h)
                     self.delaunay.add_edge(i, j, h=hash(h))
 

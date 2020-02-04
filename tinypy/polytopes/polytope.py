@@ -59,14 +59,14 @@ class Polytope(ABC):
             hyperplanes.sort()
 
             hyperplanes = [self.voronoi.hyperplanes[h] for h in hyperplanes]
-            hyperplanes = [h if h.position(vertex) >= 0 else h.reflected for h in hyperplanes]
+            hyperplanes = [h if h.position(vertex) >= 0 else -h for h in hyperplanes]
             cones[v] = Cone(v, vertex, hyperplanes, self.dim)
 
         return cones
 
     @staticmethod
     def __get_cone(hyperplanes: List[Hyperplane], vertex: Point):
-        hyperplanes = [h if h.position(vertex) >= 0 else h.reflected for h in hyperplanes]
+        hyperplanes = [h if h.position(vertex) >= 0 else -h for h in hyperplanes]
         print(hyperplanes)
 
     def __repr__(self):

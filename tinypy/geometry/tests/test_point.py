@@ -34,18 +34,25 @@ def test_add():
     y = Point(4.5, 3.5, 2.5)
     p = Point(5.5, 5.5, 5.5)
 
-    assert x.add(y) == p
-    assert y.add(x) == p
+    assert x + y == p
+    assert y + x == p
 
 
 def test_sub():
     x = Point(1, 2, 3)
     y = Point(4.5, 3.5, 2.5)
-    p1 = Point(-3.5, -1.5, 0.5)
-    p2 = Point(3.5, 1.5, -0.5)
+    p = Point(-3.5, -1.5, 0.5)
 
-    assert x.sub(y) == p1
-    assert y.sub(x) == p2
+    assert x - y == p
+    assert y - x == -p
+
+
+def test_mul():
+    x = Point(1, 2, 3)
+    p = Point(2, 4, 6)
+
+    assert 2 * x == p
+    assert x * 2 == p
 
 
 def test_distance():
@@ -66,5 +73,5 @@ def test_dot():
     x = Point(3, 4)
     y = Point(6, 8)
 
-    assert x.dot(y) == 50
-    assert y.dot(x) == 50
+    assert x * y == 50
+    assert y * x == 50

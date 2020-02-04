@@ -11,14 +11,10 @@ class Hyperplane:
             raise ValueError('Invalid parameters.')
 
         self.normal = normal
-        self.d = kwargs.get('d') if 'd' in kwargs else - normal.dot(kwargs.get('p'))
-
-    @property
-    def reflected(self):
-        return Hyperplane(self.normal.times(-1), d=self.d)
+        self.d = kwargs.get('d') if 'd' in kwargs else - normal * kwargs.get('p')
 
     def position(self, p: 'Point'):
-        return self.normal.dot(p)
+        return self.normal * p
 
     def __eq__(self, other: 'Hyperplane'):
         return self.normal == other.normal and self.d == other.d
@@ -28,6 +24,9 @@ class Hyperplane:
 
     def __lt__(self, other: 'Hyperplane'):
         return self.normal < other.normal and self.d <= other.d
+
+    def __neg__(self):
+        return Hyperplane(-self.normal, d=-self.d)
 
     def __repr__(self):
         return f'{self.normal}, {self.d}'
