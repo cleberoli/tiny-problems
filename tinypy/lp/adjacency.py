@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict
 
 from gurobipy.gurobipy import Model, GRB, quicksum
 
@@ -11,7 +11,7 @@ class AdjacencyProblem:
     STATUS_INFEASIBLE = 3
     STATUS_UNBOUNDED = 5
 
-    def __init__(self, dim: int, name: str, vertices: List[Point]):
+    def __init__(self, dim: int, name: str, vertices: Dict[int, 'Point']):
         self.dim = dim
         self.name = name
         self.p = vertices
@@ -47,13 +47,13 @@ class AdjacencyProblem:
         m.setObjective(0, GRB.MINIMIZE)
 
         for d in range(self.dim):
-            m.addConstr(quicksum(lbd[k] * self.p[k][d] for k in range(len(self.p)) if k != i and k != j) == lbd[i] * self.p[i][d] +
+            m.addConstr(quicksum(lbd[k] * self.p[k][d] for k in self.p.keys() if k != i and k != j) == lbd[i] * self.p[i][d] +
                         lbd[j] * self.p[j][d])
 
         for d in range(len(self.p)):
             m.addConstr(lbd[d] >= 0)
 
-        m.addConstr(quicksum(lbd[k] for k in range(len(self.p)) if k != i and k != j) == 1)
+        m.addConstr(quicksum(lbd[k] for k in self.p.keys() if k != i and k != j) == 1)
         m.addConstr(lbd[i] + lbd[j] == 1)
 
     def __dual_model(self, m: Model, i: int, j: int):
@@ -69,6 +69,6 @@ class AdjacencyProblem:
         m.addConstr(quicksum(self.p[i][d] * q[d] for d in range(self.dim)) >= x)
         m.addConstr(quicksum(self.p[j][d] * q[d] for d in range(self.dim)) >= x)
 
-        for k in range(len(self.p)):
+        for k in self.p.keys():
             if k != i and k != j:
                 m.addConstr(quicksum(self.p[k][d] * q[d] for d in range(self.dim)) <= y)

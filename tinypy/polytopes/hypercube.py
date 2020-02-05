@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict
 
 from tinypy.geometry import Point, Hyperplane
 from tinypy.polytopes import Polytope
@@ -13,10 +13,11 @@ class Hypercube(Polytope):
 
         Polytope.__init__(self, dimension, dimension, 'cub')
 
-    def get_vertices(self) -> List['Point']:
+    def get_vertices(self) -> Dict[int, 'Point']:
         vertices = combinatorics.get_permutations([0, 1], self.dim)
         vertices = [Point(v) for v in vertices]
-        return vertices
 
-    def get_facets(self) -> List['Hyperplane']:
-        return []
+        return dict((key, vertices[key]) for key in range(len(vertices)))
+
+    def get_facets(self) -> Dict[int, 'Hyperplane']:
+        return dict()

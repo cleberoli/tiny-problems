@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 
 from tinypy.geometry import Hyperplane, Point
 from tinypy.graph import DelaunayTriangulation
@@ -21,11 +21,11 @@ class VoronoiDiagram:
     def get_edges(self, i: int):
         return self.delaunay.get_edges(i)
 
-    def build(self, dim: int, name: str, vertices: List[Point]):
+    def build(self, dim: int, name: str, vertices: Dict[int, 'Point']):
         self.__initialize(dim, name, vertices)
         self.__update()
 
-    def __initialize(self, dim: int, name: str, vertices: List[Point]):
+    def __initialize(self, dim: int, name: str, vertices: Dict[int, 'Point']):
         adjacency_lp = AdjacencyProblem(dim, name, vertices)
         hyperplanes = set()
         n = len(vertices)

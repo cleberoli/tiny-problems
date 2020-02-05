@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 
 from tinypy.geometry import Point, Hyperplane
 from tinypy.polytopes import Polytope
@@ -14,7 +14,7 @@ class TSP(Polytope):
         self.nodes = list(map(chr, range(65, 65 + size)))
         Polytope.__init__(self, size, int((size * (size - 1)) / 2), 'tsp')
 
-    def get_vertices(self) -> List['Point']:
+    def get_vertices(self) -> Dict[int, 'Point']:
         edges = self.__get_edges()
         permutations = combinatorics.get_permutations(self.nodes)
         permutations = [''.join(p) + p[0] for p in permutations]
@@ -28,10 +28,10 @@ class TSP(Polytope):
         vertices = list(set(vertices))
         vertices.sort()
 
-        return vertices
+        return dict((key, vertices[key]) for key in range(len(vertices)))
 
-    def get_facets(self) -> List['Hyperplane']:
-        return []
+    def get_facets(self) -> Dict[int, 'Hyperplane']:
+        return dict()
 
     def __get_edges(self) -> List[str]:
         edges = []

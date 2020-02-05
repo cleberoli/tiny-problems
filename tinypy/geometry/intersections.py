@@ -16,7 +16,8 @@ class Intersections:
 
         if intersections is None:
             self.__intersections = dict()
-            self.compute()
+            self.__positions = dict()
+            self.compute_intersections()
         else:
             self.__intersections = intersections
 
@@ -32,7 +33,7 @@ class Intersections:
     def intersections(self):
         return self.__intersections
 
-    def compute(self):
+    def compute_intersections(self):
         for c in self.__cones.keys():
             self.__intersections[c] = dict()
 

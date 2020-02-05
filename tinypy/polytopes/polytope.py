@@ -1,6 +1,6 @@
 from abc import ABC
 from abc import abstractmethod
-from typing import List
+from typing import Dict, List
 
 from tinypy.geometry import Point, Hyperplane, VoronoiDiagram, Cone
 
@@ -18,31 +18,31 @@ class Polytope(ABC):
         self.__cones = self.get_cones()
 
     @property
-    def vertices(self) -> List['Point']:
+    def vertices(self) -> Dict[int, 'Point']:
         return self.__vertices
 
     @property
-    def solutions(self) -> List['Point']:
+    def solutions(self) -> Dict[int, 'Point']:
         return self.__vertices
 
     @property
-    def facets(self) -> List['Hyperplane']:
+    def facets(self) -> Dict[int, 'Hyperplane']:
         return self.__facets
 
     @property
-    def voronoi(self):
+    def voronoi(self) -> VoronoiDiagram:
         return self.__voronoi
 
     @property
-    def cones(self):
+    def cones(self) -> dict:
         return self.__cones
 
     @abstractmethod
-    def get_vertices(self) -> List['Point']:
+    def get_vertices(self) -> Dict[int, 'Point']:
         pass
 
     @abstractmethod
-    def get_facets(self) -> List['Hyperplane']:
+    def get_facets(self) -> Dict[int, 'Hyperplane']:
         pass
 
     def get_voronoi(self) -> VoronoiDiagram:
@@ -53,7 +53,7 @@ class Polytope(ABC):
     def get_cones(self) -> dict:
         cones = dict()
 
-        for vertex, v in zip(self.vertices, range(len(self.vertices))):
+        for (v, vertex) in self.vertices.items():
             edges = self.voronoi.get_edges(v)
             hyperplanes = [edges[e]['h'] for e in edges]
             hyperplanes.sort()
