@@ -34,7 +34,7 @@ class Polytope(ABC):
         return self.__voronoi
 
     @property
-    def cones(self) -> dict:
+    def cones(self) -> Dict[int, 'Cone']:
         return self.__cones
 
     @abstractmethod
@@ -50,7 +50,7 @@ class Polytope(ABC):
         voronoi.build(self.dim, self.name, self.vertices)
         return voronoi
 
-    def get_cones(self) -> dict:
+    def get_cones(self) -> Dict[int, 'Cone']:
         cones = dict()
 
         for (v, vertex) in self.vertices.items():
@@ -63,11 +63,6 @@ class Polytope(ABC):
             cones[v] = Cone(v, vertex, hyperplanes, self.dim)
 
         return cones
-
-    @staticmethod
-    def __get_cone(hyperplanes: List[Hyperplane], vertex: Point):
-        hyperplanes = [h if h.position(vertex) >= 0 else -h for h in hyperplanes]
-        print(hyperplanes)
 
     def __repr__(self):
         return f'name: {self.name}\n' \

@@ -83,4 +83,3 @@ class Point:
                 return args
             else:
                 raise ValueError('Invalid parameter.')
-

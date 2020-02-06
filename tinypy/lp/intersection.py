@@ -17,7 +17,7 @@ class IntersectionProblem:
         self.epsilon = 1e-2
         pass
 
-    def test_intersection(self):
+    def test_intersection(self) -> bool:
         model = Model()
         model.setParam('LogToConsole', 0)
         model.setParam('DualReductions', 0)
@@ -25,8 +25,8 @@ class IntersectionProblem:
 
         model.update()
         model.optimize()
-        model.write(f'model_{self.name}.lp')
-        return 1 if model.status == IntersectionProblem.STATUS_OPTIMAL else 0
+        # model.write(f'model_{self.name}.lp')
+        return True if model.status == IntersectionProblem.STATUS_OPTIMAL else False
 
     def __model(self, m: Model):
         x = dict()
