@@ -2,7 +2,7 @@ from bisect import insort
 from typing import List
 
 
-class Partition:
+class Bisection:
 
     def __init__(self, left: List[int] = None, right: List[int] = None):
         self.__left = left if left is not None else []

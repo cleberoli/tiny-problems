@@ -2,7 +2,7 @@ import pickle
 from pprint import pformat
 
 from typing import Dict
-from tinypy.geometry import Hyperplane, Region, Partition
+from tinypy.geometry import Hyperplane, Region, Bisection
 from tinypy.lp import IntersectionProblem
 
 
@@ -43,14 +43,14 @@ class Intersections:
         for c in self.__cones.keys():
             self.__intersections[c] = dict()
 
-            for h in range(len(self.__hyperplanes)):
+            for h in self.__hyperplanes.keys():
                 self.__intersections[c][h] = self.__get_cone_intersection(c, h)
 
     def compute_positions(self):
-        for h in range(len(self.__hyperplanes)):
-            self.__positions[h] = Partition()
+        for h in self.__hyperplanes.keys():
+            self.__positions[h] = Bisection()
             cones = self.get_hyperplane_intersections(h)
-            cones = [i for i in range(len(cones)) if cones[i] is False]
+            cones = [i for i in cones.keys() if cones[i] is False]
 
             for c in cones:
                 if self.__hyperplanes[h].position(self.__cones[c].solution) < 0:

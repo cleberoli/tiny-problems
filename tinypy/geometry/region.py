@@ -19,8 +19,11 @@ class Region:
     def dim(self):
         return self.__dim
 
+    def add_hyperplane(self, hyperplane: 'Hyperplane'):
+        insort(self.__hyperplanes, hyperplane)
+
     def union(self, region: 'Region'):
-        return Region(self.dim, self.merge_list(self.hyperplanes, region.hyperplanes))
+        return Region(self.__dim, self.merge_list(self.__hyperplanes, region.hyperplanes))
 
     @staticmethod
     def merge_list(a: List, b: list):

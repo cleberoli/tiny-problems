@@ -2,7 +2,7 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Dict, List
 
-from tinypy.geometry import Point, Hyperplane, VoronoiDiagram, Cone
+from tinypy.geometry import Point, Hyperplane, Cone, VoronoiDiagram
 
 
 class Polytope(ABC):

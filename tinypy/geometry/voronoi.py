@@ -9,10 +9,10 @@ class VoronoiDiagram:
 
     def __init__(self):
         self.delaunay = DelaunayTriangulation()
-        self.__hyperplanes = []
+        self.__hyperplanes = dict()
 
     @property
-    def hyperplanes(self):
+    def hyperplanes(self) -> Dict[int, 'Hyperplane']:
         return self.__hyperplanes
 
     def get_edge(self, i: int, j: int, key: str = 'h'):
@@ -37,8 +37,9 @@ class VoronoiDiagram:
                     hyperplanes.add(h)
                     self.delaunay.add_edge(i, j, h=hash(h))
 
-        self.__hyperplanes = list(hyperplanes)
-        self.__hyperplanes.sort()
+        hyperplanes = list(hyperplanes)
+        hyperplanes.sort()
+        self.__hyperplanes = dict((key, hyperplanes[key]) for key in range(len(hyperplanes)))
 
     def __update(self):
         map_dict = {hash(self.__hyperplanes[i]): i for i in range(len(self.__hyperplanes))}
