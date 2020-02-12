@@ -1,14 +1,13 @@
-from bisect import insort
-from typing import List
+from copy import deepcopy
+from typing import Dict
 
 from tinypy.geometry import Hyperplane
 
 
 class Region:
 
-    def __init__(self, dim: int, hyperplanes: List['Hyperplane'] = None):
-        self.__hyperplanes = hyperplanes if hyperplanes is not None else []
-        self.__hyperplanes.sort()
+    def __init__(self, dim: int, hyperplanes: Dict[int, 'Hyperplane'] = None):
+        self.__hyperplanes = hyperplanes if hyperplanes is not None else dict()
         self.__dim = dim
 
     @property
@@ -19,15 +18,13 @@ class Region:
     def dim(self):
         return self.__dim
 
-    def add_hyperplane(self, hyperplane: 'Hyperplane'):
-        insort(self.__hyperplanes, hyperplane)
+    def add_hyperplane(self, key: int, hyperplane: 'Hyperplane'):
+        self.__hyperplanes[key] = hyperplane
 
     def union(self, region: 'Region'):
-        return Region(self.__dim, self.merge_list(self.__hyperplanes, region.hyperplanes))
+        current_dict = self.__hyperplanes.copy()
+        region_dict = region.hyperplanes.copy()
+        return Region(self.__dim, {**current_dict, **region_dict})
 
-    @staticmethod
-    def merge_list(a: List, b: list):
-        for item in b:
-            insort(a, item)
-
-        return a
+    def __repr__(self):
+        return str(self.__hyperplanes)

@@ -1,15 +1,17 @@
+from copy import deepcopy
 import pickle
 from pprint import pformat
 
 from typing import Dict
-from tinypy.geometry import Hyperplane, Region, Bisection
+from tinypy.geometry import Hyperplane, Region, Bisection, Cone
 from tinypy.lp import IntersectionProblem
 
 
 class Intersections:
 
-    def __init__(self, cones: Dict[int, 'Cone'], hyperplanes: Dict[int, 'Hyperplane'], dim: int, region: 'Region' = None, intersections: dict = None,
-                 write=True):
+    def __init__(self, cones: Dict[int, 'Cone'], hyperplanes: Dict[int, 'Hyperplane'], dim: int, region: 'Region' = None, filename: str = 'default',
+                 intersections: dict = None, positions: dict = None, write=True):
+        self.__filename = filename
         self.__cones = cones
         self.__hyperplanes = hyperplanes
         self.__dim = dim
@@ -22,14 +24,16 @@ class Intersections:
             self.compute_positions()
         else:
             self.__intersections = intersections
+            self.__positions = positions
 
         if write:
-            self.write('test')
+            self.write(f'{self.__filename}.pk')
 
     @classmethod
     def from_file(cls, filename: str):
         intersection = cls.read(filename)
-        return cls(intersection.__cones, intersection.__hyperplanes, intersection.__dim, intersection.__region, intersection.__intersections, False)
+        return cls(intersection.__cones, intersection.__hyperplanes, intersection.__dim, intersection.__region, intersection.__filename,
+                   intersection.__intersections, intersection.__positions, False)
 
     @property
     def intersections(self):
@@ -77,9 +81,18 @@ class Intersections:
         return dict((key, self.get_intersection(key, hyperplane)) for key in self.__cones.keys())
 
     def __get_cone_intersection(self, c: int, h: int):
-        intersection_lp = IntersectionProblem(self.__cones[c].union(self.__region), self.__hyperplanes[h], self.__dim, str(c))
+        region = deepcopy(self.__cones[c])
+        region = region.union(self.__region)
+
+        intersection_lp = IntersectionProblem(region, self.__hyperplanes[h], self.__dim, str(c))
         return intersection_lp.test_intersection()
 
     def __repr__(self):
-        representation = dict((key, self.get_hyperplane_intersections(key)) for key in range(len(self.__hyperplanes)))
-        return pformat(representation)
+        # representation = dict((key, self.get_hyperplane_intersections(key)) for key in range(len(self.__hyperplanes)))
+        obj = {'cones': self.__cones.keys(), 'hyperplanes': self.__hyperplanes.keys(), 'region': self.__region.hyperplanes.keys(), 'positions':
+            self.__positions}
+        return pformat(obj)
+
+    def __hash__(self):
+        return hash((self.__cones, self.__hyperplanes, self.__region, self.__dim))
+

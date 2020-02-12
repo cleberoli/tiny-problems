@@ -38,7 +38,7 @@ class IntersectionProblem:
 
         m.setObjective(quicksum(x[d] + y[d] for d in range(self.dim)), GRB.MAXIMIZE)
 
-        for r in self.region.hyperplanes:
+        for (key, r) in self.region.hyperplanes.items():
             m.addConstr(quicksum(x[d] * r[d] for d in range(self.dim)) >= 0)
             m.addConstr(quicksum(y[d] * r[d] for d in range(self.dim)) >= 0)
 

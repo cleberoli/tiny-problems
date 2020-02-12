@@ -6,7 +6,7 @@ from tinypy.geometry import Point
 @total_ordering
 class Hyperplane:
 
-    def __init__(self, normal: 'Point', **kwargs):
+    def __init__(self, normal: 'Point', **kwargs, ):
         if len(kwargs) < 1:
             raise ValueError('Invalid parameters.')
 
@@ -29,10 +29,28 @@ class Hyperplane:
         return Hyperplane(-self.normal, d=-self.d)
 
     def __repr__(self):
-        return f'{self.normal}, {self.d}'
+        terms = self.__get_terms()
+        equation = ' + '.join(terms).replace('+ -', '- ')
+        return f'{equation} = {self.d}'
 
     def __hash__(self):
         return hash(repr(self))
 
     def __getitem__(self, item: int):
         return self.normal[item]
+
+    def __get_terms(self):
+        terms = []
+
+        for d in range(self.normal.dim):
+            coefficient = self.normal[d]
+
+            if coefficient != 0:
+                if coefficient == 1:
+                    terms.append(f'x{d + 1}')
+                elif coefficient == -1:
+                    terms.append(f'-x{d + 1}')
+                else:
+                    terms.append(f'{coefficient}x{d + 1}')
+
+        return terms

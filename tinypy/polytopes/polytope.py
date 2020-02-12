@@ -56,11 +56,16 @@ class Polytope(ABC):
         for (v, vertex) in self.vertices.items():
             edges = self.voronoi.get_edges(v)
             hyperplanes = [edges[e]['h'] for e in edges]
-            hyperplanes.sort()
+            hyperplanes_dict = dict()
 
-            hyperplanes = [self.voronoi.hyperplanes[h] for h in hyperplanes]
-            hyperplanes = [h if h.position(vertex) >= 0 else -h for h in hyperplanes]
-            cones[v] = Cone(v, vertex, hyperplanes, self.dim)
+            for h in hyperplanes:
+                hyperplane = self.voronoi.hyperplanes[h]
+                if hyperplane.position(vertex) >= 0:
+                    hyperplanes_dict[h] = hyperplane
+                else:
+                    hyperplanes_dict[h] = -hyperplane
+
+            cones[v] = Cone(v, vertex, hyperplanes_dict, self.dim)
 
         return cones
 
