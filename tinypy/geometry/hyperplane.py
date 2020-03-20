@@ -42,7 +42,7 @@ class Hyperplane:
     def __get_terms(self):
         terms = []
 
-        for d in range(self.normal.dim):
+        for d in range(self.normal.__dim):
             coefficient = self.normal[d]
 
             if coefficient != 0:

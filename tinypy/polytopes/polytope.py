@@ -1,15 +1,15 @@
 from abc import ABC
 from abc import abstractmethod
-from typing import Dict, List
+from typing import Dict
 
 from tinypy.geometry import Point, Hyperplane, Cone, VoronoiDiagram
 
 
 class Polytope(ABC):
 
-    def __init__(self, full_name: str, name: str, n: int, d: int, size: int = None):
-        self.full_name = full_name
-        self.name = name
+    def __init__(self, full_name: str, short_name: str, n: int, d: int, size: int = None):
+        self.__full_name = full_name
+        self.__short_name = short_name
         self.n = n
         self.d = d
         self.size = size
@@ -25,11 +25,11 @@ class Polytope(ABC):
         self.save()
 
     @property
-    def vertices(self) -> Dict[int, 'Point']:
-        return self.__vertices
+    def name(self) -> str:
+        return self.__short_name
 
     @property
-    def solutions(self) -> Dict[int, 'Point']:
+    def vertices(self) -> Dict[int, 'Point']:
         return self.__vertices
 
     @property
