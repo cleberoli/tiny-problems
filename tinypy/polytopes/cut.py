@@ -10,7 +10,7 @@ class Cut(Polytope):
         if size <= 4 or size > 9:
             raise ValueError('The size must be in range(5, 10).')
 
-        Polytope.__init__(self, size, int((size * (size - 1)) / 2), 'cut')
+        Polytope.__init__(self, 'Cut', 'cut', 2**(size-1), int((size * (size - 1)) / 2), size)
 
     def get_vertices(self) -> Dict[int, 'Point']:
         switcher = {5: self.__cut_5(), 6: self.__cut_6(), 7: self.__cut_7(), 8: self.__cut_8(), 9: self.__cut_9()}
@@ -20,12 +20,14 @@ class Cut(Polytope):
 
     @staticmethod
     def __cut_5():
-        vertices = [Point(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), Point(1, 1, 1, 1, 0, 0, 0, 0, 0, 0), Point(1, 0, 0, 0, 1, 1, 1, 0, 0, 0),
-                    Point(0, 1, 0, 0, 1, 0, 0, 1, 1, 0), Point(0, 0, 1, 0, 0, 1, 0, 1, 0, 1), Point(0, 0, 0, 1, 0, 0, 1, 0, 1, 1),
-                    Point(0, 1, 1, 1, 1, 1, 1, 0, 0, 0), Point(1, 0, 1, 1, 1, 0, 0, 1, 1, 0), Point(1, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-                    Point(1, 1, 1, 0, 0, 0, 1, 0, 1, 1), Point(1, 1, 0, 0, 0, 1, 1, 1, 1, 0), Point(1, 0, 1, 0, 1, 0, 1, 1, 0, 1),
-                    Point(1, 0, 0, 1, 1, 1, 0, 0, 1, 1), Point(0, 1, 1, 0, 1, 1, 0, 0, 1, 1), Point(0, 1, 0, 1, 1, 0, 1, 1, 0, 1),
-                    Point(0, 0, 1, 1, 0, 1, 1, 1, 1, 0)]
+        vertices = [Point(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), Point(1, 1, 1, 1, 0, 0, 0, 0, 0, 0),
+                    Point(1, 0, 0, 0, 1, 1, 1, 0, 0, 0), Point(0, 1, 0, 0, 1, 0, 0, 1, 1, 0),
+                    Point(0, 0, 1, 0, 0, 1, 0, 1, 0, 1), Point(0, 0, 0, 1, 0, 0, 1, 0, 1, 1),
+                    Point(0, 1, 1, 1, 1, 1, 1, 0, 0, 0), Point(1, 0, 1, 1, 1, 0, 0, 1, 1, 0),
+                    Point(1, 1, 0, 1, 0, 1, 0, 1, 0, 1), Point(1, 1, 1, 0, 0, 0, 1, 0, 1, 1),
+                    Point(1, 1, 0, 0, 0, 1, 1, 1, 1, 0), Point(1, 0, 1, 0, 1, 0, 1, 1, 0, 1),
+                    Point(1, 0, 0, 1, 1, 1, 0, 0, 1, 1), Point(0, 1, 1, 0, 1, 1, 0, 0, 1, 1),
+                    Point(0, 1, 0, 1, 1, 0, 1, 1, 0, 1), Point(0, 0, 1, 1, 0, 1, 1, 1, 1, 0)]
         return vertices
 
     @staticmethod

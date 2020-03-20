@@ -7,10 +7,12 @@ from tinypy.geometry import Point, Hyperplane, Cone, VoronoiDiagram
 
 class Polytope(ABC):
 
-    def __init__(self, size: int, dim: int, name: str):
-        self.size = size
-        self.dim = dim
+    def __init__(self, full_name: str, name: str, n: int, d: int, size: int = None):
+        self.full_name = full_name
         self.name = name
+        self.n = n
+        self.d = d
+        self.size = size
 
         self.__original_vertices = self.get_vertices()
         self.__vertices = self.__original_vertices.copy()
@@ -20,7 +22,7 @@ class Polytope(ABC):
 
         self.__voronoi = self.get_voronoi()
         self.__cones = self.get_cones()
-        # self.save()
+        self.save()
 
     @property
     def vertices(self) -> Dict[int, 'Point']:
@@ -29,10 +31,6 @@ class Polytope(ABC):
     @property
     def solutions(self) -> Dict[int, 'Point']:
         return self.__vertices
-
-    @property
-    def facets(self) -> Dict[int, 'Hyperplane']:
-        return self.__facets
 
     @property
     def voronoi(self) -> VoronoiDiagram:
@@ -47,14 +45,14 @@ class Polytope(ABC):
         pass
 
     def map_vertices(self):
-        one = Point([1] * self.dim)
+        one = Point([1] * self.d)
 
         for (key, value) in self.__vertices.items():
             self.__vertices[key] = 2 * value - one
 
     def get_voronoi(self) -> VoronoiDiagram:
         voronoi = VoronoiDiagram()
-        voronoi.build(self.dim, self.name, self.vertices)
+        voronoi.build(self.d, self.name, self.vertices)
         return voronoi
 
     def get_cones(self) -> Dict[int, 'Cone']:
@@ -72,15 +70,15 @@ class Polytope(ABC):
                 else:
                     hyperplanes_dict[h] = -hyperplane
 
-            cones[v] = Cone(v, vertex, hyperplanes_dict, self.dim)
+            cones[v] = Cone(v, vertex, hyperplanes_dict, self.d)
 
         return cones
 
     def save(self):
-        pad_n = len(str(len(self.vertices)))
+        pad_n = len(str(self.n))
         print(pad_n)
-        print(self.name.upper())
-        print(f'DIM = {self.dim}')
+        print(self.full_name.upper())
+        print(f'DIM = {self.d}')
         print(f'N = {len(self.vertices)}')
         print()
         print('VERTICES')
@@ -96,5 +94,5 @@ class Polytope(ABC):
 
     def __repr__(self):
         return f'name: {self.name}\n' \
-               f'size: {self.size}\n' \
-               f'dimension: {self.dim}\n'
+               f'size: {self.k}\n' \
+               f'dimension: {self.d}\n'

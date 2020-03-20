@@ -1,3 +1,4 @@
+from math import factorial
 from typing import Dict, List
 
 from tinypy.geometry import Point, Hyperplane
@@ -12,7 +13,7 @@ class TSP(Polytope):
             raise ValueError('The size must be greater than 3.')
 
         self.nodes = list(map(chr, range(65, 65 + size)))
-        Polytope.__init__(self, size, int((size * (size - 1)) / 2), 'tsp5/tsp')
+        Polytope.__init__(self, 'Travelling Salesman', 'tsp', int(factorial(size - 1)/2), int((size * (size - 1)) / 2), size)
 
     def get_vertices(self) -> Dict[int, 'Point']:
         edges = self.__get_edges()

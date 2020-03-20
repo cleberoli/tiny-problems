@@ -6,12 +6,11 @@ from tinypy.polytopes import Polytope
 
 class Random(Polytope):
 
-    def __init__(self, size: int, dimension: int):
-        self.x = size
-        Polytope.__init__(self, dimension, dimension, 'rand')
+    def __init__(self, n: int, dimension: int):
+        Polytope.__init__(self, 'Random', 'rand', n, dimension)
 
     def get_vertices(self) -> Dict[int, 'Point']:
-        vertices = [Point.random(self.dim) for _ in range(self.x)]
+        vertices = [Point.random(self.d) for _ in range(self.n)]
         vertices.sort()
 
         return dict((key, vertices[key]) for key in range(len(vertices)))
