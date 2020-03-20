@@ -1,3 +1,5 @@
+import random
+
 from functools import total_ordering
 from math import sqrt
 
@@ -8,6 +10,11 @@ class Point:
     def __init__(self, *args):
         self.coords = self.__get_coords(args)
         self.dim = len(self.coords)
+
+    @classmethod
+    def random(cls, dim: int):
+        args = [random.randint(0, 1) for _ in range(dim)]
+        return cls(args)
 
     @property
     def origin(self):

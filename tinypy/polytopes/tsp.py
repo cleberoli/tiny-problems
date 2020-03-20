@@ -12,7 +12,7 @@ class TSP(Polytope):
             raise ValueError('The size must be greater than 3.')
 
         self.nodes = list(map(chr, range(65, 65 + size)))
-        Polytope.__init__(self, size, int((size * (size - 1)) / 2), 'tsp6')
+        Polytope.__init__(self, size, int((size * (size - 1)) / 2), 'tsp5/tsp')
 
     def get_vertices(self) -> Dict[int, 'Point']:
         edges = self.__get_edges()
