@@ -18,7 +18,6 @@ class Polytope(ABC):
         self.map_vertices()
         print(self.__vertices)
 
-        self.__facets = self.get_facets()
         self.__voronoi = self.get_voronoi()
         self.__cones = self.get_cones()
         # self.save()
@@ -45,10 +44,6 @@ class Polytope(ABC):
 
     @abstractmethod
     def get_vertices(self) -> Dict[int, 'Point']:
-        pass
-
-    @abstractmethod
-    def get_facets(self) -> Dict[int, 'Hyperplane']:
         pass
 
     def map_vertices(self):

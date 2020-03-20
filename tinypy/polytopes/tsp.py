@@ -30,9 +30,6 @@ class TSP(Polytope):
 
         return dict((key, vertices[key]) for key in range(len(vertices)))
 
-    def get_facets(self) -> Dict[int, 'Hyperplane']:
-        return dict()
-
     def __get_edges(self) -> List[str]:
         edges = []
 

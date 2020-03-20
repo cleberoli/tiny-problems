@@ -18,9 +18,6 @@ class Cut(Polytope):
 
         return dict((key, vertices[key]) for key in range(len(vertices)))
 
-    def get_facets(self) -> Dict[int, 'Hyperplane']:
-        return dict()
-
     @staticmethod
     def __cut_5():
         vertices = [Point(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), Point(1, 1, 1, 1, 0, 0, 0, 0, 0, 0), Point(1, 0, 0, 0, 1, 1, 1, 0, 0, 0),

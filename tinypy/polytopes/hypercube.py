@@ -18,6 +18,3 @@ class Hypercube(Polytope):
         vertices = [Point(v) for v in vertices]
 
         return dict((key, vertices[key]) for key in range(len(vertices)))
-
-    def get_facets(self) -> Dict[int, 'Hyperplane']:
-        return dict()
