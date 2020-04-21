@@ -22,8 +22,8 @@ class Point:
             raise ValueError('Invalid parameter.')
 
     @classmethod
-    def random(cls, dim: int, a: int = 0, b: int = 1) -> 'Point':
-        args = [random.randint(a, b) for _ in range(dim)]
+    def random(cls, dim: int, a: int = 0, b: int = 1, decimals: int = 0) -> 'Point':
+        args = [random.randint(a, b) for _ in range(dim)] if decimals == 0 else [round(random.uniform(a, b), decimals) for _ in range(dim)]
         return cls(args)
 
     @classmethod
@@ -34,6 +34,10 @@ class Point:
     @property
     def coords(self) -> tuple:
         return self.__coords
+
+    @property
+    def homogeneous_coords(self) -> tuple:
+        return self.__coords + (1, )
 
     @property
     def dim(self) -> int:
@@ -53,13 +57,13 @@ class Point:
         self.__coords = self.__coords + (coord, )
         self.__dim = self.__dim + 1
 
-    def __add__(self, other: 'Point'):
+    def __add__(self, other: 'Point') -> 'Point':
         if self.__dim != other.__dim:
             raise ValueError('The dimensions are not compatible.')
 
         return Point(list(map(lambda x, y: x + y, self.__coords, other.__coords)))
 
-    def __sub__(self, other: 'Point'):
+    def __sub__(self, other: 'Point') -> 'Point':
         if self.__dim != other.__dim:
             raise ValueError('The dimensions are not compatible.')
 
