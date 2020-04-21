@@ -6,7 +6,7 @@ from tinypy.geometry import Point
 @total_ordering
 class Hyperplane:
 
-    def __init__(self, normal: 'Point', **kwargs, ):
+    def __init__(self, normal: 'Point', **kwargs):
         if len(kwargs) < 1:
             raise ValueError('Invalid parameters.')
 
@@ -15,6 +15,10 @@ class Hyperplane:
 
     def position(self, p: 'Point'):
         return self.normal * p
+
+    def to_homogeneus_coordinates(self):
+        self.normal.add_coord(self.normal)
+        self.d = 0
 
     def __eq__(self, other: 'Hyperplane'):
         return self.normal == other.normal and self.d == other.d
@@ -42,7 +46,7 @@ class Hyperplane:
     def __get_terms(self):
         terms = []
 
-        for d in range(self.normal.__dim):
+        for d in range(self.normal.dim):
             coefficient = self.normal[d]
 
             if coefficient != 0:

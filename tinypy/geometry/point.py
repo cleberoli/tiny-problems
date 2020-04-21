@@ -49,6 +49,10 @@ class Point:
 
         return sqrt(sum(list(map(lambda x: x * x, (self - other).__coords))))
 
+    def add_coord(self, coord: Union[int, float]):
+        self.__coords = self.__coords + (coord, )
+        self.__dim = self.__dim + 1
+
     def __add__(self, other: 'Point'):
         if self.__dim != other.__dim:
             raise ValueError('The dimensions are not compatible.')
