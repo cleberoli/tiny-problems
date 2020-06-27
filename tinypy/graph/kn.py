@@ -1,0 +1,53 @@
+from typing import Dict, List
+
+from tinypy.utils.combinatorics import get_permutations
+from tinypy.geometry.point import Point
+
+
+class Kn:
+
+    n: int
+    nodes: List[int]
+    edges: List[str]
+
+    def __init__(self, n: int):
+        if n <= 2:
+            raise ValueError('The dimensions must be greater than 2.')
+
+        self.n = n
+        self.nodes = list(range(1, n + 1))
+        self.edges = []
+
+        for i in range(0, self.n):
+            for j in range(i + 1, self.n):
+                self.edges.append(f'{self.nodes[i]}-{self.nodes[j]}')
+
+    def get_hamilton_cycles(self) -> Dict[int, 'Point']:
+        permutations = get_permutations(self.nodes[1:])
+        permutations = [(self.nodes[0], ) + p + (self.nodes[0], ) for p in permutations]
+        cycles = set()
+
+        for permutation in permutations:
+            cycles.add(self.__get_point_from_permutation(permutation))
+
+        cycles = list(cycles)
+        cycles.sort()
+
+        return dict((key, cycles[key]) for key in range(len(cycles)))
+
+    def __get_point_from_permutation(self, permutation: tuple) -> 'Point':
+        edges = []
+
+        if permutation[0] < permutation[self.n - 1]:
+            edges.append(f'{permutation[0]}-{permutation[self.n - 1]}')
+        else:
+            edges.append(f'{permutation[self.n - 1]}-{permutation[0]}')
+
+        for i in range(self.n - 1):
+            if permutation[i] < permutation[i + 1]:
+                edges.append(f'{permutation[i]}-{permutation[i + 1]}')
+            else:
+                edges.append(f'{permutation[i + 1]}-{permutation[i]}')
+
+        coords = [1 if e in edges else 0 for e in self.edges]
+        return Point(coords)
