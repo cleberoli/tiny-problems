@@ -14,6 +14,9 @@ class HyperpyramidInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
+        kwargs['type'] = 'pyr'
+        kwargs['name'] = f'PYR-n{kwargs["n"]}'
+
         Instance.__init__(self, **kwargs)
 
     def generate_solutions(self, **kwargs) -> List['Point']:

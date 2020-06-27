@@ -1,9 +1,8 @@
 .idea
-tinypy/*/tests/.pytest_cache
 venv/
-tinypy/config.ini
-tinypy/porta/*
-tinypy/**.pk
+
+tinypy/*/__pycache__/*
+tinypy/*/tests/.pytest_cache
 tinypy/__pycache__/*
-tinypy/tsp5/
-tinypy/tsp6/
+
+trees/*/
