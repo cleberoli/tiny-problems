@@ -1,3 +1,5 @@
+import pytest
+
 from tinypy.graph.kn import Kn
 
 
@@ -59,3 +61,8 @@ def test_get_cuts():
     assert cuts6[0].coords == (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     assert cuts6[10].coords == (0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1)
     assert cuts6[31].coords == (1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+
+def test_invalid_kn():
+    with pytest.raises(ValueError):
+        Kn(2)

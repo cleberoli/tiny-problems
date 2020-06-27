@@ -83,4 +83,3 @@ class Kn:
     def __get_point_from_edges(self, edges: List[str]) -> 'Point':
         coords = [1 if e in edges else 0 for e in self.edges]
         return Point(coords)
-
