@@ -1,7 +1,8 @@
+from math import floor
 from typing import Dict, List
 
-from tinypy.utils.combinatorics import get_permutations
 from tinypy.geometry.point import Point
+from tinypy.utils.combinatorics import get_combinations, get_permutations
 
 
 class Kn:
@@ -35,6 +36,22 @@ class Kn:
 
         return dict((key, cycles[key]) for key in range(len(cycles)))
 
+    def get_cuts(self) -> Dict[int, 'Point']:
+        cuts = {Point.origin(len(self.edges))}
+
+        for i in range(1, floor(self.n / 2) + 1):
+            combinations = get_combinations(self.nodes, i)
+
+            for combination in combinations:
+                combination = list(combination)
+                complement = [node for node in self.nodes if node not in combination]
+                cuts.add(self.__get_point_from_partition(combination, complement))
+
+        cuts = list(cuts)
+        cuts.sort()
+
+        return dict((key, cuts[key]) for key in range(len(cuts)))
+
     def __get_point_from_permutation(self, permutation: tuple) -> 'Point':
         edges = []
 
@@ -49,5 +66,21 @@ class Kn:
             else:
                 edges.append(f'{permutation[i + 1]}-{permutation[i]}')
 
+        return self.__get_point_from_edges(edges)
+
+    def __get_point_from_partition(self, a: List[int], b: List[int]) -> 'Point':
+        edges = []
+
+        for i in range(len(a)):
+            for j in range(len(b)):
+                if a[i] < b[j]:
+                    edges.append(f'{a[i]}-{b[j]}')
+                else:
+                    edges.append(f'{b[j]}-{a[i]}')
+
+        return self.__get_point_from_edges(edges)
+
+    def __get_point_from_edges(self, edges: List[str]) -> 'Point':
         coords = [1 if e in edges else 0 for e in self.edges]
         return Point(coords)
+

@@ -5,7 +5,7 @@ from tinypy.graph.kn import Kn
 from tinypy.instances.base_instance import Instance
 
 
-class TSPInstance(Instance):
+class CutInstance(Instance):
 
     def __init__(self, **kwargs):
         if 'n' not in kwargs:
@@ -18,5 +18,5 @@ class TSPInstance(Instance):
 
     def generate_solutions(self, **kwargs) -> List['Point']:
         kn = Kn(kwargs['n'])
-        cycles = kn.get_hamilton_cycles()
-        return list(cycles.values())
+        cuts = kn.get_cuts()
+        return list(cuts.values())
