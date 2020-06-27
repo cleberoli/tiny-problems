@@ -1,6 +1,9 @@
-from itertools import permutations
-from itertools import product
+from itertools import combinations, permutations, product
 from typing import List
+
+
+def get_combinations(x: List, r: int) -> List:
+    return list(combinations(x, r))
 
 
 def get_permutations(x: List, repeat: int = None) -> List:
