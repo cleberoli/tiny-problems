@@ -102,5 +102,8 @@ class Point:
     def __ne__(self, other: 'Point'):
         return not (self == other)
 
+    def __str__(self):
+        return str(self.coords)
+
     def __repr__(self):
         return str(self.coords)
