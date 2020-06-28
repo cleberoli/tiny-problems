@@ -114,7 +114,7 @@ class Polytope(ABC):
     #     for key in self.instance.get_solution_dict().keys():
     #         print(f'{str(key).rjust(pad_n, " ")}: {self.__skeleton.get_edges(key)}')
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         return f'name: {self.name}\n' \
                f'size: {self.size}\n' \
                f'dimension: {self.dimension}\n'

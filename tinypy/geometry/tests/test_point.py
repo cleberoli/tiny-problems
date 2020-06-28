@@ -1,5 +1,6 @@
 import pytest
-from tinypy.geometry import Point
+
+from tinypy.geometry.point import Point
 
 
 def test_point():
@@ -19,10 +20,35 @@ def test_point():
     assert p5.dim == 6
     assert p6.dim == 6
 
+    assert p0.coords == (0,)
+    assert p1.coords == (0, 0)
+    assert p2.coords == (0, 0, 0)
+    assert p3.coords == (0, 0, 0, 0)
+    assert p4.coords == (0, 0, 0, 0, 0)
+    assert p5.coords == (0, 0, 0, 0, 0, 0)
+    assert p6.coords == (0, 0, 0, 0, 0, 0)
 
-def test_invalid_points():
+
+def test_invalid_point():
     with pytest.raises(ValueError):
         Point('0000')
+
+    with pytest.raises(ValueError):
+        Point('0', '1')
+
+    with pytest.raises(ValueError):
+        Point(['0', '1'])
+
+    with pytest.raises(ValueError):
+        Point(('0', '1'))
+
+
+def test_origin():
+    p = Point(0, 0, 0, 0)
+    origin = Point.origin(4)
+
+    assert origin.dim == p.dim
+    assert origin == p
 
 
 def test_random():
@@ -37,18 +63,19 @@ def test_random():
     assert all([-2 <= x <= 5 for x in p.coords])
 
 
-def test_origin():
-    p = Point(0, 0, 0, 0)
-    origin = Point.origin(4)
+def test_homogeneous_coords():
+    x = Point(3, 4)
 
-    assert origin.dim == p.dim
-    assert origin == p
+    assert len(x.homogeneous_coords) == 3
+    assert x.homogeneous_coords == (3, 4, 1)
 
 
 def test_norm():
     x = Point(3, 4)
+    y = Point(-3, -4)
 
     assert x.norm == 5
+    assert y.norm == 5
 
 
 def test_distance():
@@ -61,6 +88,19 @@ def test_distance():
 
     with pytest.raises(ValueError):
         x.distance(z)
+
+
+def test_add_coord():
+    x = Point(3, 4)
+    assert x.coords == (3, 4)
+    assert x.dim == 2
+
+    x.add_coord(1)
+    assert x.coords == (3, 4, 1)
+    assert x.dim == 3
+
+    with pytest.raises(ValueError):
+        x.add_coord(5.5)
 
 
 def test_add():
@@ -96,6 +136,9 @@ def test_mul():
     assert 2 * x == p
     assert x * 2 == p
 
+    with pytest.raises(ValueError):
+        x * 'a'
+
 
 def test_dot():
     x = Point(3, 4)
@@ -116,6 +159,23 @@ def test_neg():
     assert x == -y
 
 
+def test_get_item():
+    p = Point(1, 2, 3)
+
+    assert p[0] == 1
+    assert p[1] == 2
+    assert p[2] == 3
+
+
+def test_hash():
+    p1 = Point(1, 2)
+    p2 = Point(1, 2)
+    p3 = Point(2, 3)
+
+    assert hash(p1) == hash(p2)
+    assert hash(p1) != hash(p3)
+
+
 def test_comp():
     p1 = Point(1, 2, 3)
     p2 = Point(1, 2, 3)
@@ -129,24 +189,7 @@ def test_comp():
     assert p2 != p3
 
 
-def test_get_item():
-    p = Point(1, 2, 3)
-
-    assert p[0] == 1
-    assert p[1] == 2
-    assert p[2] == 3
-
-
 def test_repr():
     p = Point(1, 2, 3)
 
     assert str(p) == '(1, 2, 3)'
-
-
-def test_hash():
-    p1 = Point(1, 2)
-    p2 = Point(1, 2)
-    p3 = Point(2, 3)
-
-    assert hash(p1) == hash(p2)
-    assert hash(p1) != hash(p3)
