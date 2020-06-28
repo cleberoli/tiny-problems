@@ -2,7 +2,8 @@ from typing import Dict
 
 from gurobipy.gurobipy import Model, GRB, quicksum
 
-from tinypy.geometry import Point
+from tinypy.geometry.point import Point
+from tinypy.utils.file import create_folder, delete_directory, file_exists, get_full_path
 
 
 class AdjacencyProblem:
@@ -11,32 +12,70 @@ class AdjacencyProblem:
     STATUS_INFEASIBLE = 3
     STATUS_UNBOUNDED = 5
 
-    def __init__(self, dim: int, name: str, vertices: Dict[int, 'Point']):
+    dim: int
+    name: str
+    p: Dict[int, 'Point']
+    log: bool
+    lp_directory: str
+
+    def __init__(self, dim: int, name: str, vertices: Dict[int, 'Point'], log: bool = True):
         self.dim = dim
         self.name = name
         self.p = vertices
+        self.log = log
+        self.lp_directory = get_full_path('lp', 'adjacency', name)
+        create_folder(self.lp_directory)
+
+    def clear_files(self):
+        delete_directory(self.lp_directory)
 
     def test_edge_primal(self, i: int, j: int) -> bool:
-        model = Model()
-        model.setParam('LogToConsole', 0)
-        model.setParam('DualReductions', 0)
-        self.__primal_model(model, i, j)
+        path = f'{self.lp_directory}/primal_{i}_{j}'
 
-        model.update()
-        model.optimize()
-        # model.write(f'{self.name}_edge_primal_{i}_{j}.lp')
-        return True if model.status == AdjacencyProblem.STATUS_INFEASIBLE else False
+        if file_exists(f'{path}.sol'):
+            with open(f'{path}.sol', 'r') as file:
+                status = int(file.readline())
+        else:
+            model = Model()
+            model.setParam('LogToConsole', 0)
+            model.setParam('DualReductions', 0)
+            self.__primal_model(model, i, j)
+
+            model.update()
+            model.optimize()
+            status = model.status
+
+            if self.log:
+                model.write(f'{path}.lp')
+
+            with open(f'{path}.sol', 'w+') as file:
+                file.write(f'{status}')
+
+        return True if status == AdjacencyProblem.STATUS_INFEASIBLE else False
 
     def test_edge_dual(self, i: int, j: int) -> bool:
-        model = Model()
-        model.setParam('LogToConsole', 0)
-        model.setParam('DualReductions', 0)
-        self.__dual_model(model, i, j)
+        path = f'{self.lp_directory}/dual_{i}_{j}'
 
-        model.update()
-        model.optimize()
-        # model.write(f'{self.name}_edge_dual_{i}_{j}.lp')
-        return True if model.status == AdjacencyProblem.STATUS_UNBOUNDED else False
+        if file_exists(f'{path}.sol'):
+            with open(f'{path}.sol', 'r') as file:
+                status = int(file.readline())
+        else:
+            model = Model()
+            model.setParam('LogToConsole', 0)
+            model.setParam('DualReductions', 0)
+            self.__dual_model(model, i, j)
+
+            model.update()
+            model.optimize()
+            status = model.status
+
+            if self.log:
+                model.write(f'{path}.lp')
+
+            with open(f'{path}.sol', 'w+') as file:
+                file.write(f'{status}')
+
+        return True if status == AdjacencyProblem.STATUS_UNBOUNDED else False
 
     def __primal_model(self, m: Model, i: int, j: int):
         lbd = dict()
