@@ -18,7 +18,7 @@ class Instance(ABC):
     solutions: List['Point']
 
     def __init__(self):
-        self.instance_file = get_full_path('instances', self.type, f'{self.name}.tpi')
+        self.instance_file = get_full_path('files', 'instances', self.type, f'{self.name}.tpi')
 
         if path.exists(self.instance_file):
             self.solutions = self.__read_instance_file()
