@@ -23,7 +23,7 @@ class AdjacencyProblem:
         self.name = name
         self.p = vertices
         self.log = log
-        self.lp_directory = get_full_path('lp', 'adjacency', name)
+        self.lp_directory = get_full_path('files', 'lps', 'adjacency', name)
         create_folder(self.lp_directory)
 
     def clear_files(self):
