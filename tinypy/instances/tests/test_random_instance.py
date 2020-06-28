@@ -4,20 +4,24 @@ from tinypy.instances.random_instance import RandomInstance
 
 
 def test_random_instance():
-    rnd12_5 = RandomInstance(size=12, d=5)
-    pyr33_7 = RandomInstance(size=33, d=7)
+    rnd3_4 = RandomInstance(size=4, d=3)
+    rnd6_8 = RandomInstance(size=8, d=6)
 
-    rnd12_5_solutions = rnd12_5.get_solution_list()
-    pyr33_7_solutions = pyr33_7.get_solution_list()
+    rnd3_4_solutions = rnd3_4.get_solution_list()
+    rnd6_8_solutions = rnd6_8.get_solution_list()
 
-    assert len(rnd12_5_solutions) == 12     # size
-    assert len(pyr33_7_solutions) == 33     # size
+    assert len(rnd3_4_solutions) == 4     # size
+    assert len(rnd6_8_solutions) == 8     # size
+    assert rnd3_4.size == 4
+    assert rnd6_8.size == 8
 
-    assert rnd12_5_solutions[0].dim == 5    # d
-    assert pyr33_7_solutions[0].dim == 7    # d
+    assert rnd3_4_solutions[0].dim == 3    # d
+    assert rnd6_8_solutions[0].dim == 6    # d
+    assert rnd3_4.dimension == 3
+    assert rnd6_8.dimension == 6
 
-    assert list(rnd12_5.get_solution_dict().values()) == rnd12_5_solutions
-    assert list(pyr33_7.get_solution_dict().values()) == pyr33_7_solutions
+    assert list(rnd3_4.get_solution_dict().values()) == rnd3_4_solutions
+    assert list(rnd6_8.get_solution_dict().values()) == rnd6_8_solutions
 
 
 def test_invalid_random_instance():

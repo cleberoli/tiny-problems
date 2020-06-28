@@ -1,3 +1,4 @@
+from math import factorial
 from typing import List
 
 from tinypy.geometry.point import Point
@@ -14,8 +15,11 @@ class TSPInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
-        kwargs['type'] = 'tsp'
-        kwargs['name'] = f'TSP-n{kwargs["n"]}'
+        n = int(kwargs["n"])
+        self.name = f'TSP-n{n}'
+        self.type = 'tsp'
+        self.dimension = int(n * (n - 1) / 2)
+        self.size = int(factorial(n - 1) / 2)
 
         Instance.__init__(self, **kwargs)
 

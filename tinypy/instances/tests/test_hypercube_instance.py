@@ -12,9 +12,13 @@ def test_hypercube_instance():
 
     assert len(cub3_solutions) == 8     # 2^n
     assert len(cub6_solutions) == 64    # 2^n
+    assert cub3.size == 8
+    assert cub6.size == 64
 
     assert cub3_solutions[0].dim == 3  # n
     assert cub6_solutions[0].dim == 6  # n
+    assert cub3.dimension == 3
+    assert cub6.dimension == 6
 
     assert list(cub3.get_solution_dict().values()) == cub3_solutions
     assert list(cub6.get_solution_dict().values()) == cub6_solutions

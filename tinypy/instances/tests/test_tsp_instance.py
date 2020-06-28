@@ -12,9 +12,13 @@ def test_cut_instance():
 
     assert len(tsp5_solutions) == 12        # (n-1)!/2
     assert len(tsp6_solutions) == 60        # (n-1)!/2
+    assert tsp5.size == 12
+    assert tsp6.size == 60
 
     assert tsp5_solutions[0].dim == 10      # n*(n-1)/2
     assert tsp6_solutions[0].dim == 15      # n*(n-1)/2
+    assert tsp5.dimension == 10
+    assert tsp6.dimension == 15
 
     assert list(tsp5.get_solution_dict().values()) == tsp5_solutions
     assert list(tsp6.get_solution_dict().values()) == tsp6_solutions

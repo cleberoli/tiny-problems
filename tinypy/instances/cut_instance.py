@@ -14,8 +14,11 @@ class CutInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
-        kwargs['type'] = 'cut'
-        kwargs['name'] = f'CUT-n{kwargs["n"]}'
+        n = int(kwargs["n"])
+        self.name = f'CUT-n{n}'
+        self.type = 'cut'
+        self.dimension = int(n * (n - 1) / 2)
+        self.size = 2 ** (n - 1)
 
         Instance.__init__(self, **kwargs)
 

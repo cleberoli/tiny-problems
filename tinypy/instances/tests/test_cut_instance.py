@@ -12,9 +12,13 @@ def test_cut_instance():
 
     assert len(cut5_solutions) == 16        # 2^(n-1)
     assert len(cut6_solutions) == 32        # 2^(n-1)
+    assert cut5.size == 16
+    assert cut6.size == 32
 
     assert cut5_solutions[0].dim == 10      # n*(n-1)/2
     assert cut6_solutions[0].dim == 15      # n*(n-1)/2
+    assert cut5.dimension == 10
+    assert cut6.dimension == 15
 
     assert list(cut5.get_solution_dict().values()) == cut5_solutions
     assert list(cut6.get_solution_dict().values()) == cut6_solutions

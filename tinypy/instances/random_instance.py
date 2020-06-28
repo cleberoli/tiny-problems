@@ -16,8 +16,10 @@ class RandomInstance(Instance):
         if kwargs['size'] > 2**kwargs['d']:
             raise ValueError('The size should be at most 2^d.')
 
-        kwargs['type'] = 'rnd'
-        kwargs['name'] = f'RND-d{kwargs["d"]}-s{kwargs["size"]}'
+        self.name = f'RND-d{kwargs["d"]}-s{kwargs["size"]}'
+        self.type = 'rnd'
+        self.dimension = int(kwargs["d"])
+        self.size = int(kwargs["size"])
 
         Instance.__init__(self, **kwargs)
 

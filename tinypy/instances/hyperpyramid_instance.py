@@ -14,8 +14,11 @@ class HyperpyramidInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
-        kwargs['type'] = 'pyr'
-        kwargs['name'] = f'PYR-n{kwargs["n"]}'
+        n = int(kwargs["n"])
+        self.name = f'PYR-n{n}'
+        self.type = 'pyr'
+        self.dimension = n
+        self.size = 2 ** (n - 1) + 1
 
         Instance.__init__(self, **kwargs)
 

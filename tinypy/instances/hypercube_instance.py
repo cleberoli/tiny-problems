@@ -14,8 +14,11 @@ class HypercubeInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
-        kwargs['type'] = 'cub'
-        kwargs['name'] = f'CUB-n{kwargs["n"]}'
+        n = int(kwargs["n"])
+        self.name = f'CUB-n{n}'
+        self.type = 'cub'
+        self.dimension = n
+        self.size = 2 ** n
 
         Instance.__init__(self, **kwargs)
 
