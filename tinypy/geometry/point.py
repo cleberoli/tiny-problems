@@ -94,7 +94,7 @@ class Point:
         return self.coords < other.coords
 
     def __gt__(self, other: 'Point'):
-        return self.coords > other.coords
+        return not (self <= other)
 
     def __eq__(self, other: 'Point'):
         return self.coords == other.coords

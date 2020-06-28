@@ -1,13 +1,22 @@
 from functools import total_ordering
 
-from tinypy.geometry import Point
+from tinypy.geometry.point import Point
 
 
 @total_ordering
 class Hyperplane:
 
+    normal: 'Point'
+    d: int
+
     def __init__(self, normal: 'Point', **kwargs):
-        if len(kwargs) < 1:
+        if 'd' not in kwargs and 'p' not in kwargs:
+            raise ValueError('Invalid parameters.')
+
+        if 'd' in kwargs and not (isinstance(kwargs['d'], int) or isinstance(kwargs['d'], float)):
+            raise ValueError('Invalid parameters.')
+
+        if 'p' in kwargs and not isinstance(kwargs['p'], Point):
             raise ValueError('Invalid parameters.')
 
         self.normal = normal
@@ -16,9 +25,20 @@ class Hyperplane:
     def position(self, p: 'Point'):
         return self.normal * p
 
-    def to_homogeneus_coordinates(self):
-        self.normal.add_coord(self.normal)
-        self.d = 0
+    def __neg__(self):
+        return Hyperplane(-self.normal, d=-self.d)
+
+    def __getitem__(self, item: int):
+        return self.normal[item]
+
+    def __hash__(self):
+        return hash(repr(self))
+
+    def __lt__(self, other: 'Hyperplane'):
+        return self.normal < other.normal or self.normal <= other.normal and self.d < other.d
+
+    def __gt__(self, other: 'Hyperplane'):
+        return not (self <= other)
 
     def __eq__(self, other: 'Hyperplane'):
         return self.normal == other.normal and self.d == other.d
@@ -26,22 +46,10 @@ class Hyperplane:
     def __ne__(self, other: 'Hyperplane'):
         return not (self == other)
 
-    def __lt__(self, other: 'Hyperplane'):
-        return self.normal < other.normal and self.d <= other.d
-
-    def __neg__(self):
-        return Hyperplane(-self.normal, d=-self.d)
-
     def __repr__(self):
         terms = self.__get_terms()
         equation = ' + '.join(terms).replace('+ -', '- ')
         return f'{equation} = {self.d}'
-
-    def __hash__(self):
-        return hash(repr(self))
-
-    def __getitem__(self, item: int):
-        return self.normal[item]
 
     def __get_terms(self):
         terms = []
