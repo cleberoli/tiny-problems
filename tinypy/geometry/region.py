@@ -5,6 +5,9 @@ from tinypy.geometry.hyperplane import Hyperplane
 
 class Region:
 
+    hyperplanes: Dict[int, 'Hyperplane']
+    dim: int
+
     def __init__(self, dim: int, hyperplanes: Dict[int, 'Hyperplane'] = None):
         self.hyperplanes = hyperplanes if hyperplanes is not None else dict()
         self.dim = dim

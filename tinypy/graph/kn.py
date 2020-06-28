@@ -55,12 +55,7 @@ class Kn:
     def __get_point_from_permutation(self, permutation: tuple) -> 'Point':
         edges = []
 
-        if permutation[0] < permutation[self.n - 1]:
-            edges.append(f'{permutation[0]}-{permutation[self.n - 1]}')
-        else:
-            edges.append(f'{permutation[self.n - 1]}-{permutation[0]}')
-
-        for i in range(self.n - 1):
+        for i in range(self.n):
             if permutation[i] < permutation[i + 1]:
                 edges.append(f'{permutation[i]}-{permutation[i + 1]}')
             else:
