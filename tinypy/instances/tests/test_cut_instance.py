@@ -10,6 +10,9 @@ def test_cut_instance():
     cut5_solutions = cut5.get_solution_list()
     cut6_solutions = cut6.get_solution_list()
 
+    assert cut5.n == 5
+    assert cut6.n == 6
+
     assert len(cut5_solutions) == 16        # 2^(n-1)
     assert len(cut6_solutions) == 32        # 2^(n-1)
     assert cut5.size == 16

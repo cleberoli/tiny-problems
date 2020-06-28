@@ -14,16 +14,16 @@ class HypercubeInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
-        n = int(kwargs["n"])
-        self.name = f'CUB-n{n}'
+        self.n = int(kwargs["n"])
+        self.dimension = self.n
+        self.size = 2 ** self.n
+        self.name = f'CUB-n{self.n}'
         self.type = 'cub'
-        self.dimension = n
-        self.size = 2 ** n
 
-        Instance.__init__(self, **kwargs)
+        Instance.__init__(self)
 
-    def generate_solutions(self, **kwargs) -> List['Point']:
-        vertices = combinatorics.get_permutations([0, 1], kwargs['n'])
+    def generate_solutions(self) -> List['Point']:
+        vertices = combinatorics.get_permutations([0, 1], self.n)
         vertices = [Point(v) for v in vertices]
         return vertices
 

@@ -4,11 +4,14 @@ from tinypy.instances.random_instance import RandomInstance
 
 
 def test_random_instance():
-    rnd3_4 = RandomInstance(size=4, d=3)
-    rnd6_8 = RandomInstance(size=8, d=6)
+    rnd3_4 = RandomInstance(d=3, m=4)
+    rnd6_8 = RandomInstance(d=6, m=8)
 
     rnd3_4_solutions = rnd3_4.get_solution_list()
     rnd6_8_solutions = rnd6_8.get_solution_list()
+
+    assert rnd3_4.n == 4
+    assert rnd6_8.n == 8
 
     assert len(rnd3_4_solutions) == 4     # size
     assert len(rnd6_8_solutions) == 8     # size
@@ -32,10 +35,10 @@ def test_invalid_random_instance():
         RandomInstance(n=1)
 
     with pytest.raises(ValueError):
-        RandomInstance(size=0)
+        RandomInstance(m=0)
 
     with pytest.raises(ValueError):
-        RandomInstance(size=1)
+        RandomInstance(m=1)
 
     with pytest.raises(ValueError):
         RandomInstance(d=0)
@@ -44,16 +47,16 @@ def test_invalid_random_instance():
         RandomInstance(d=1)
 
     with pytest.raises(ValueError):
-        RandomInstance(size=0, d=0)
+        RandomInstance(m=0, d=0)
 
     with pytest.raises(ValueError):
-        RandomInstance(size=0, d=1)
+        RandomInstance(m=0, d=1)
 
     with pytest.raises(ValueError):
-        RandomInstance(size=1, d=0)
+        RandomInstance(m=1, d=0)
 
     with pytest.raises(ValueError):
-        RandomInstance(size=40, d=4)
+        RandomInstance(m=40, d=4)
 
     with pytest.raises(ValueError):
         RandomInstance()

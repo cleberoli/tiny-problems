@@ -10,6 +10,9 @@ def test_hyperpyramid_instance():
     pyr3_solutions = pyr3.get_solution_list()
     pyr6_solutions = pyr6.get_solution_list()
 
+    assert pyr3.n == 3
+    assert pyr6.n == 6
+
     assert len(pyr3_solutions) == 5     # 2^(n-1) + 1
     assert len(pyr6_solutions) == 33    # 2^(n-1) + 1
     assert pyr3.size == 5

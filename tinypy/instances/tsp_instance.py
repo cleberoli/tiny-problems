@@ -15,15 +15,15 @@ class TSPInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
-        n = int(kwargs["n"])
-        self.name = f'TSP-n{n}'
+        self.n = int(kwargs["n"])
+        self.dimension = int(self.n * (self.n - 1) / 2)
+        self.size = int(factorial(self.n - 1) / 2)
+        self.name = f'TSP-n{self.n}'
         self.type = 'tsp'
-        self.dimension = int(n * (n - 1) / 2)
-        self.size = int(factorial(n - 1) / 2)
 
-        Instance.__init__(self, **kwargs)
+        Instance.__init__(self)
 
-    def generate_solutions(self, **kwargs) -> List['Point']:
-        kn = Kn(kwargs['n'])
+    def generate_solutions(self) -> List['Point']:
+        kn = Kn(self.n)
         cycles = kn.get_hamilton_cycles()
         return list(cycles.values())

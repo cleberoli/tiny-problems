@@ -14,16 +14,17 @@ class Instance(ABC):
     type: str
     dimension: int
     size: int
+    n: int
     solutions: List['Point']
 
-    def __init__(self, **kwargs):
+    def __init__(self):
         self.instance_file = get_full_path('instances', self.type, f'{self.name}.tpi')
 
         if path.exists(self.instance_file):
             self.solutions = self.read_instance_file()
         else:
-            self.solutions = self.generate_solutions(**kwargs)
-            self.write_instance_file(**kwargs)
+            self.solutions = self.generate_solutions()
+            self.write_instance_file()
 
     def get_solution_list(self) -> List['Point']:
         return self.solutions
@@ -48,7 +49,7 @@ class Instance(ABC):
 
         return solutions
 
-    def write_instance_file(self, **kwargs):
+    def write_instance_file(self):
         now = datetime.now()
         print(self.instance_file)
 
@@ -64,5 +65,5 @@ class Instance(ABC):
                 file.write(f'{solution_str}\n')
 
     @abstractmethod
-    def generate_solutions(self, **kwargs) -> List['Point']:
+    def generate_solutions(self) -> List['Point']:
         pass

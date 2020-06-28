@@ -14,15 +14,15 @@ class CutInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
-        n = int(kwargs["n"])
-        self.name = f'CUT-n{n}'
+        self.n = int(kwargs["n"])
+        self.dimension = int(self.n * (self.n - 1) / 2)
+        self.size = 2 ** (self.n - 1)
+        self.name = f'CUT-n{self.n}'
         self.type = 'cut'
-        self.dimension = int(n * (n - 1) / 2)
-        self.size = 2 ** (n - 1)
 
-        Instance.__init__(self, **kwargs)
+        Instance.__init__(self)
 
-    def generate_solutions(self, **kwargs) -> List['Point']:
-        kn = Kn(kwargs['n'])
+    def generate_solutions(self) -> List['Point']:
+        kn = Kn(self.n)
         cuts = kn.get_cuts()
         return list(cuts.values())
