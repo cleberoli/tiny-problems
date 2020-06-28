@@ -189,7 +189,13 @@ def test_comp():
     assert p2 != p3
 
 
-def test_repr():
+def test_str():
     p = Point(1, 2, 3)
 
     assert str(p) == '(1, 2, 3)'
+
+
+def test_repr():
+    p = Point(1, 2, 3)
+
+    assert repr(p) == '(1, 2, 3)'

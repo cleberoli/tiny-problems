@@ -77,7 +77,13 @@ def test_comp():
     assert h1 < h5
 
 
-def test_repr():
-    h = Hyperplane(Point(1, 2, -3, -1), d=0)
+def test_str():
+    h = Hyperplane(Point(1, 2, 0, -3, -1), d=0)
 
-    assert str(h) == 'x1 + 2x2 - 3x3 - x4 = 0'
+    assert str(h) == 'x1 + 2x2 - 3x4 - x5 = 0'
+
+
+def test_repr():
+    h = Hyperplane(Point(1, 2, 0, -3, -1), d=0)
+
+    assert repr(h) == '(1, 2, 0, -3, -1, 0)'

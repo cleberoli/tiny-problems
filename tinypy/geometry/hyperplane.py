@@ -46,10 +46,13 @@ class Hyperplane:
     def __ne__(self, other: 'Hyperplane'):
         return not (self == other)
 
-    def __repr__(self):
+    def __str__(self):
         terms = self.__get_terms()
         equation = ' + '.join(terms).replace('+ -', '- ')
         return f'{equation} = {self.d}'
+
+    def __repr__(self):
+        return str(self.normal.coords + (self.d, ))
 
     def __get_terms(self):
         terms = []
