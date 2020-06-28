@@ -49,3 +49,8 @@ def test_invalid_tsp_instance():
 
     with pytest.raises(ValueError):
         TSPInstance()
+
+
+def test_generate_solutions():
+    assert len(TSPInstance(n=5).generate_solutions()) == 12
+    assert len(TSPInstance(n=6).generate_solutions()) == 60

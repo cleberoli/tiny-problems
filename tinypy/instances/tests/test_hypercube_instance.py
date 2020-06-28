@@ -49,3 +49,8 @@ def test_invalid_hypercube_instance():
 
     with pytest.raises(ValueError):
         HypercubeInstance()
+
+
+def test_generate_solutions():
+    assert len(HypercubeInstance(n=3).generate_solutions()) == 8
+    assert len(HypercubeInstance(n=6).generate_solutions()) == 64

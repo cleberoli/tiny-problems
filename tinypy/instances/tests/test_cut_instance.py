@@ -49,3 +49,8 @@ def test_invalid_cut_instance():
 
     with pytest.raises(ValueError):
         CutInstance()
+
+
+def test_generate_solutions():
+    assert len(CutInstance(n=5).generate_solutions()) == 16
+    assert len(CutInstance(n=6).generate_solutions()) == 32

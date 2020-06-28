@@ -21,10 +21,10 @@ class Instance(ABC):
         self.instance_file = get_full_path('instances', self.type, f'{self.name}.tpi')
 
         if path.exists(self.instance_file):
-            self.solutions = self.read_instance_file()
+            self.solutions = self.__read_instance_file()
         else:
             self.solutions = self.generate_solutions()
-            self.write_instance_file()
+            self.__write_instance_file()
 
     def get_solution_list(self) -> List['Point']:
         return self.solutions
@@ -32,7 +32,11 @@ class Instance(ABC):
     def get_solution_dict(self) -> Dict[int, 'Point']:
         return dict((key, self.solutions[key]) for key in range(len(self.solutions)))
 
-    def read_instance_file(self):
+    @abstractmethod
+    def generate_solutions(self) -> List['Point']:  # pragma: no cover
+        pass
+
+    def __read_instance_file(self):
         solutions = []
 
         with open(self.instance_file, 'r') as file:
@@ -49,9 +53,8 @@ class Instance(ABC):
 
         return solutions
 
-    def write_instance_file(self):
+    def __write_instance_file(self):
         now = datetime.now()
-        print(self.instance_file)
 
         with open(self.instance_file, 'w+') as file:
             file.write(f'NAME: {self.name}\n')
@@ -63,7 +66,3 @@ class Instance(ABC):
             for solution in self.solutions:
                 solution_str = ' '.join(map(str, solution))
                 file.write(f'{solution_str}\n')
-
-    @abstractmethod
-    def generate_solutions(self) -> List['Point']:
-        pass

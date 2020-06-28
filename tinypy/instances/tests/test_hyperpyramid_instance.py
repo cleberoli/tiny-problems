@@ -49,3 +49,8 @@ def test_invalid_hyperpyramid_instance():
 
     with pytest.raises(ValueError):
         HyperpyramidInstance()
+
+
+def test_generate_solutions():
+    assert len(HyperpyramidInstance(n=3).generate_solutions()) == 5
+    assert len(HyperpyramidInstance(n=6).generate_solutions()) == 33

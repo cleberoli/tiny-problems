@@ -1,6 +1,8 @@
 import pytest
+import os
 
 from tinypy.instances.random_instance import RandomInstance
+from tinypy.utils.file import get_full_path
 
 
 def test_random_instance_3_4():
@@ -70,3 +72,19 @@ def test_invalid_random_instance():
 
     with pytest.raises(ValueError):
         RandomInstance()
+
+
+def test_new_random_instance():
+    instance_file = get_full_path('instances', 'rnd', 'RND-d40-m4.tpi')
+    assert not os.path.exists(instance_file)
+
+    RandomInstance(d=40, m=4)
+    assert os.path.exists(instance_file)
+
+    os.remove(instance_file)
+    assert not os.path.exists(instance_file)
+
+
+def test_generate_solutions():
+    assert len(RandomInstance(d=3, m=4).generate_solutions()) == 4
+    assert len(RandomInstance(d=6, m=8).generate_solutions()) == 8
