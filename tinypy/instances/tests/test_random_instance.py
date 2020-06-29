@@ -75,7 +75,7 @@ def test_invalid_random_instance():
 
 
 def test_new_random_instance():
-    instance_file = get_full_path('files', 'instances', 'rnd', 'RND-d40-m4.tpi')
+    instance_file = get_full_path('files', 'instances', 'rnd', 'RND-d40-m4.tpif')
     assert not os.path.exists(instance_file)
 
     RandomInstance(d=40, m=4)
