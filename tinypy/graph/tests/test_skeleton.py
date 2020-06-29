@@ -7,6 +7,8 @@ def test_skeleton():
     skeleton = Skeleton()
     assert len(skeleton.edges) == 0
     assert len(skeleton.nodes) == 0
+    assert isinstance(skeleton.edges, list)
+    assert isinstance(skeleton.nodes, list)
 
 
 def test_add_edge():
