@@ -20,6 +20,7 @@ class Polytope(ABC):
     size: int
     n: int
     skeleton_file: str
+    polytope_file:str
 
     instance: Instance
     skeleton: Skeleton
@@ -33,7 +34,9 @@ class Polytope(ABC):
         self.size = self.instance.size
         self.n = self.instance.n
         self.skeleton_file = get_full_path('files', 'skeletons', self.instance.type, f'{self.instance.name}.tpsf')
+        self.polytope_file = get_full_path('files', 'polytopes', self.instance.type, f'{self.instance.name}.tppf')
         create_folder(get_full_path('files', 'skeletons', self.instance.type))
+        create_folder(get_full_path('files', 'polytopes', self.instance.type))
 
         self.vertices = self.instance.get_solution_dict().copy()
         self.__map_vertices()
@@ -42,6 +45,9 @@ class Polytope(ABC):
         self.delaunay = DelaunayTriangulation(self.skeleton)
         self.voronoi = VoronoiDiagram(self.delaunay, self.H, self.instance.type, self.instance.name)
         self.voronoi.build(self.vertices)
+
+        if not file_exists(self.polytope_file):
+            self.__write_polytope_file()
 
     def __map_vertices(self):
         one = Point([1] * self.dimension)
@@ -133,9 +139,13 @@ class Polytope(ABC):
             for edge in self.skeleton.edges:
                 file.write(f'{edge[0]} {edge[1]} {self.skeleton.get_edge(edge[0], edge[1], "h")}\n')
 
+    def __write_polytope_file(self):
+        with open(self.polytope_file, 'w+') as file:
+            file.write(repr(self))
+
     def __repr__(self):  # pragma: no cover
-        return f'NAME: {self.instance.type}\n' \
-               f'TYPE: {self.instance.type}\n' \
+        return f'NAME: {self.instance.name}\n' \
+               f'TYPE: {self.instance.type.upper()}\n' \
                f'DIMENSION: {self.dimension}\n' \
                f'SOLUTIONS: {self.size}\n' \
                f'HYPERPLANES: {len(self.H)}\n' \
