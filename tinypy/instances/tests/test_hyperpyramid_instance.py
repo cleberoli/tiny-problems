@@ -18,6 +18,7 @@ def test_hyperpyramid_instance_3():
     assert pyr3.dimension == 3
 
     assert list(pyr3.get_solution_dict().values()) == pyr3_solutions
+    assert list(pyr3.get_solution_dict().keys()) == list(range(1, pyr3.size + 1))
 
 
 def test_hyperpyramid_instance_6():
@@ -35,6 +36,7 @@ def test_hyperpyramid_instance_6():
     assert pyr6.dimension == 6
 
     assert list(pyr6.get_solution_dict().values()) == pyr6_solutions
+    assert list(pyr6.get_solution_dict().keys()) == list(range(1, pyr6.size + 1))
 
 
 def test_invalid_hyperpyramid_instance():

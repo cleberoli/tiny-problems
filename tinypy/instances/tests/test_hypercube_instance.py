@@ -18,6 +18,7 @@ def test_hypercube_instance_3():
     assert cub3.dimension == 3
 
     assert list(cub3.get_solution_dict().values()) == cub3_solutions
+    assert list(cub3.get_solution_dict().keys()) == list(range(1, cub3.size + 1))
 
 
 def test_hypercube_instance_6():
@@ -35,6 +36,7 @@ def test_hypercube_instance_6():
     assert cub6.dimension == 6
 
     assert list(cub6.get_solution_dict().values()) == cub6_solutions
+    assert list(cub6.get_solution_dict().keys()) == list(range(1, cub6.size + 1))
 
 
 def test_invalid_hypercube_instance():

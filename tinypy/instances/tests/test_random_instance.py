@@ -20,6 +20,7 @@ def test_random_instance_3_4():
     assert rnd3_4.dimension == 3
 
     assert list(rnd3_4.get_solution_dict().values()) == rnd3_4_solutions
+    assert list(rnd3_4.get_solution_dict().keys()) == list(range(1, rnd3_4.size + 1))
 
 
 def test_random_instance_6_8():
@@ -37,6 +38,7 @@ def test_random_instance_6_8():
     assert rnd6_8.dimension == 6
 
     assert list(rnd6_8.get_solution_dict().values()) == rnd6_8_solutions
+    assert list(rnd6_8.get_solution_dict().keys()) == list(range(1, rnd6_8.size + 1))
 
 
 def test_invalid_random_instance():

@@ -18,6 +18,7 @@ def test_tsp_instance_5():
     assert tsp5.dimension == 10
 
     assert list(tsp5.get_solution_dict().values()) == tsp5_solutions
+    assert list(tsp5.get_solution_dict().keys()) == list(range(1, tsp5.size + 1))
 
 
 def test_tsp_instance_6():
@@ -35,6 +36,7 @@ def test_tsp_instance_6():
     assert tsp6.dimension == 15
 
     assert list(tsp6.get_solution_dict().values()) == tsp6_solutions
+    assert list(tsp6.get_solution_dict().keys()) == list(range(1, tsp6.size + 1))
 
 
 def test_invalid_tsp_instance():

@@ -30,7 +30,7 @@ class Instance(ABC):
         return self.solutions
 
     def get_solution_dict(self) -> Dict[int, 'Point']:
-        return dict((key, self.solutions[key]) for key in range(len(self.solutions)))
+        return dict((key + 1, self.solutions[key]) for key in range(len(self.solutions)))
 
     @abstractmethod
     def generate_solutions(self) -> List['Point']:  # pragma: no cover

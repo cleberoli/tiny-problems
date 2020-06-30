@@ -18,6 +18,7 @@ def test_cut_instance_5():
     assert cut5.dimension == 10
 
     assert list(cut5.get_solution_dict().values()) == cut5_solutions
+    assert list(cut5.get_solution_dict().keys()) == list(range(1, cut5.size + 1))
 
 
 def test_cut_instance_6():
@@ -35,6 +36,7 @@ def test_cut_instance_6():
     assert cut6.dimension == 15
 
     assert list(cut6.get_solution_dict().values()) == cut6_solutions
+    assert list(cut6.get_solution_dict().keys()) == list(range(1, cut6.size + 1))
 
 
 def test_invalid_cut_instance():
