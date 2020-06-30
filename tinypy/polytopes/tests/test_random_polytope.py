@@ -46,20 +46,25 @@ def test_new_random_polytope():
     instance_file = get_full_path('files', 'instances', 'rnd', 'RND-d40-m4.tpif')
     skeleton_file = get_full_path('files', 'skeletons', 'rnd', 'RND-d40-m4.tpsf')
     cone_file = get_full_path('files', 'cones', 'rnd', 'RND-d40-m4.tpcf')
+    polytope_file = get_full_path('files', 'polytopes', 'rnd', 'RND-d40-m4.tppf')
 
     assert not file_exists(instance_file)
     assert not file_exists(skeleton_file)
     assert not file_exists(cone_file)
+    assert not file_exists(polytope_file)
 
     RandomPolytope(40, 4)
     assert file_exists(instance_file)
     assert file_exists(skeleton_file)
     assert file_exists(cone_file)
+    assert file_exists(polytope_file)
 
     delete_file(instance_file)
     delete_file(skeleton_file)
     delete_file(cone_file)
+    delete_file(polytope_file)
 
     assert not file_exists(instance_file)
     assert not file_exists(skeleton_file)
     assert not file_exists(cone_file)
+    assert not file_exists(polytope_file)
