@@ -4,7 +4,7 @@ from os import path
 from typing import Dict, List
 
 from tinypy.geometry.point import Point
-from tinypy.utils.file import get_full_path
+from tinypy.utils.file import create_folder, get_full_path
 
 
 class Instance(ABC):
@@ -19,6 +19,7 @@ class Instance(ABC):
 
     def __init__(self):
         self.instance_file = get_full_path('files', 'instances', self.type, f'{self.name}.tpif')
+        create_folder(get_full_path('files', 'instances', self.type))
 
         if path.exists(self.instance_file):
             self.solutions = self.__read_instance_file()
