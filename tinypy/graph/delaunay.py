@@ -7,7 +7,7 @@ class DelaunayTriangulation:
 
     skeleton: Skeleton
 
-    def __init__(self, skeleton: Skeleton):
+    def __init__(self, skeleton: Skeleton = Skeleton()):
         self.skeleton = skeleton
 
     @property

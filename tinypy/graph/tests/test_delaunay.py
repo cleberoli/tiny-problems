@@ -9,8 +9,6 @@ def test_delaunay():
     delaunay = DelaunayTriangulation(skeleton)
     assert len(delaunay.edges) == 0
     assert len(delaunay.nodes) == 0
-    assert isinstance(delaunay.edges, list)
-    assert isinstance(delaunay.nodes, list)
 
 
 def test_add_edge():

@@ -12,7 +12,9 @@ class Skeleton:
 
     @property
     def edges(self) -> List[Tuple]:
-        return list(self.graph.edges)
+        edges = list(self.graph.edges)
+        edges.sort()
+        return edges
 
     @property
     def nodes(self) -> List[int]:
