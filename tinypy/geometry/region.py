@@ -8,14 +8,15 @@ class Region:
 
     def __init__(self, hyperplanes: List[int] = None):
         self.hyperplanes = hyperplanes if hyperplanes is not None else []
-        self.hyperplanes.sort()
+        self.hyperplanes = sorted(self.hyperplanes, key=abs)
 
     def add_hyperplane(self, hyperplane: int):
-        insort(self.hyperplanes, hyperplane)
+        self.hyperplanes.append(hyperplane)
+        self.hyperplanes = sorted(self.hyperplanes, key=abs)
 
     def union(self, region: 'Region'):
         hyperplane_set = set(self.hyperplanes).union(set(region.hyperplanes))
-        return Region(sorted(list(hyperplane_set)))
+        return Region(sorted(list(hyperplane_set), key=abs))
 
     def __str__(self):
         return str(self.hyperplanes)

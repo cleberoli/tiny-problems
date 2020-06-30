@@ -17,6 +17,10 @@ def test_add_hyperplane():
     assert len(r.hyperplanes) == 1
     assert r.hyperplanes == [1]
 
+    r.add_hyperplane(-2)
+    assert len(r.hyperplanes) == 2
+    assert r.hyperplanes == [1, -2]
+
 
 def test_union():
     r = Region([1, 2])
@@ -33,7 +37,7 @@ def test_union():
 
     r = r.union(Region([-2]))
     assert len(r.hyperplanes) == 5
-    assert r.hyperplanes == [-2, 1, 2, 3, 4]
+    assert r.hyperplanes == [1, 2, -2, 3, 4]
 
 
 def test_str():
@@ -43,6 +47,6 @@ def test_str():
 
 
 def test_repr():
-    r = Region([1, 2])
+    r = Region([1, -2])
 
-    assert repr(r) == '[1, 2]'
+    assert repr(r) == '[1, -2]'
