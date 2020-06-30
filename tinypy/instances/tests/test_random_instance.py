@@ -1,8 +1,7 @@
 import pytest
-import os
 
 from tinypy.instances.random_instance import RandomInstance
-from tinypy.utils.file import get_full_path
+from tinypy.utils.file import delete_file, file_exists, get_full_path
 
 
 def test_random_instance_3_4():
@@ -78,13 +77,13 @@ def test_invalid_random_instance():
 
 def test_new_random_instance():
     instance_file = get_full_path('files', 'instances', 'rnd', 'RND-d40-m4.tpif')
-    assert not os.path.exists(instance_file)
+    assert not file_exists(instance_file)
 
     RandomInstance(d=40, m=4)
-    assert os.path.exists(instance_file)
+    assert file_exists(instance_file)
 
-    os.remove(instance_file)
-    assert not os.path.exists(instance_file)
+    delete_file(instance_file)
+    assert not file_exists(instance_file)
 
 
 def test_generate_solutions():

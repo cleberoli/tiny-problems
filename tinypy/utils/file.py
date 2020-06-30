@@ -20,3 +20,6 @@ def file_exists(path: str):
 def delete_directory(path: str):
     shutil.rmtree(path)
 
+
+def delete_file(path: str):
+    os.remove(path)
