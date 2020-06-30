@@ -37,6 +37,17 @@ def test_position():
     assert h.position(z) == 0
 
 
+def test_in_halfspace():
+    h = Hyperplane(Point(1, 1, 1), d=1)
+    x = Point(-2, 3, 4)
+    y = Point(0, -3, 4)
+    z = Point(5, 2, -7)
+
+    assert h.in_halfspace(x)
+    assert h.in_halfspace(y)
+    assert not h.in_halfspace(z)
+
+
 def test_neg():
     h1 = Hyperplane(Point(1, 1, 1), d=1)
     h2 = Hyperplane(Point(-1, -1, -1), d=-1)

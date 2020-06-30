@@ -25,6 +25,9 @@ class Hyperplane:
     def position(self, p: 'Point'):
         return self.normal * p
 
+    def in_halfspace(self, p: 'Point'):
+        return self.normal * p >= self.d
+
     def __neg__(self):
         return Hyperplane(-self.normal, d=-self.d)
 

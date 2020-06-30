@@ -1,11 +1,16 @@
-from typing import Dict
+from typing import List
 
-from tinypy.geometry import Hyperplane, Point, Region
+from tinypy.geometry.point import Point
+from tinypy.geometry.region import Region
 
 
 class Cone(Region):
 
-    def __init__(self, tag: int, solution: 'Point', hyperplanes: Dict[int, 'Hyperplane'], dim: int):
-        Region.__init__(self, dim, hyperplanes)
+    tag: int
+    solution: 'Point'
+
+    def __init__(self, tag: int, solution: 'Point', hyperplanes: List[int] = None):
         self.tag = tag
         self.solution = solution
+
+        Region.__init__(self, hyperplanes)
