@@ -1,80 +1,110 @@
-from copy import deepcopy
-from typing import Dict, List
+from datetime import datetime
+from typing import Dict
 
-from tinypy.geometry import Hyperplane, Point, Region
-from tinypy.graph import DelaunayTriangulation
-from tinypy.lp import AdjacencyProblem, IntersectionProblem
+from tinypy.geometry.hyperplane import Hyperplane
+from tinypy.geometry.point import Point
+from tinypy.geometry.cone import Cone
+from tinypy.graph.delaunay import DelaunayTriangulation
+from tinypy.utils.file import create_folder, file_exists, get_full_path
 
 
 class VoronoiDiagram:
 
-    def __init__(self):
-        self.delaunay = DelaunayTriangulation()
-        self.__hyperplanes = dict()
-        self.__regions = []
+    instance_type: str
+    instance_name: str
+    cone_file: str
 
-    @property
-    def hyperplanes(self) -> Dict[int, 'Hyperplane']:
-        return self.__hyperplanes
+    delaunay: DelaunayTriangulation
+    hyperplanes: Dict[int, 'Hyperplane']
+    cones: Dict[int, 'Cone']
 
-    def get_edge(self, i: int, j: int, key: str = 'h'):
-        return self.delaunay.get_edge(i, j, key)
+    def __init__(self, delaunay: DelaunayTriangulation, hyperplanes: Dict[int, 'Hyperplane'], instance_type: str, instance_name: str):
+        self.instance_type = instance_type
+        self.instance_name = instance_name
+        self.cone_file = get_full_path('files', 'cones', instance_type, f'{instance_name}.tpcf')
+        create_folder(get_full_path('files', 'cones', instance_type))
 
-    def get_edges(self, i: int):
-        return self.delaunay.get_edges(i)
+        self.delaunay = delaunay
+        self.hyperplanes = hyperplanes
 
-    def build(self, dim: int, name: str, vertices: Dict[int, 'Point']):
-        self.__initialize(dim, name, vertices)
-        self.__update()
-        print(len(self.__hyperplanes))
-        print(self.delaunay.edges)
+    def build(self, solutions: Dict[int, 'Point']):
+        if file_exists(self.cone_file):
+            self.cones = self.__read_skeleton_file(solutions)
+        else:
+            self.cones = self.__generate_cones(solutions)
+            self.__write_cone_file(solutions[1].dim, len(solutions))
 
-        # for (key, value) in self.__hyperplanes.items():
-        #     print(key, value)
+    def __generate_cones(self, solutions: Dict[int, 'Point']) -> Dict[int, 'Cone']:
+        cones = dict()
 
-        # self.__regions = self.__compute_regions(dim)
-        # print(len(self.__regions))
+        if len(self.hyperplanes) == 0:
+            return cones
 
-    def __initialize(self, dim: int, name: str, vertices: Dict[int, 'Point']):
-        adjacency_lp = AdjacencyProblem(dim, name, vertices)
-        hyperplanes = set()
-        n = len(vertices)
+        for (s, solution) in solutions.items():
+            cone = Cone(s, solution)
+            edges = self.delaunay.get_edges(s)
+            hyperplanes = [self.delaunay.get_edge(s, e, 'h') for e in edges]
 
-        for i in range(n):
-            for j in range(i + 1, n):
-                if adjacency_lp.test_edge_primal(i, j):
-                    h = Hyperplane(vertices[i] - vertices[j], d=0)
-                    hyperplanes.add(h)
-                    self.delaunay.add_edge(i, j, h=hash(h))
+            for h in hyperplanes:
+                hyperplane = self.hyperplanes[h]
 
-        hyperplanes = list(hyperplanes)
-        hyperplanes.sort()
-        self.__hyperplanes = dict((key, hyperplanes[key]) for key in range(len(hyperplanes)))
-
-    def __update(self):
-        map_dict = {hash(self.__hyperplanes[i]): i for i in range(len(self.__hyperplanes))}
-
-        for e in self.delaunay.edges.data():
-            self.delaunay.add_edge(e[0], e[1], h=map_dict[e[2]['h']])
-
-    def __compute_regions(self, dim: int):
-        regions = [Region(dim)]
-
-        for (h, hyperplane) in self.__hyperplanes.items():
-            print(h, hyperplane)
-            new_regions = []
-
-            for r in regions:
-                if IntersectionProblem(r, hyperplane, dim):
-                    r1 = deepcopy(r)
-                    r2 = deepcopy(r)
-                    r1.add_hyperplane(h, hyperplane)
-                    r1.add_hyperplane(h, -hyperplane)
-                    new_regions.append(r1)
-                    new_regions.append(r2)
+                if hyperplane.in_halfspace(solution):
+                    cone.add_hyperplane(h)
                 else:
-                    new_regions.append(r)
+                    cone.add_hyperplane(-h)
 
-            regions = new_regions
+            cones[s] = cone
 
-        return regions
+        return cones
+
+    def __read_skeleton_file(self, solutions: Dict[int, 'Point']) -> Dict[int, 'Cone']:
+        cones = dict()
+
+        with open(self.cone_file, 'r') as file:
+            file.readline()     # name
+            file.readline()     # type
+            file.readline()     # generated
+            file.readline()     # dimension
+            c_size = int(file.readline().split()[1])
+            h_size = int(file.readline().split()[1])
+            file.readline()
+
+            file.readline()     # HYPERPLANES SECTION
+            for _ in range(h_size):
+                file.readline()
+            file.readline()
+
+            file.readline()     # CONES SECTION
+
+            if c_size <= 1:
+                return cones
+
+            for _ in range(c_size):
+                line = file.readline().split(':')
+                key = int(line[0].strip())
+                hyperplanes_list = list(map(int, line[1].split()))
+                cone = Cone(key, solutions[key], hyperplanes_list)
+                cones[key] = cone
+
+        return cones
+
+    def __write_cone_file(self, dim: int, size: int):
+        now = datetime.now()
+
+        with open(self.cone_file, 'w+') as file:
+            file.write(f'NAME: {self.instance_name}\n')
+            file.write(f'TYPE: {self.instance_type.upper()}\n')
+            file.write(f'GENERATED: {now.strftime("%d/%m/%Y %H:%M:%S")}\n')
+            file.write(f'DIMENSION: {dim}\n')
+            file.write(f'SOLUTIONS: {size}\n')
+            file.write(f'HYPERPLANES: {len(self.hyperplanes)}\n\n')
+
+            file.write(f'HYPERPLANES SECTION\n')
+            for (index, hyperplane) in self.hyperplanes.items():
+                file.write(f'{index}: {" ".join(map(str, hyperplane.normal))} {hyperplane.d}\n')
+            file.write('\n')
+
+            file.write(f'CONES SECTION\n')
+            for (index, cone) in self.cones.items():
+                file.write(f'{index}: {" ".join(map(str, cone.hyperplanes))}\n')
+            file.write('\n')
