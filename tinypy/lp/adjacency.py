@@ -80,7 +80,7 @@ class AdjacencyProblem:
     def __primal_model(self, m: Model, i: int, j: int):
         lbd = dict()
 
-        for d in range(len(self.p)):
+        for d in self.p.keys():
             lbd[d] = m.addVar(name=f'lbd_{d}', vtype=GRB.CONTINUOUS, lb=0, ub=1)
 
         m.setObjective(0, GRB.MINIMIZE)
@@ -89,7 +89,7 @@ class AdjacencyProblem:
             m.addConstr(quicksum(lbd[k] * self.p[k][d] for k in self.p.keys() if k != i and k != j) == lbd[i] * self.p[i][d] +
                         lbd[j] * self.p[j][d])
 
-        for d in range(len(self.p)):
+        for d in self.p.keys():
             m.addConstr(lbd[d] >= 0)
 
         m.addConstr(quicksum(lbd[k] for k in self.p.keys() if k != i and k != j) == 1)

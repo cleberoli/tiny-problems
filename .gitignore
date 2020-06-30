@@ -1,5 +1,6 @@
 .idea
 venv/
+.pytest_cache
 
 tinypy/*/__pycache__/*
 tinypy/*/tests/.pytest_cache
