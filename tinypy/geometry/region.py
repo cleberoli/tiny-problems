@@ -1,4 +1,4 @@
-from bisect import insort
+from hashlib import blake2b
 from typing import List
 
 
@@ -22,4 +22,6 @@ class Region:
         return str(self.hyperplanes)
 
     def __repr__(self):
-        return repr(self.hyperplanes)
+        h = blake2b(digest_size=20)
+        h.update(str.encode(str(self)))
+        return h.hexdigest()
