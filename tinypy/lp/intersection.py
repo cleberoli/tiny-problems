@@ -1,4 +1,3 @@
-from hashlib import blake2b
 from typing import Dict
 
 from gurobipy.gurobipy import Model, GRB, quicksum
@@ -37,7 +36,7 @@ class IntersectionProblem:
         delete_directory(self.lp_directory)
 
     def test_intersection(self, region: 'Region', cone: int, hyperplane: int) -> bool:
-        path = f'{self.lp_directory}/test_{repr(region)}_{cone}_{hyperplane}'
+        path = f'{self.lp_directory}/{repr(region)}_{cone}_{hyperplane}'
 
         if file_exists(f'{path}.sol'):
             with open(f'{path}.sol', 'r') as file:

@@ -17,5 +17,8 @@ class Bisection:
     def add_right(self, right: int):
         insort(self.right, right)
 
-    def __repr__(self):
+    def __str__(self):
         return str({'left': self.left, 'right': self.right})
+
+    def __repr__(self):
+        return str((self.left, self.right))
