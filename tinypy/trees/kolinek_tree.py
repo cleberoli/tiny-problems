@@ -11,6 +11,8 @@ class KolinekTree:
         self.__S = self.__get_hyperplanes(polytope.vertices)
         self.__d = polytope.d
 
+        print(self.__S)
+
     @staticmethod
     def __get_hyperplanes(vertices: Dict[int, 'Point']):
         hyperplanes = set()
@@ -23,7 +25,7 @@ class KolinekTree:
 
         hyperplanes = list(hyperplanes)
         hyperplanes.sort()
-        return dict((key, hyperplanes[key]) for key in range(len(hyperplanes)))
+        return dict((key, np.array(hyperplanes[key].normal.coords)) for key in range(len(hyperplanes)))
 
     def build(self, p: 'Point'):
         x = list(p.coords)
@@ -37,3 +39,10 @@ class KolinekTree:
         print(A)
         print(A_inv)
         print(l)
+
+        for (_, a) in self.__S.items():
+            print(a, np.inner(a, A_inv))
+
+
+
+
