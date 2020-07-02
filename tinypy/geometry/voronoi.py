@@ -29,7 +29,7 @@ class VoronoiDiagram:
 
     def build(self, solutions: Dict[int, 'Point']):
         if file_exists(self.cone_file):
-            self.cones = self.__read_skeleton_file(solutions)
+            self.cones = self.__read_cone_file(solutions)
         else:
             self.cones = self.__generate_cones(solutions)
             self.__write_cone_file(solutions[1].dim, len(solutions))
@@ -57,7 +57,7 @@ class VoronoiDiagram:
 
         return cones
 
-    def __read_skeleton_file(self, solutions: Dict[int, 'Point']) -> Dict[int, 'Cone']:
+    def __read_cone_file(self, solutions: Dict[int, 'Point']) -> Dict[int, 'Cone']:
         cones = dict()
 
         with open(self.cone_file, 'r') as file:

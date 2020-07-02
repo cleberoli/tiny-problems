@@ -14,11 +14,12 @@ class AdjacencyProblem:
 
     dim: int
     name: str
-    p: Dict[int, 'Point']
     log: bool
     lp_directory: str
 
-    def __init__(self, dim: int, name: str, vertices: Dict[int, 'Point'], log: bool = True):
+    p: Dict[int, 'Point']
+
+    def __init__(self, dim: int, name: str, vertices: Dict[int, 'Point'], log: bool = False):
         self.dim = dim
         self.name = name
         self.p = vertices

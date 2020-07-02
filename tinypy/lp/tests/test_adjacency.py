@@ -12,12 +12,12 @@ def test_adjacency():
     assert adjacency_lp.name == 'misc'
     assert adjacency_lp.p == p
     assert adjacency_lp.lp_directory == get_full_path('files', 'lps', 'adjacency', 'misc')
-    assert adjacency_lp.log
+    assert not adjacency_lp.log
     assert file_exists(get_full_path('files', 'lps', 'adjacency', 'misc'))
 
 
 def test_primal():
-    adjacency_lp = AdjacencyProblem(3, 'misc', p)
+    adjacency_lp = AdjacencyProblem(3, 'misc', p, True)
     assert adjacency_lp.test_edge_primal(1, 2)
     assert adjacency_lp.test_edge_primal(1, 3)
     assert adjacency_lp.test_edge_primal(2, 3)
@@ -25,9 +25,17 @@ def test_primal():
 
 
 def test_dual():
-    adjacency_lp = AdjacencyProblem(3, 'misc', p)
+    adjacency_lp = AdjacencyProblem(3, 'misc', p, True)
     assert adjacency_lp.test_edge_dual(1, 2)
     assert adjacency_lp.test_edge_dual(1, 3)
+    assert adjacency_lp.test_edge_dual(2, 3)
+    assert adjacency_lp.test_edge_dual(2, 3)
+
+
+def test_log():
+    adjacency_lp = AdjacencyProblem(3, 'misc', p, True)
+    assert adjacency_lp.test_edge_primal(1, 2)
+    assert adjacency_lp.test_edge_primal(1, 3)
     assert adjacency_lp.test_edge_dual(2, 3)
     assert adjacency_lp.test_edge_dual(2, 3)
 

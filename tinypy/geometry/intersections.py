@@ -1,98 +1,117 @@
-from copy import deepcopy
-import pickle
-from pprint import pformat
+from ast import literal_eval as make_tuple
+from datetime import datetime
+from typing import Dict, List
 
-from typing import Dict
-from tinypy.geometry import Hyperplane, Region, Bisection, Cone
-from tinypy.lp import IntersectionProblem
+from tinypy.geometry.bisection import Bisection
+from tinypy.geometry.cone import Cone
+from tinypy.geometry.hyperplane import Hyperplane
+from tinypy.geometry.region import Region
+from tinypy.lp.intersection import IntersectionProblem
+from tinypy.polytopes.base_polytope import Polytope
+from tinypy.utils.file import create_folder, delete_directory, file_exists, get_full_path
 
 
 class Intersections:
 
-    def __init__(self, cones: Dict[int, 'Cone'], hyperplanes: Dict[int, 'Hyperplane'], dim: int, region: 'Region' = None, filename: str = 'default',
-                 intersections: dict = None, positions: dict = None, write=True):
-        self.__filename = filename
-        self.__cones = cones
-        self.__hyperplanes = hyperplanes
-        self.__dim = dim
-        self.__region = region if region is not None else Region(dim)
+    type: str
+    name: str
+    intersection_file: str
 
-        if intersections is None:
-            self.__intersections = dict()
-            self.__positions = dict()
-            self.compute_intersections()
-            self.compute_positions()
+    polytope: Polytope
+    hyperplanes: Dict[int, 'Hyperplane']
+    cones: Dict[int, 'Cone']
+    intersection_lp: IntersectionProblem
+
+    def __init__(self, polytope: Polytope):
+        self.type = polytope.instance.type
+        self.name = polytope.instance.name
+
+        self.polytope = polytope
+        self.hyperplanes = polytope.H
+        self.cones = polytope.voronoi.cones
+        self.intersection_lp = IntersectionProblem(polytope.dimension, polytope.instance.name, polytope.voronoi.cones, polytope.H, True)
+
+    def clear_files(self):
+        delete_directory(get_full_path('files', 'intersections', self.type))
+
+    def clear_lp_files(self):
+        self.intersection_lp.clear_files()
+
+    def get_positions(self, region: 'Region', cones: List[int], hyperplanes: List[int]) -> Dict[int, 'Bisection']:
+        self.intersection_file = get_full_path('files', 'intersections', self.type, f'{self.name}-{repr(region)}.tptf')
+        create_folder(get_full_path('files', 'intersections', self.type))
+
+        if file_exists(self.intersection_file):
+            positions = self.__read_intersection_file(len(hyperplanes))
         else:
-            self.__intersections = intersections
-            self.__positions = positions
+            positions = self.__compute_positions(region, cones, hyperplanes)
+            self.__write_intersection_file(region, cones, hyperplanes, positions)
 
-        if write:
-            self.write(f'{self.__filename}.pk')
+        return positions
 
-    @classmethod
-    def from_file(cls, filename: str):
-        intersection = cls.read(filename)
-        return cls(intersection.__cones, intersection.__hyperplanes, intersection.__dim, intersection.__region, intersection.__filename,
-                   intersection.__intersections, intersection.__positions, False)
+    def __compute_positions(self, region: 'Region', reference_cones: List[int], reference_hyperplanes: List[int]) -> Dict[int, 'Bisection']:
+        intersections = self.__compute_intersections(region, reference_cones, reference_hyperplanes)
+        positions = dict()
 
-    @property
-    def intersections(self):
-        return self.__intersections
-
-    @property
-    def positions(self):
-        return self.__positions
-
-    def compute_intersections(self):
-        for c in self.__cones.keys():
-            self.__intersections[c] = dict()
-
-            for h in self.__hyperplanes.keys():
-                self.__intersections[c][h] = self.__get_cone_intersection(c, h)
-
-    def compute_positions(self):
-        for h in self.__hyperplanes.keys():
-            self.__positions[h] = Bisection()
-            cones = self.get_hyperplane_intersections(h)
-            cones = [i for i in cones.keys() if cones[i] is False]
+        for h in reference_hyperplanes:
+            positions[h] = Bisection()
+            cones = [c for (c, value) in intersections[h].items() if value is False]
 
             for c in cones:
-                if self.__hyperplanes[h].position(self.__cones[c].solution) < 0:
-                    self.__positions[h].add_left(c)
+                if self.hyperplanes[h].in_halfspace(self.cones[c].solution):
+                    positions[h].add_right(c)
                 else:
-                    self.__positions[h].add_right(c)
+                    positions[h].add_left(c)
 
-    def write(self, filename: str):
-        with open(filename, 'wb') as file:
-            pickle.dump(self, file)
+        return positions
 
-    @staticmethod
-    def read(filename: str):
-        with open(filename, 'rb') as file:
-            return pickle.load(file)
+    def __compute_intersections(self, region: 'Region', reference_cones: List[int], reference_hyperplanes: List[int]) -> Dict[int, Dict[int, bool]]:
+        intersections = dict()
 
-    def get_intersection(self, cone: int, hyperplane: int):
-        return self.__intersections[cone][hyperplane]
+        for h in reference_hyperplanes:
+            intersections[h] = dict()
 
-    def get_cone_intersections(self, cone: int):
-        return dict((key, self.get_intersection(cone, key)) for key in self.__hyperplanes.keys())
+            for c in reference_cones:
+                intersections[h][c] = self.intersection_lp.test_intersection(region, c, h)
 
-    def get_hyperplane_intersections(self, hyperplane: int):
-        return dict((key, self.get_intersection(key, hyperplane)) for key in self.__cones.keys())
+        return intersections
 
-    def __get_cone_intersection(self, c: int, h: int):
-        region = deepcopy(self.__cones[c])
-        region = region.union(self.__region)
+    def __read_intersection_file(self, p_size: int) -> Dict[int, 'Bisection']:
+        positions = dict()
 
-        intersection_lp = IntersectionProblem(region, self.__hyperplanes[h], self.__dim, str(c))
-        return intersection_lp.test_intersection()
+        with open(self.intersection_file, 'r') as file:
+            file.readline()     # name
+            file.readline()     # type
+            file.readline()     # generated
+            file.readline()     # region
+            file.readline()     # hash
+            file.readline()     # hyperplanes
+            file.readline()     # solutions
+            file.readline()
 
-    def __repr__(self):
-        # representation = dict((key, self.get_hyperplane_intersections(key)) for key in range(len(self.__hyperplanes)))
-        obj = {'cones': self.__cones.keys(), 'hyperplanes': self.__hyperplanes.keys(), 'region': self.__region.hyperplanes.keys(), 'positions':
-            self.__positions}
-        return pformat(obj)
+            file.readline()     # POSITION SECTION
+            for _ in range(p_size):
+                line = file.readline().split(':')
+                key = int(line[0].strip())
+                bisection_tuple = make_tuple(line[1].strip())
+                bisection = Bisection(bisection_tuple[0], bisection_tuple[1])
+                positions[key] = bisection
 
-    def __hash__(self):
-        return hash((self.__cones, self.__hyperplanes, self.__region, self.__dim))
+        return positions
 
+    def __write_intersection_file(self, region: 'Region', reference_cones: List[int],
+                                  reference_hyperplanes: List[int], positions: Dict[int, 'Bisection']):
+        now = datetime.now()
+
+        with open(self.intersection_file, 'w+') as file:
+            file.write(f'NAME: {self.name}\n')
+            file.write(f'TYPE: {self.type.upper()}\n')
+            file.write(f'GENERATED: {now.strftime("%d/%m/%Y %H:%M:%S")}\n')
+            file.write(f'REGION: {str(region)}\n')
+            file.write(f'HASH: {repr(region)}\n')
+            file.write(f'HYPERPLANES: {reference_hyperplanes}\n')
+            file.write(f'SOLUTIONS: {reference_cones}\n\n')
+
+            file.write(f'POSITION SECTION\n')
+            for (index, bisection) in positions.items():
+                file.write(f'{index}: {repr(bisection)}\n')

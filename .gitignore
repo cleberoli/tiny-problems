@@ -7,3 +7,5 @@ tinypy/*/tests/.pytest_cache
 tinypy/__pycache__/*
 
 trees/*/
+files/intersections/*
+files/lps/*
