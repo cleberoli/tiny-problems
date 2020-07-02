@@ -17,7 +17,7 @@ def test_intersections():
 def test_get_positions():
     intersections = Intersections(cub3)
     space = Region()
-    positions = intersections.get_positions(space, [], [])
+    positions = intersections.get_positions(space, [1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3])
 
     assert positions[1].left == [1, 3, 5, 7]
     assert positions[1].right == [2, 4, 6, 8]
@@ -29,16 +29,16 @@ def test_get_positions():
 
 def test_get_positions_region():
     intersections = Intersections(cub3)
-    positions = intersections.get_positions(Region(), [], [])
-    positions = intersections.get_positions(Region([1]), positions[1].left, [1])
+    positions = intersections.get_positions(Region(), [1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3])
+    positions = intersections.get_positions(Region([1]), [2, 4, 6, 8], [2, 3])
 
     assert positions[2].left == [2, 6]
     assert positions[2].right == [4, 8]
     assert positions[3].left == [2, 4]
     assert positions[3].right == [6, 8]
 
-    positions = intersections.get_positions(Region(), [], [])
-    positions = intersections.get_positions(Region([-1]), positions[1].right, [1])
+    positions = intersections.get_positions(Region(), [1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3])
+    positions = intersections.get_positions(Region([-1]), [1, 3, 5, 7], [2, 3])
     assert positions[2].left == [1, 5]
     assert positions[2].right == [3, 7]
     assert positions[3].left == [1, 3]

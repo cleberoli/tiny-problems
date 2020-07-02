@@ -37,17 +37,15 @@ class Intersections:
     def clear_lp_files(self):
         self.intersection_lp.clear_files()
 
-    def get_positions(self, region: 'Region', excluded_cones: List[int], excluded_hyperplanes: List[int]) -> Dict[int, 'Bisection']:
-        reference_hyperplanes = [h for h in self.hyperplanes.keys() if h not in excluded_hyperplanes]
-        reference_cones = [c for c in self.cones.keys() if c not in excluded_cones]
+    def get_positions(self, region: 'Region', cones: List[int], hyperplanes: List[int]) -> Dict[int, 'Bisection']:
         self.intersection_file = get_full_path('files', 'intersections', self.type, f'{self.name}-{repr(region)}.tptf')
         create_folder(get_full_path('files', 'intersections', self.type))
 
         if file_exists(self.intersection_file):
-            positions = self.__read_intersection_file(len(reference_hyperplanes))
+            positions = self.__read_intersection_file(len(hyperplanes))
         else:
-            positions = self.__compute_positions(region, reference_cones, reference_hyperplanes)
-            self.__write_intersection_file(region, reference_cones, reference_hyperplanes, positions)
+            positions = self.__compute_positions(region, cones, hyperplanes)
+            self.__write_intersection_file(region, cones, hyperplanes, positions)
 
         return positions
 
