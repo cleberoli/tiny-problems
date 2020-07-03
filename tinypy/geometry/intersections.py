@@ -28,6 +28,7 @@ class Intersections:
 
         self.polytope = polytope
         self.hyperplanes = polytope.H
+        self.hyperplanes.update(polytope.extended_H)
         self.cones = polytope.voronoi.cones
         self.intersection_lp = IntersectionProblem(polytope.dimension, polytope.instance.name, polytope.voronoi.cones, polytope.H, True)
 
@@ -38,8 +39,8 @@ class Intersections:
         self.intersection_lp.clear_files()
 
     def get_positions(self, region: 'Region', cones: List[int], hyperplanes: List[int]) -> Dict[int, 'Bisection']:
-        self.intersection_file = get_full_path('files', 'intersections', self.type, f'{self.name}-{repr(region)}.tptf')
-        create_folder(get_full_path('files', 'intersections', self.type))
+        self.intersection_file = get_full_path('files', 'intersections', self.type, self.name, f'{self.name}-{repr(region)}.tptf')
+        create_folder(get_full_path('files', 'intersections', self.type, self.name))
 
         if file_exists(self.intersection_file):
             positions = self.__read_intersection_file(len(hyperplanes))
