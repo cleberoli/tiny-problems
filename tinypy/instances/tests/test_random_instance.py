@@ -1,5 +1,6 @@
 import pytest
 
+from tinypy.geometry.point import Point
 from tinypy.instances.random_instance import RandomInstance
 from tinypy.utils.file import delete_file, file_exists, get_full_path
 
@@ -89,3 +90,16 @@ def test_new_random_instance():
 def test_generate_solutions():
     assert len(RandomInstance(d=3, m=4).generate_solutions()) == 4
     assert len(RandomInstance(d=6, m=8).generate_solutions()) == 8
+
+
+def test_get_solution():
+    rnd3_4 = RandomInstance(d=3, m=4)
+    p1 = Point(1, 1, 1)
+    p2 = Point(1, 0, 1)
+    p3 = Point(0, 1, 1)
+    p4 = Point(0, 0, 1)
+
+    assert rnd3_4.get_best_solution(p1) == 1
+    assert rnd3_4.get_best_solution(p2) == 2
+    assert rnd3_4.get_best_solution(p3) == 3
+    assert rnd3_4.get_best_solution(p4) == 4
