@@ -63,6 +63,24 @@ def test_get_cuts():
     assert cuts6[31].coords == (1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 
+def test_get_triangles():
+    k5 = Kn(5)
+    k6 = Kn(6)
+    k5_triangles = k5.get_triangles()
+    k6_triangles = k6.get_triangles()
+
+    assert len(k5_triangles) == 10  # C(n, 3)
+    assert len(k6_triangles) == 20  # C(n, 3)
+
+    assert k5_triangles[0] == [0, 1, 4]
+    assert k5_triangles[4] == [1, 3, 8]
+    assert k5_triangles[9] == [7, 8, 9]
+
+    assert k6_triangles[0] == [0, 1, 5]
+    assert k6_triangles[9] == [3, 4, 14]
+    assert k6_triangles[19] == [12, 13, 14]
+
+
 def test_invalid_kn():
     with pytest.raises(ValueError):
         Kn(2)

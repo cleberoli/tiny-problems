@@ -52,6 +52,21 @@ class Kn:
 
         return dict((key, cuts[key]) for key in range(len(cuts)))
 
+    def get_triangles(self) -> List[List[int]]:
+        triangles = []
+
+        for i in range(self.n):
+            for j in range(i + 1, self.n):
+                for k in range(j + 1, self.n):
+                    triangle = [f'{self.nodes[i]}-{self.nodes[j]}',
+                                f'{self.nodes[i]}-{self.nodes[k]}',
+                                f'{self.nodes[j]}-{self.nodes[k]}']
+                    point = self.__get_point_from_edges(triangle)
+                    indices = [i for i, e in enumerate(point.coords) if e == 1]
+                    triangles.append(indices)
+
+        return triangles
+
     def __get_point_from_permutation(self, permutation: tuple) -> 'Point':
         edges = []
 
