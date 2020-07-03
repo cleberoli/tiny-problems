@@ -2,7 +2,7 @@ import random
 
 from functools import total_ordering
 from math import sqrt
-from typing import Union
+from typing import List, Union
 
 
 @total_ordering
@@ -31,6 +31,18 @@ class Point:
         args = [random.randint(a, b) for _ in range(dim)] if decimals == 0 else [round(random.uniform(a, b), decimals) for _ in range(dim)]
         return cls(args)
 
+    @classmethod
+    def random_triangle(cls, dim: int, triangles: List[List[int]], a: int = 0, b: int = 1, decimals: int = 4, norm: int = 1) -> 'Point':
+        point = cls.random(dim, a, b, decimals)
+
+        while not point.respects_triangle_inequality(triangles):
+            point = cls.random(dim, a, b, decimals)
+
+        unitary_point = point * (norm / point.norm)
+        unitary_point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
+
+        return unitary_point
+
     @property
     def homogeneous_coords(self) -> tuple:
         return self.coords + (1, )
@@ -51,6 +63,17 @@ class Point:
 
         self.coords = self.coords + (coord, )
         self.dim = self.dim + 1
+
+    def respects_triangle_inequality(self, triangles: List[List[int]]):
+        for triangle in triangles:
+            if self.coords[triangle[0]] + self.coords[triangle[1]] <= self.coords[triangle[2]]:
+                return False
+            if self.coords[triangle[0]] + self.coords[triangle[2]] <= self.coords[triangle[1]]:
+                return False
+            if self.coords[triangle[1]] + self.coords[triangle[2]] <= self.coords[triangle[0]]:
+                return False
+
+        return True
 
     def __add__(self, other: 'Point') -> 'Point':
         if self.dim != other.dim:

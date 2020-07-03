@@ -1,3 +1,4 @@
+import math
 import pytest
 
 from tinypy.geometry.point import Point
@@ -63,6 +64,18 @@ def test_random():
     assert all([-2 <= x <= 5 for x in p.coords])
 
 
+def test_random_triangle():
+    triangles = [[0, 1, 2]]
+    p = Point.random_triangle(3, triangles)
+    q = Point.random_triangle(3, triangles, norm=2)
+
+    assert p.respects_triangle_inequality(triangles)
+    assert math.isclose(p.norm, 1, abs_tol=0.0001)
+
+    assert q.respects_triangle_inequality(triangles)
+    assert math.isclose(q.norm, 2, abs_tol=0.0001)
+
+
 def test_homogeneous_coords():
     x = Point(3, 4)
 
@@ -101,6 +114,19 @@ def test_add_coord():
 
     with pytest.raises(ValueError):
         x.add_coord(5.5)
+
+
+def test_respects_triangle_inequality():
+    triangles = [[0, 1, 2]]
+    w = Point(1, 3, 2)
+    x = Point(1, 2, 3)
+    y = Point(3, 2, 1)
+    z = Point(3, 4, 5)
+
+    assert not w.respects_triangle_inequality(triangles)
+    assert not x.respects_triangle_inequality(triangles)
+    assert not y.respects_triangle_inequality(triangles)
+    assert z.respects_triangle_inequality(triangles)
 
 
 def test_add():
