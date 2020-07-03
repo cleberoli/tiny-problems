@@ -34,15 +34,15 @@ class Instance(ABC):
         return dict((key + 1, self.solutions[key]) for key in range(len(self.solutions)))
 
     def get_best_solution(self, point: Point):
-        max_distance, max_solution = 0, 0
+        min_value, min_solution = float('inf'), 0
 
         for index, solution in enumerate(self.solutions):
-            distance = point.distance(solution)
+            value = point * solution
 
-            if distance > max_distance:
-                max_distance, max_solution = distance, index + 1
+            if value < min_value:
+                min_value, min_solution = value, index + 1
 
-        return max_solution
+        return min_solution
 
     @abstractmethod
     def generate_solutions(self) -> List['Point']:  # pragma: no cover

@@ -93,13 +93,11 @@ def test_generate_solutions():
 
 
 def test_get_solution():
-    rnd3_4 = RandomInstance(d=3, m=4)
-    p1 = Point(1, 1, 1)
-    p2 = Point(1, 0, 1)
-    p3 = Point(0, 1, 1)
-    p4 = Point(0, 0, 1)
+    rnd6_8 = RandomInstance(d=6, m=8)
+    p1 = Point(1, 1, 1, 1, 0, 1)
+    p2 = Point(1, 1, 1, 0, 1, 1)
+    p3 = Point(1, 0, 0, 1, 1, 1)
 
-    assert rnd3_4.get_best_solution(p1) == 1
-    assert rnd3_4.get_best_solution(p2) == 2
-    assert rnd3_4.get_best_solution(p3) == 3
-    assert rnd3_4.get_best_solution(p4) == 4
+    assert rnd6_8.get_best_solution(p1) == 1
+    assert rnd6_8.get_best_solution(p2) == 2
+    assert rnd6_8.get_best_solution(p3) == 4

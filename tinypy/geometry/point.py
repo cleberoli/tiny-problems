@@ -27,9 +27,15 @@ class Point:
         return cls([0] * dim)
 
     @classmethod
-    def random(cls, dim: int, a: int = 0, b: int = 1, decimals: int = 0) -> 'Point':
+    def random(cls, dim: int, a: int = 0, b: int = 1, decimals: int = 0, norm: int = None) -> 'Point':
         args = [random.randint(a, b) for _ in range(dim)] if decimals == 0 else [round(random.uniform(a, b), decimals) for _ in range(dim)]
-        return cls(args)
+        point = cls(args)
+
+        if norm is not None:
+            unitary_point = point * (norm / point.norm)
+            point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
+
+        return point
 
     @classmethod
     def random_triangle(cls, dim: int, triangles: List[List[int]], a: int = 0, b: int = 1, decimals: int = 4, norm: int = 1) -> 'Point':

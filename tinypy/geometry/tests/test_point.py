@@ -63,6 +63,11 @@ def test_random():
     assert p.dim == 8
     assert all([-2 <= x <= 5 for x in p.coords])
 
+    p = Point.random(3, norm=1)
+
+    assert p.dim == 3
+    assert math.isclose(p.norm, 1, abs_tol=0.0001)
+
 
 def test_random_triangle():
     triangles = [[0, 1, 2]]
