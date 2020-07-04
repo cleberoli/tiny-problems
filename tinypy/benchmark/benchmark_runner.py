@@ -27,6 +27,7 @@ class BenchmarkRunner:
             instances = int(input_file.readline().split()[1])
             input_file.readline()
             solutions = self.polytope.instance.get_solution_dict()
+            heights = 0
 
             with open(self.solutions_file, 'w+') as output_file:
                 for _ in range(instances):
@@ -37,3 +38,6 @@ class BenchmarkRunner:
                     same_solutions = solution == sol
                     equivalent_solutions = isclose(point * solutions[solution], point * solutions[sol], abs_tol=0.0001)
                     output_file.write(f'{same_solutions} {equivalent_solutions} {solution} {sol} {height} {node}\n')
+                    heights = heights + height
+
+                output_file.write(f'AVERAGE HEIGHT: {round(heights / instances, 4)}\n')
