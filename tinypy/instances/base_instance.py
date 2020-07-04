@@ -35,9 +35,11 @@ class Instance(ABC):
 
     def get_best_solution(self, point: Point):
         min_value, min_solution = float('inf'), 0
+        one = Point([1] * self.dimension)
 
         for index, solution in enumerate(self.solutions):
-            value = point * solution
+            x = (2 * solution) - one
+            value = point * x
 
             if value < min_value:
                 min_value, min_solution = value, index + 1
