@@ -29,6 +29,7 @@ class Polytope(ABC):
     extended_H: Dict[int, 'Hyperplane']
     delaunay: DelaunayTriangulation
     voronoi: VoronoiDiagram
+    vertices: Dict[int, Point]
 
     def __init__(self):
         self.name = self.instance.type
@@ -41,7 +42,7 @@ class Polytope(ABC):
         create_folder(get_full_path('files', 'polytopes', self.instance.type))
 
         self.vertices = self.instance.get_solution_dict().copy()
-        self.__map_vertices()
+        self.vertices = dict((key, Point([1] * self.dimension) - 2 * point) for (key, point) in self.vertices.items())
 
         self.build_skeleton()
         self.delaunay = DelaunayTriangulation(self.skeleton)
@@ -50,12 +51,6 @@ class Polytope(ABC):
 
         if not file_exists(self.polytope_file):
             self.__write_polytope_file()
-
-    def __map_vertices(self):
-        one = Point([1] * self.dimension)
-
-        for (key, value) in self.vertices.items():
-            self.vertices[key] = (2 * value) - one
 
     def build_skeleton(self):
         if file_exists(self.skeleton_file):
