@@ -55,7 +55,7 @@ class Polytope(ABC):
         one = Point([1] * self.dimension)
 
         for (key, value) in self.vertices.items():
-            self.vertices[key] = (2 * value) - one
+            self.vertices[key] = one - (2 * value)
 
     def build_skeleton(self):
         if file_exists(self.skeleton_file):

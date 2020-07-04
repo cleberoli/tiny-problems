@@ -1,5 +1,6 @@
 import pytest
 
+from tinypy.geometry.point import Point
 from tinypy.polytopes.hypercube_polytope import HypercubeInstance, HypercubePolytope
 
 
@@ -13,6 +14,15 @@ def test_hypercube_polytope_3():
     assert cub3.n == 3
     assert len(cub3.vertices) == 8
     assert cub3.instance.get_solution_dict() == HypercubeInstance(n=3).get_solution_dict()
+
+    assert cub3.vertices[1] == Point(1, 1, 1)
+    assert cub3.vertices[2] == Point(1, 1, -1)
+    assert cub3.vertices[3] == Point(1, -1, 1)
+    assert cub3.vertices[4] == Point(1, -1, -1)
+    assert cub3.vertices[5] == Point(-1, 1, 1)
+    assert cub3.vertices[6] == Point(-1, 1, -1)
+    assert cub3.vertices[7] == Point(-1, -1, 1)
+    assert cub3.vertices[8] == Point(-1, -1, -1)
 
 
 def test_hypercube_polytope_6():
