@@ -59,6 +59,12 @@ class Polytope(ABC):
             self.skeleton, self.H, self.extended_skeleton, self.extended_H = self.__generate_skeleton()
             self.__write_skeleton_file()
 
+    def get_bisector(self, i: int, j: int) -> int:
+        if self.skeleton.has_edge(i, j):
+            return self.skeleton.get_edge(i, j, 'h')
+        else:
+            return self.extended_skeleton.get_edge(i, j, 'h')
+
     def __generate_skeleton(self) -> Tuple['Skeleton', Dict[int, 'Hyperplane'], 'Skeleton', Dict[int, 'Hyperplane']]:
         skeleton = Skeleton()
         extended_skeleton = Skeleton()

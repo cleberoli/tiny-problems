@@ -26,3 +26,6 @@ class DelaunayTriangulation:
 
     def get_edges(self, i: int) -> Dict[int, Dict]:
         return self.skeleton.get_edges(i)
+
+    def has_edge(self, i: int, j: int) -> bool:
+        return self.skeleton.has_edge(i, j)

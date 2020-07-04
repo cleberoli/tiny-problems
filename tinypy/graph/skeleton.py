@@ -34,3 +34,6 @@ class Skeleton:
 
     def get_edges(self, i: int) -> Dict[int, Dict]:
         return self.graph.adj[i]
+
+    def has_edge(self, i: int, j: int) -> bool:
+        return self.graph.has_edge(i, j)
