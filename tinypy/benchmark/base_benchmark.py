@@ -22,9 +22,12 @@ class Benchmark(ABC):
         solutions = set()
         frequencies = dict((key + 1, 0) for key in range(self.instance.size))
 
-        while not all(x == size for x in frequencies.values()):
-        # while len(solutions) < size * self.instance.size:
-            point = Point.random_triangle(self.instance.dimension, self.get_triangles())
+        while len(solutions) < size * self.instance.size:
+            if self.euclidean:
+                point = Point.random_triangle(self.instance.dimension, self.get_triangles())
+            else:
+                point = Point.random(self.instance.dimension, a=-1, b=1, decimals=4, norm=1)
+
             solution = self.instance.get_best_solution(point)
 
             if point not in solutions:
