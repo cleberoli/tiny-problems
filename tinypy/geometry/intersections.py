@@ -39,7 +39,7 @@ class Intersections:
         self.intersection_lp.clear_files()
 
     def get_positions(self, region: 'Region', cones: List[int], hyperplanes: List[int]) -> Dict[int, 'Bisection']:
-        self.intersection_file = get_full_path('files', 'intersections', self.type, self.name, f'{self.name}-{repr(region)}.tptf')
+        self.intersection_file = get_full_path('files', 'intersections', self.type, self.name, f'{repr(region)}.tptf')
         create_folder(get_full_path('files', 'intersections', self.type, self.name))
 
         if file_exists(self.intersection_file):

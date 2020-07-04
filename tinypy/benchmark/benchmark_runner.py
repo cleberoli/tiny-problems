@@ -1,3 +1,5 @@
+from math import isclose
+
 from tinypy.generated.trees.generated_tree import GeneratedTree
 from tinypy.geometry.point import Point
 from tinypy.utils.file import get_full_path
@@ -32,8 +34,6 @@ class BenchmarkRunner:
                     solution = int(line[0])
                     point = Point(list(map(float, line[1].split())))
                     sol, node, height = self.tree.test(point)
-                    output_file.write(f'{solution == sol} ')
-                    output_file.write(f'{point * solutions[solution] == point * solutions[sol]} ')
-                    output_file.write(f'{round(point * solutions[solution], 4)} ')
-                    output_file.write(f'{round(point * solutions[sol], 4)} ')
-                    output_file.write(f'{solution} {sol} {height} {node}\n')
+                    same_solutions = solution == sol
+                    equivalent_solutions = isclose(point * solutions[solution], point * solutions[sol], abs_tol=0.0001)
+                    output_file.write(f'{same_solutions} {equivalent_solutions} {solution} {sol} {height} {node}\n')
