@@ -19,12 +19,12 @@ def test_get_positions():
     space = Region()
     positions = intersections.get_positions(space, [1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3])
 
-    assert positions[1].left == [1, 3, 5, 7]
-    assert positions[1].right == [2, 4, 6, 8]
-    assert positions[2].left == [1, 2, 5, 6]
-    assert positions[2].right == [3, 4, 7, 8]
-    assert positions[3].left == [1, 2, 3, 4]
-    assert positions[3].right == [5, 6, 7, 8]
+    assert positions[1].left == [2, 4, 6, 8]
+    assert positions[1].right == [1, 3, 5, 7]
+    assert positions[2].left == [3, 4, 7, 8]
+    assert positions[2].right == [1, 2, 5, 6]
+    assert positions[3].left == [5, 6, 7, 8]
+    assert positions[3].right == [1, 2, 3, 4]
 
 
 def test_get_positions_region():
@@ -32,17 +32,17 @@ def test_get_positions_region():
     positions = intersections.get_positions(Region(), [1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3])
     positions = intersections.get_positions(Region([1]), [2, 4, 6, 8], [2, 3])
 
-    assert positions[2].left == [2, 6]
-    assert positions[2].right == [4, 8]
-    assert positions[3].left == [2, 4]
-    assert positions[3].right == [6, 8]
+    assert positions[2].left == [4, 8]
+    assert positions[2].right == [2, 6]
+    assert positions[3].left == [6, 8]
+    assert positions[3].right == [2, 4]
 
     positions = intersections.get_positions(Region(), [1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3])
     positions = intersections.get_positions(Region([-1]), [1, 3, 5, 7], [2, 3])
-    assert positions[2].left == [1, 5]
-    assert positions[2].right == [3, 7]
-    assert positions[3].left == [1, 3]
-    assert positions[3].right == [5, 7]
+    assert positions[2].left == [3, 7]
+    assert positions[2].right == [1, 5]
+    assert positions[3].left == [5, 7]
+    assert positions[3].right == [1, 3]
 
     assert file_exists(get_full_path('files', 'lps', 'intersection', 'CUB-n3'))
     intersections.clear_lp_files()
