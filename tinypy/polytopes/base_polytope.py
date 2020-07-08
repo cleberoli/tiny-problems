@@ -192,9 +192,12 @@ class Polytope(ABC):
             file.write(repr(self))
 
     def __repr__(self):  # pragma: no cover
+        degrees = [self.skeleton.graph.degree(i) for i in self.skeleton.graph.nodes]
+
         return f'NAME: {self.instance.name}\n' \
                f'TYPE: {self.instance.type.upper()}\n' \
                f'DIMENSION: {self.dimension}\n' \
                f'SOLUTIONS: {self.size}\n' \
                f'HYPERPLANES: {len(self.H)}\n' \
-               f'EDGES: {len(self.skeleton.edges)}\n'
+               f'EDGES: {len(self.skeleton.edges)}\n' \
+               f'AVERAGE DEGREE: {sum(degrees) / max(len(degrees), 1)}\n'

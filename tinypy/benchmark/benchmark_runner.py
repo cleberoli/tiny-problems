@@ -41,3 +41,4 @@ class BenchmarkRunner:
                     heights = heights + height
 
                 output_file.write(f'AVERAGE HEIGHT: {round(heights / instances, 4)}\n')
+                print(f'AVERAGE HEIGHT: {round(heights / instances, 4)}\n')

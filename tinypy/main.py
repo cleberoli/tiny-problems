@@ -41,7 +41,7 @@ def write_tree(polytope: Polytope):
 
     tree = EnumerationTree(polytope)
     tree.make_tree()
-    print(tree.height)
+    print(f'HEIGHT: {tree.height}')
 
     tree_writer = TreeWriter(tree)
     tree_writer.write_tree()
@@ -57,8 +57,9 @@ def run_benchmark(polytope: Polytope):
 
 
 if __name__ == '__main__':
-    polytope = TSPPolytope(5)
-    write_tree(polytope)
-    run_benchmark(polytope)
+    run_all()
+    # polytope = TSPPolytope(6)
+    # write_tree(polytope)
+    # run_benchmark(polytope)
 
 
