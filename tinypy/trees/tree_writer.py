@@ -1,4 +1,4 @@
-from tinypy.trees.enumeration_tree import EnumerationTree
+from tinypy.trees.tree import Tree
 from tinypy.utils.file import create_folder, file_exists, get_full_path
 
 TAB = '    '
@@ -6,7 +6,7 @@ TAB = '    '
 
 class TreeWriter:
 
-    tree: EnumerationTree
+    tree: Tree
     tree_file: str
 
     def __init__(self, tree):

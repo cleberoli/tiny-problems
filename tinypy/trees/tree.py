@@ -1,37 +1,78 @@
-from typing import Dict
+from abc import ABC, abstractmethod
+from copy import deepcopy
+from typing import List
 
-from tinypy.geometry import Cone, Hyperplane, Region
-from tinypy.graph import Node
+from networkx import DiGraph
+
+from tinypy.geometry.intersections import Intersections
+from tinypy.geometry.region import Region
+from tinypy.polytopes.base_polytope import Polytope
 
 
-class Tree:
+class Tree(ABC):
 
-    def __init__(self, cones: Dict[int, 'Cone'], hyperplanes: Dict[int, 'Hyperplane'], dim: int, name: str):
-        self.__cones = cones
-        self.__hyperplanes = hyperplanes
-        self.__dim = dim
-        self.__name = name
-        self.__queue = []
-        self.__root = None
-        self.__height = 0
-        print(len(hyperplanes))
+    def __init__(self, polytope: Polytope):
+        self.graph = DiGraph()
+        self.polytope = polytope
+        self.intersections = Intersections(polytope)
+        self.queue = []
+        self.next_node = 0
+        self.height = 0
+        self.root = 1
 
-    def make_tree(self):
-        self.__root = Node(0, self.__cones, self.__hyperplanes, self.__dim, Region(self.__dim), f'{self.__name}_T')
-        self.__queue.append(self.__root)
-        self.bfs()
-        print(self.__height)
+    def make_tree(self, bfs=False):
+        root_node = self.__add_node(0, list(self.polytope.vertices.keys()), Region())
+        self.queue.append(root_node)
+        self.explore(bfs)
 
-    def bfs(self):
-        while len(self.__queue) > 0:
-            node = self.__queue.pop(0)
-            self.__height = node.height if node.height > self.__height else self.__height
+    def explore(self, bfs: bool = False):
+        height: int
+        solutions: List[int]
+        hyperplanes: List[int]
+        region: Region
 
-            if len(node.left_cones) > 1 and len(node.right_cones) > 1:
-                left = node.add_left_node()
-                right = node.add_right_node()
+        while len(self.queue) > 0:
+            if bfs:
+                parent_node = self.queue.pop(0)
+            else:
+                parent_node = self.queue.pop()
 
-                if left is not None:
-                    self.__queue.append(left)
-                if right is not None:
-                    self.__queue.append(right)
+            node = self.graph.nodes[parent_node]
+            height, solutions, region = node['height'], node['solutions'].copy(), deepcopy(node['region'])
+            hyperplane = self.select_hyperplane(solutions)
+            node['hyperplane'] = hyperplane
+            positions = self.intersections.get_positions(region, solutions, [hyperplane])
+
+            left_solutions = [item for item in solutions if item not in positions[hyperplane].right]
+            right_solutions = [item for item in solutions if item not in positions[hyperplane].left]
+
+            left_region = deepcopy(region)
+            right_region = deepcopy(region)
+            left_region.add_hyperplane(-hyperplane)
+            right_region.add_hyperplane(hyperplane)
+
+            left_node = self.__add_node(height + 1, left_solutions, left_region)
+            self.graph.add_edge(parent_node, left_node, direction='left')
+
+            if len(left_solutions) > 1:
+                self.queue.append(left_node)
+
+            right_node = self.__add_node(height + 1, right_solutions, right_region)
+            self.graph.add_edge(parent_node, right_node, direction='right')
+
+            if len(right_solutions) > 1:
+                self.queue.append(right_node)
+
+    @abstractmethod
+    def select_hyperplane(self, solutions: List[int]) -> int:  # pragma: no cover
+        pass
+
+    def __add_node(self, height: int, solutions: List[int], region: Region) -> int:
+        self.graph.add_node(self.__get_next_node(), height=height, solutions=solutions, region=region)
+        self.height = max(self.height, height)
+
+        return self.next_node
+
+    def __get_next_node(self):
+        self.next_node = self.next_node + 1
+        return self.next_node
