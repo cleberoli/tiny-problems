@@ -53,3 +53,18 @@ def test_get_edges():
 
     assert len(delaunay.get_edges(1)) == 2
     assert list(delaunay.get_edges(1).keys()) == [0, 2]
+
+
+def test_has_edge():
+    skeleton = Skeleton()
+    delaunay = DelaunayTriangulation(skeleton)
+
+    assert not delaunay.has_edge(0, 1)
+    assert not delaunay.has_edge(0, 2)
+
+    delaunay.add_edge(0, 1, h=2)
+    delaunay.add_edge(0, 2, h=1)
+
+    assert delaunay.has_edge(0, 1)
+    assert delaunay.has_edge(0, 2)
+
