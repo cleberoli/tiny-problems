@@ -5,11 +5,31 @@ from tinypy.instances.random_instance import RandomInstance
 
 
 class RandomBenchmark(Benchmark):
+    """Generates benchmarks for the Random polytope.
+
+    Extends the base Benchmark. This instance is not based on a graph and the
+    points don't respect the euclidean constraints.
+
+    Attributes:
+        instance: Reference to the problem instance class.
+        euclidean: A boolean indicating whether the objective functions should
+            respect euclidean constraints.
+        benchmark_file: The path where the benchmark should be stored.
+    """
 
     def __init__(self, **kwargs):
-        self.instance = RandomInstance(**kwargs)
-        self.euclidean = False
-        Benchmark.__init__(self)
+        """Initializes the benchmark for the Random polytope.
+
+        Args:
+            **kwargs: A dictionary used to initialize the Random instance.
+        """
+        Benchmark.__init__(self, RandomInstance(**kwargs), False)
 
     def get_triangles(self) -> List[List[int]]:
+        """Returns the triangles to be consider in the triangle inequalities.
+
+        Returns:
+            An empty list since this instance don't respect the triangle
+            inequality constraints.
+        """
         return []
