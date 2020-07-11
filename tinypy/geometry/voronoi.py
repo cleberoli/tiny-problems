@@ -9,9 +9,19 @@ from tinypy.utils.file import create_folder, file_exists, get_full_path
 
 
 class VoronoiDiagram:
+    """Represents a Voronoi diagram with the corresponding Delaunay triangulation.
 
-    instance_type: str
-    instance_name: str
+    Attributes:
+        type: The instance type.
+        name: The instance name.
+        cone_file: The path where the cones should be stored.
+        delaunay: The corresponding Delaunay triangulation.
+        hyperplanes: The corresponding hyperplanes for each Delaunay edge.
+        cones: The cones for each solution.
+    """
+
+    type: str
+    name: str
     cone_file: str
 
     delaunay: DelaunayTriangulation
@@ -19,8 +29,16 @@ class VoronoiDiagram:
     cones: Dict[int, 'Cone']
 
     def __init__(self, delaunay: DelaunayTriangulation, hyperplanes: Dict[int, 'Hyperplane'], instance_type: str, instance_name: str):
-        self.instance_type = instance_type
-        self.instance_name = instance_name
+        """Initializes the Voronoi diagram.
+
+        Args:
+            delaunay: The corresponding Delaunay triangulation.
+            hyperplanes: The corresponding hyperplanes for each Delaunay edge.
+            instance_type: The instance type.
+            instance_name: The instance name.
+        """
+        self.type = instance_type
+        self.name = instance_name
         self.cone_file = get_full_path('files', 'cones', instance_type, f'{instance_name}.tpcf')
         create_folder(get_full_path('files', 'cones', instance_type))
 
@@ -28,6 +46,11 @@ class VoronoiDiagram:
         self.hyperplanes = hyperplanes
 
     def build(self, solutions: Dict[int, 'Point']):
+        """Builds the Voronoi diagram based on the given solutions.
+
+        Args:
+            solutions: The Voronoi vertices.
+        """
         if file_exists(self.cone_file):
             self.cones = self.__read_cone_file(solutions)
         else:
@@ -35,6 +58,14 @@ class VoronoiDiagram:
             self.__write_cone_file(solutions[1].dim, len(solutions))
 
     def __generate_cones(self, solutions: Dict[int, 'Point']) -> Dict[int, 'Cone']:
+        """Generates the Voronoi cones.
+
+        Args:
+            solutions: The Voronoi vertices.
+
+        Returns:
+            The cones for each solution.
+        """
         cones = dict()
 
         if len(self.hyperplanes) == 0:
@@ -58,6 +89,14 @@ class VoronoiDiagram:
         return cones
 
     def __read_cone_file(self, solutions: Dict[int, 'Point']) -> Dict[int, 'Cone']:
+        """Reads the cone file.
+
+        Args:
+            solutions: The Voronoi vertices.
+
+        Returns:
+            The cones for each solution.
+        """
         cones = dict()
 
         with open(self.cone_file, 'r') as file:
@@ -89,11 +128,17 @@ class VoronoiDiagram:
         return cones
 
     def __write_cone_file(self, dim: int, size: int):
+        """Writes the cone file.
+
+        Args:
+            dim: The dimension of the polytope.
+            size: The size of the polytope.
+        """
         now = datetime.now()
 
         with open(self.cone_file, 'w+') as file:
-            file.write(f'NAME: {self.instance_name}\n')
-            file.write(f'TYPE: {self.instance_type.upper()}\n')
+            file.write(f'NAME: {self.name}\n')
+            file.write(f'TYPE: {self.type.upper()}\n')
             file.write(f'GENERATED: {now.strftime("%d/%m/%Y %H:%M:%S")}\n')
             file.write(f'DIMENSION: {dim}\n')
             file.write(f'SOLUTIONS: {size}\n')

@@ -108,19 +108,6 @@ def test_distance():
         x.distance(z)
 
 
-def test_add_coord():
-    x = Point(3, 4)
-    assert x.coords == (3, 4)
-    assert x.dim == 2
-
-    x.add_coord(1)
-    assert x.coords == (3, 4, 1)
-    assert x.dim == 3
-
-    with pytest.raises(ValueError):
-        x.add_coord(5.5)
-
-
 def test_respects_triangle_inequality():
     triangles = [[0, 1, 2]]
     w = Point(1, 3, 2)

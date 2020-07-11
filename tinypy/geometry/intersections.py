@@ -12,6 +12,21 @@ from tinypy.utils.file import create_folder, delete_directory, file_exists, get_
 
 
 class Intersections:
+    """Computes the intersections of hyperplanes and solution cones.
+
+    The files are stored in order to speed up the process in case of any kind
+    of interruptions.
+
+
+    Attributes:
+        type: The instance type.
+        name: The instance name.
+        intersection_file: The path where the intersections should be stored.
+        polytope: The polytope.
+        hyperplanes: The polytope's set of hyperplanes.
+        cones: The polytope's solution cones.
+        intersection_lp: Instance of the intersection linear program model.
+    """
 
     type: str
     name: str
@@ -23,6 +38,11 @@ class Intersections:
     intersection_lp: IntersectionProblem
 
     def __init__(self, polytope: Polytope):
+        """Initializes the intersections.
+
+        Args:
+            polytope: The polytope.
+        """
         self.type = polytope.instance.type
         self.name = polytope.instance.name
 
@@ -33,12 +53,26 @@ class Intersections:
         self.intersection_lp = IntersectionProblem(polytope.dimension, polytope.instance.name, polytope.voronoi.cones, polytope.H, True)
 
     def clear_files(self):
+        """Deletes the files used to stored previous results.
+        """
         delete_directory(get_full_path('files', 'intersections', self.type))
 
     def clear_lp_files(self):
+        """Deletes the files used by the linear program.
+        """
         self.intersection_lp.clear_files()
 
     def get_positions(self, region: 'Region', cones: List[int], hyperplanes: List[int]) -> Dict[int, 'Bisection']:
+        """Returns the the positions of cones with respect to hyperplanes.
+
+        Args:
+            region: The region to be considered.
+            cones: The cones to be considered.
+            hyperplanes: The hyperplanes whose bisections we want.
+
+        Returns:
+            The bisections of the given cones for each hyperplane.
+        """
         self.intersection_file = get_full_path('files', 'intersections', self.type, self.name, f'{repr(region)}.tptf')
         create_folder(get_full_path('files', 'intersections', self.type, self.name))
 
@@ -51,6 +85,16 @@ class Intersections:
         return positions
 
     def __compute_positions(self, region: 'Region', reference_cones: List[int], reference_hyperplanes: List[int]) -> Dict[int, 'Bisection']:
+        """Returns the the positions of cones with respect to hyperplanes.
+
+        Args:
+            region: The region to be considered.
+            reference_cones: The cones to be considered.
+            reference_hyperplanes: The hyperplanes whose bisections we want.
+
+        Returns:
+            The bisections of the given cones for each hyperplane.
+        """
         intersections = self.__compute_intersections(region, reference_cones, reference_hyperplanes)
         positions = dict()
 
@@ -67,6 +111,16 @@ class Intersections:
         return positions
 
     def __compute_intersections(self, region: 'Region', reference_cones: List[int], reference_hyperplanes: List[int]) -> Dict[int, Dict[int, bool]]:
+        """Computes the intersections of each hyperplane with each cone.
+
+        Args:
+            region: The region to be considered.
+            reference_cones: The cones to be considered.
+            reference_hyperplanes: The hyperplanes whose bisections we want.
+
+        Returns:
+            The intersections of the hyperplanes with cones.
+        """
         intersections = dict()
 
         for h in reference_hyperplanes:
@@ -78,6 +132,14 @@ class Intersections:
         return intersections
 
     def __read_intersection_file(self, p_size: int) -> Dict[int, 'Bisection']:
+        """Reads the intersection file.
+
+        Args:
+            p_size: The number of hyperplanes.
+
+        Returns:
+            The bisections of the given cones for each hyperplane.
+        """
         positions = dict()
 
         with open(self.intersection_file, 'r') as file:
@@ -102,6 +164,14 @@ class Intersections:
 
     def __write_intersection_file(self, region: 'Region', reference_cones: List[int],
                                   reference_hyperplanes: List[int], positions: Dict[int, 'Bisection']):
+        """Writes the intersection file.
+
+        Args:
+            region: The region to be considered.
+            reference_cones: The cones to be considered.
+            reference_hyperplanes: The hyperplanes whose bisections we want.
+            positions: The bisections of the given cones for each hyperplane.
+        """
         now = datetime.now()
 
         with open(self.intersection_file, 'w+') as file:

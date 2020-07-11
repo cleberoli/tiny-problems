@@ -11,8 +11,8 @@ def test_voronoi():
     solutions = {1: Point(1, 1, 1)}
     voronoi = VoronoiDiagram(delaunay, hyperplanes, 'type', 'name')
 
-    assert voronoi.instance_type == 'type'
-    assert voronoi.instance_name == 'name'
+    assert voronoi.type == 'type'
+    assert voronoi.name == 'name'
     assert file_exists(get_full_path('files', 'cones', 'type'))
     assert not file_exists(get_full_path('files', 'cones', 'type', 'name.tpcf'))
 
