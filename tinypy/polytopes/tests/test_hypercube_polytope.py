@@ -14,6 +14,9 @@ def test_hypercube_polytope_3():
     assert len(cub3.vertices) == 8
     assert cub3.instance.get_solution_dict() == HypercubeInstance(n=3).get_solution_dict()
 
+    assert cub3.get_bisector(1, 2) == 1
+    assert cub3.get_bisector(1, 4) == 5
+
 
 def test_hypercube_polytope_6():
     cub6 = HypercubePolytope(6)

@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.3" />
+<title>tinypy.geometry.point API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tinypy.geometry.point</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import random
+
+from functools import total_ordering
+from math import sqrt
+from typing import List, Union
+
+
+@total_ordering
+class Point:
+    &#34;&#34;&#34;Represents a geometrical point in the euclidean space.
+
+    Attributes:
+        coords: The point&#39;s coordinates.
+        dim: The space dimension.
+    &#34;&#34;&#34;
+
+    coords: tuple
+    dim: int
+
+    def __init__(self, *args):
+        &#34;&#34;&#34;Initializes the point.
+
+        Args:
+            *args: The arguments to initialize the point. It can be a tuple,
+                a list, or individual elements (integers or real numbers).
+        &#34;&#34;&#34;
+        if type(args[0]) is list or type(args[0]) is tuple:
+            args = tuple(args[0])
+
+        if all(isinstance(x, int) for x in args) or all(isinstance(x, float) for x in args):
+            self.coords = args
+            self.dim = len(self.coords)
+        else:
+            raise ValueError(&#39;Invalid parameter.&#39;)
+
+    @classmethod
+    def origin(cls, dim: int) -&gt; &#39;Point&#39;:
+        &#34;&#34;&#34;A point of all zeros in the space of given dimension.
+
+        Args:
+            dim: The space dimension.
+
+        Returns:
+            A point of all zeros in the given dimension.
+        &#34;&#34;&#34;
+        return cls([0] * dim)
+
+    @classmethod
+    def random(cls, dim: int, a: int = 0, b: int = 1, decimals: int = 0, norm: int = None) -&gt; &#39;Point&#39;:
+        &#34;&#34;&#34;A random point following the given parameters.
+
+        Args:
+            dim: The space dimension.
+            a: The lower possible value.
+            b: The upper possible value.
+            decimals: Number of decimal values.
+            norm: The desired norm, if any.
+
+        Returns:
+            A random point in the given dimension.
+        &#34;&#34;&#34;
+        args = [random.randint(a, b) for _ in range(dim)] if decimals == 0 else [round(random.uniform(a, b), decimals) for _ in range(dim)]
+        point = cls(args)
+
+        if norm is not None:
+            unitary_point = point * (norm / point.norm)
+            point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
+
+        return point
+
+    @classmethod
+    def random_triangle(cls, dim: int, triangles: List[List[int]], a: int = 0, b: int = 1, decimals: int = 4, norm: int = 1) -&gt; &#39;Point&#39;:
+        &#34;&#34;&#34;A random point that respects the triangle inequality constraints.
+
+        Args:
+            dim: The space dimension.
+            triangles: A list containing the triangles with each triangle being
+                represented by a list of three vertices.
+            a: The lower possible value.
+            b: The upper possible value.
+            decimals: Number of decimal values.
+            norm: The desired norm, if any.
+
+        Returns:
+            A random point in the given dimension that respects the triangle
+            inequality.
+        &#34;&#34;&#34;
+        point = cls.random(dim, a, b, decimals)
+
+        while not point.respects_triangle_inequality(triangles):
+            point = cls.random(dim, a, b, decimals)
+
+        unitary_point = point * (norm / point.norm)
+        unitary_point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
+
+        return unitary_point
+
+    @property
+    def homogeneous_coords(self) -&gt; tuple:
+        &#34;&#34;&#34;Returns the homogeneous coordinates for the point.
+        &#34;&#34;&#34;
+        return self.coords + (1, )
+
+    @property
+    def norm(self) -&gt; float:
+        &#34;&#34;&#34;Returns the norm for the point.
+        &#34;&#34;&#34;
+        return self.distance(self.origin(self.dim))
+
+    def distance(self, other: &#39;Point&#39;) -&gt; float:
+        &#34;&#34;&#34;Returns the distance between two points.
+
+        Args:
+            other: The other point.
+
+        Returns:
+            The distance between the current point and the given one.
+        &#34;&#34;&#34;
+        if self.dim != other.dim:
+            raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+        return sqrt(sum(list(map(lambda x: x * x, (self - other).coords))))
+
+    def respects_triangle_inequality(self, triangles: List[List[int]]):
+        &#34;&#34;&#34;Returns whether the current point respects the triangle inequality.
+
+        Args:
+            triangles: A list containing the triangles with each triangle being
+                represented by a list of three vertices.
+        &#34;&#34;&#34;
+        for triangle in triangles:
+            if self.coords[triangle[0]] + self.coords[triangle[1]] &lt;= self.coords[triangle[2]]:
+                return False
+            if self.coords[triangle[0]] + self.coords[triangle[2]] &lt;= self.coords[triangle[1]]:
+                return False
+            if self.coords[triangle[1]] + self.coords[triangle[2]] &lt;= self.coords[triangle[0]]:
+                return False
+
+        return True
+
+    def __add__(self, other: &#39;Point&#39;) -&gt; &#39;Point&#39;:
+        if self.dim != other.dim:
+            raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+        return Point(list(map(lambda x, y: x + y, self.coords, other.coords)))
+
+    def __sub__(self, other: &#39;Point&#39;) -&gt; &#39;Point&#39;:
+        if self.dim != other.dim:
+            raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+        return Point(list(map(lambda x, y: x - y, self.coords, other.coords)))
+
+    def __rmul__(self, other: Union[&#39;Point&#39;, int, float]) -&gt; Union[&#39;Point&#39;, int, float]:
+        # dot product
+        if isinstance(other, Point):
+            if self.dim != other.dim:
+                raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+            return sum(list(map(lambda x, y: x * y, self.coords, other.coords)))
+
+        # multiplication by a scalar
+        elif isinstance(other, int) or isinstance(other, float):
+            return Point(list(map(lambda x: x * other, self.coords)))
+
+        else:
+            raise ValueError(&#39;Invalid operation.&#39;)
+
+    __mul__ = __rmul__
+
+    def __neg__(self):
+        return -1 * self
+
+    def __getitem__(self, item: int):
+        return self.coords[item]
+
+    def __hash__(self):
+        return hash(repr(self))
+
+    def __lt__(self, other: &#39;Point&#39;):
+        return self.coords &lt; other.coords
+
+    def __gt__(self, other: &#39;Point&#39;):
+        return not (self &lt;= other)
+
+    def __eq__(self, other: &#39;Point&#39;):
+        return self.coords == other.coords
+
+    def __ne__(self, other: &#39;Point&#39;):
+        return not (self == other)
+
+    def __str__(self):
+        return str(self.coords)
+
+    def __repr__(self):
+        return str(self.coords)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tinypy.geometry.point.Point"><code class="flex name class">
+<span>class <span class="ident">Point</span></span>
+<span>(</span><span>*args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents a geometrical point in the euclidean space.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>coords</code></strong></dt>
+<dd>The point's coordinates.</dd>
+<dt><strong><code>dim</code></strong></dt>
+<dd>The space dimension.</dd>
+</dl>
+<p>Initializes the point.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>*args</code></strong></dt>
+<dd>The arguments to initialize the point. It can be a tuple,
+a list, or individual elements (integers or real numbers).</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Point:
+    &#34;&#34;&#34;Represents a geometrical point in the euclidean space.
+
+    Attributes:
+        coords: The point&#39;s coordinates.
+        dim: The space dimension.
+    &#34;&#34;&#34;
+
+    coords: tuple
+    dim: int
+
+    def __init__(self, *args):
+        &#34;&#34;&#34;Initializes the point.
+
+        Args:
+            *args: The arguments to initialize the point. It can be a tuple,
+                a list, or individual elements (integers or real numbers).
+        &#34;&#34;&#34;
+        if type(args[0]) is list or type(args[0]) is tuple:
+            args = tuple(args[0])
+
+        if all(isinstance(x, int) for x in args) or all(isinstance(x, float) for x in args):
+            self.coords = args
+            self.dim = len(self.coords)
+        else:
+            raise ValueError(&#39;Invalid parameter.&#39;)
+
+    @classmethod
+    def origin(cls, dim: int) -&gt; &#39;Point&#39;:
+        &#34;&#34;&#34;A point of all zeros in the space of given dimension.
+
+        Args:
+            dim: The space dimension.
+
+        Returns:
+            A point of all zeros in the given dimension.
+        &#34;&#34;&#34;
+        return cls([0] * dim)
+
+    @classmethod
+    def random(cls, dim: int, a: int = 0, b: int = 1, decimals: int = 0, norm: int = None) -&gt; &#39;Point&#39;:
+        &#34;&#34;&#34;A random point following the given parameters.
+
+        Args:
+            dim: The space dimension.
+            a: The lower possible value.
+            b: The upper possible value.
+            decimals: Number of decimal values.
+            norm: The desired norm, if any.
+
+        Returns:
+            A random point in the given dimension.
+        &#34;&#34;&#34;
+        args = [random.randint(a, b) for _ in range(dim)] if decimals == 0 else [round(random.uniform(a, b), decimals) for _ in range(dim)]
+        point = cls(args)
+
+        if norm is not None:
+            unitary_point = point * (norm / point.norm)
+            point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
+
+        return point
+
+    @classmethod
+    def random_triangle(cls, dim: int, triangles: List[List[int]], a: int = 0, b: int = 1, decimals: int = 4, norm: int = 1) -&gt; &#39;Point&#39;:
+        &#34;&#34;&#34;A random point that respects the triangle inequality constraints.
+
+        Args:
+            dim: The space dimension.
+            triangles: A list containing the triangles with each triangle being
+                represented by a list of three vertices.
+            a: The lower possible value.
+            b: The upper possible value.
+            decimals: Number of decimal values.
+            norm: The desired norm, if any.
+
+        Returns:
+            A random point in the given dimension that respects the triangle
+            inequality.
+        &#34;&#34;&#34;
+        point = cls.random(dim, a, b, decimals)
+
+        while not point.respects_triangle_inequality(triangles):
+            point = cls.random(dim, a, b, decimals)
+
+        unitary_point = point * (norm / point.norm)
+        unitary_point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
+
+        return unitary_point
+
+    @property
+    def homogeneous_coords(self) -&gt; tuple:
+        &#34;&#34;&#34;Returns the homogeneous coordinates for the point.
+        &#34;&#34;&#34;
+        return self.coords + (1, )
+
+    @property
+    def norm(self) -&gt; float:
+        &#34;&#34;&#34;Returns the norm for the point.
+        &#34;&#34;&#34;
+        return self.distance(self.origin(self.dim))
+
+    def distance(self, other: &#39;Point&#39;) -&gt; float:
+        &#34;&#34;&#34;Returns the distance between two points.
+
+        Args:
+            other: The other point.
+
+        Returns:
+            The distance between the current point and the given one.
+        &#34;&#34;&#34;
+        if self.dim != other.dim:
+            raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+        return sqrt(sum(list(map(lambda x: x * x, (self - other).coords))))
+
+    def respects_triangle_inequality(self, triangles: List[List[int]]):
+        &#34;&#34;&#34;Returns whether the current point respects the triangle inequality.
+
+        Args:
+            triangles: A list containing the triangles with each triangle being
+                represented by a list of three vertices.
+        &#34;&#34;&#34;
+        for triangle in triangles:
+            if self.coords[triangle[0]] + self.coords[triangle[1]] &lt;= self.coords[triangle[2]]:
+                return False
+            if self.coords[triangle[0]] + self.coords[triangle[2]] &lt;= self.coords[triangle[1]]:
+                return False
+            if self.coords[triangle[1]] + self.coords[triangle[2]] &lt;= self.coords[triangle[0]]:
+                return False
+
+        return True
+
+    def __add__(self, other: &#39;Point&#39;) -&gt; &#39;Point&#39;:
+        if self.dim != other.dim:
+            raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+        return Point(list(map(lambda x, y: x + y, self.coords, other.coords)))
+
+    def __sub__(self, other: &#39;Point&#39;) -&gt; &#39;Point&#39;:
+        if self.dim != other.dim:
+            raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+        return Point(list(map(lambda x, y: x - y, self.coords, other.coords)))
+
+    def __rmul__(self, other: Union[&#39;Point&#39;, int, float]) -&gt; Union[&#39;Point&#39;, int, float]:
+        # dot product
+        if isinstance(other, Point):
+            if self.dim != other.dim:
+                raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+            return sum(list(map(lambda x, y: x * y, self.coords, other.coords)))
+
+        # multiplication by a scalar
+        elif isinstance(other, int) or isinstance(other, float):
+            return Point(list(map(lambda x: x * other, self.coords)))
+
+        else:
+            raise ValueError(&#39;Invalid operation.&#39;)
+
+    __mul__ = __rmul__
+
+    def __neg__(self):
+        return -1 * self
+
+    def __getitem__(self, item: int):
+        return self.coords[item]
+
+    def __hash__(self):
+        return hash(repr(self))
+
+    def __lt__(self, other: &#39;Point&#39;):
+        return self.coords &lt; other.coords
+
+    def __gt__(self, other: &#39;Point&#39;):
+        return not (self &lt;= other)
+
+    def __eq__(self, other: &#39;Point&#39;):
+        return self.coords == other.coords
+
+    def __ne__(self, other: &#39;Point&#39;):
+        return not (self == other)
+
+    def __str__(self):
+        return str(self.coords)
+
+    def __repr__(self):
+        return str(self.coords)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="tinypy.geometry.point.Point.origin"><code class="name flex">
+<span>def <span class="ident">origin</span></span>(<span>dim: int) ‑> <a title="tinypy.geometry.point.Point" href="#tinypy.geometry.point.Point">Point</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>A point of all zeros in the space of given dimension.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dim</code></strong></dt>
+<dd>The space dimension.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A point of all zeros in the given dimension.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def origin(cls, dim: int) -&gt; &#39;Point&#39;:
+    &#34;&#34;&#34;A point of all zeros in the space of given dimension.
+
+    Args:
+        dim: The space dimension.
+
+    Returns:
+        A point of all zeros in the given dimension.
+    &#34;&#34;&#34;
+    return cls([0] * dim)</code></pre>
+</details>
+</dd>
+<dt id="tinypy.geometry.point.Point.random"><code class="name flex">
+<span>def <span class="ident">random</span></span>(<span>dim: int, a: int = 0, b: int = 1, decimals: int = 0, norm: int = None) ‑> <a title="tinypy.geometry.point.Point" href="#tinypy.geometry.point.Point">Point</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>A random point following the given parameters.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dim</code></strong></dt>
+<dd>The space dimension.</dd>
+<dt><strong><code>a</code></strong></dt>
+<dd>The lower possible value.</dd>
+<dt><strong><code>b</code></strong></dt>
+<dd>The upper possible value.</dd>
+<dt><strong><code>decimals</code></strong></dt>
+<dd>Number of decimal values.</dd>
+<dt><strong><code>norm</code></strong></dt>
+<dd>The desired norm, if any.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A random point in the given dimension.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def random(cls, dim: int, a: int = 0, b: int = 1, decimals: int = 0, norm: int = None) -&gt; &#39;Point&#39;:
+    &#34;&#34;&#34;A random point following the given parameters.
+
+    Args:
+        dim: The space dimension.
+        a: The lower possible value.
+        b: The upper possible value.
+        decimals: Number of decimal values.
+        norm: The desired norm, if any.
+
+    Returns:
+        A random point in the given dimension.
+    &#34;&#34;&#34;
+    args = [random.randint(a, b) for _ in range(dim)] if decimals == 0 else [round(random.uniform(a, b), decimals) for _ in range(dim)]
+    point = cls(args)
+
+    if norm is not None:
+        unitary_point = point * (norm / point.norm)
+        point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
+
+    return point</code></pre>
+</details>
+</dd>
+<dt id="tinypy.geometry.point.Point.random_triangle"><code class="name flex">
+<span>def <span class="ident">random_triangle</span></span>(<span>dim: int, triangles: List[List[int]], a: int = 0, b: int = 1, decimals: int = 4, norm: int = 1) ‑> <a title="tinypy.geometry.point.Point" href="#tinypy.geometry.point.Point">Point</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>A random point that respects the triangle inequality constraints.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dim</code></strong></dt>
+<dd>The space dimension.</dd>
+<dt><strong><code>triangles</code></strong></dt>
+<dd>A list containing the triangles with each triangle being
+represented by a list of three vertices.</dd>
+<dt><strong><code>a</code></strong></dt>
+<dd>The lower possible value.</dd>
+<dt><strong><code>b</code></strong></dt>
+<dd>The upper possible value.</dd>
+<dt><strong><code>decimals</code></strong></dt>
+<dd>Number of decimal values.</dd>
+<dt><strong><code>norm</code></strong></dt>
+<dd>The desired norm, if any.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A random point in the given dimension that respects the triangle
+inequality.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def random_triangle(cls, dim: int, triangles: List[List[int]], a: int = 0, b: int = 1, decimals: int = 4, norm: int = 1) -&gt; &#39;Point&#39;:
+    &#34;&#34;&#34;A random point that respects the triangle inequality constraints.
+
+    Args:
+        dim: The space dimension.
+        triangles: A list containing the triangles with each triangle being
+            represented by a list of three vertices.
+        a: The lower possible value.
+        b: The upper possible value.
+        decimals: Number of decimal values.
+        norm: The desired norm, if any.
+
+    Returns:
+        A random point in the given dimension that respects the triangle
+        inequality.
+    &#34;&#34;&#34;
+    point = cls.random(dim, a, b, decimals)
+
+    while not point.respects_triangle_inequality(triangles):
+        point = cls.random(dim, a, b, decimals)
+
+    unitary_point = point * (norm / point.norm)
+    unitary_point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
+
+    return unitary_point</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="tinypy.geometry.point.Point.homogeneous_coords"><code class="name">var <span class="ident">homogeneous_coords</span> : tuple</code></dt>
+<dd>
+<div class="desc"><p>Returns the homogeneous coordinates for the point.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def homogeneous_coords(self) -&gt; tuple:
+    &#34;&#34;&#34;Returns the homogeneous coordinates for the point.
+    &#34;&#34;&#34;
+    return self.coords + (1, )</code></pre>
+</details>
+</dd>
+<dt id="tinypy.geometry.point.Point.norm"><code class="name">var <span class="ident">norm</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Returns the norm for the point.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def norm(self) -&gt; float:
+    &#34;&#34;&#34;Returns the norm for the point.
+    &#34;&#34;&#34;
+    return self.distance(self.origin(self.dim))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="tinypy.geometry.point.Point.distance"><code class="name flex">
+<span>def <span class="ident">distance</span></span>(<span>self, other: <a title="tinypy.geometry.point.Point" href="#tinypy.geometry.point.Point">Point</a>) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the distance between two points.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>other</code></strong></dt>
+<dd>The other point.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The distance between the current point and the given one.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def distance(self, other: &#39;Point&#39;) -&gt; float:
+    &#34;&#34;&#34;Returns the distance between two points.
+
+    Args:
+        other: The other point.
+
+    Returns:
+        The distance between the current point and the given one.
+    &#34;&#34;&#34;
+    if self.dim != other.dim:
+        raise ValueError(&#39;The dimensions are not compatible.&#39;)
+
+    return sqrt(sum(list(map(lambda x: x * x, (self - other).coords))))</code></pre>
+</details>
+</dd>
+<dt id="tinypy.geometry.point.Point.respects_triangle_inequality"><code class="name flex">
+<span>def <span class="ident">respects_triangle_inequality</span></span>(<span>self, triangles: List[List[int]])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns whether the current point respects the triangle inequality.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>triangles</code></strong></dt>
+<dd>A list containing the triangles with each triangle being
+represented by a list of three vertices.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def respects_triangle_inequality(self, triangles: List[List[int]]):
+    &#34;&#34;&#34;Returns whether the current point respects the triangle inequality.
+
+    Args:
+        triangles: A list containing the triangles with each triangle being
+            represented by a list of three vertices.
+    &#34;&#34;&#34;
+    for triangle in triangles:
+        if self.coords[triangle[0]] + self.coords[triangle[1]] &lt;= self.coords[triangle[2]]:
+            return False
+        if self.coords[triangle[0]] + self.coords[triangle[2]] &lt;= self.coords[triangle[1]]:
+            return False
+        if self.coords[triangle[1]] + self.coords[triangle[2]] &lt;= self.coords[triangle[0]]:
+            return False
+
+    return True</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tinypy.geometry" href="index.html">tinypy.geometry</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tinypy.geometry.point.Point" href="#tinypy.geometry.point.Point">Point</a></code></h4>
+<ul class="">
+<li><code><a title="tinypy.geometry.point.Point.distance" href="#tinypy.geometry.point.Point.distance">distance</a></code></li>
+<li><code><a title="tinypy.geometry.point.Point.homogeneous_coords" href="#tinypy.geometry.point.Point.homogeneous_coords">homogeneous_coords</a></code></li>
+<li><code><a title="tinypy.geometry.point.Point.norm" href="#tinypy.geometry.point.Point.norm">norm</a></code></li>
+<li><code><a title="tinypy.geometry.point.Point.origin" href="#tinypy.geometry.point.Point.origin">origin</a></code></li>
+<li><code><a title="tinypy.geometry.point.Point.random" href="#tinypy.geometry.point.Point.random">random</a></code></li>
+<li><code><a title="tinypy.geometry.point.Point.random_triangle" href="#tinypy.geometry.point.Point.random_triangle">random_triangle</a></code></li>
+<li><code><a title="tinypy.geometry.point.Point.respects_triangle_inequality" href="#tinypy.geometry.point.Point.respects_triangle_inequality">respects_triangle_inequality</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.3</a>.</p>
+</footer>
+</body>
+</html>

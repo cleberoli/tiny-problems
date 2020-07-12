@@ -3,9 +3,14 @@ from tinypy.polytopes.base_polytope import Polytope
 
 
 class RandomPolytope(Polytope):
+    """Extends the base polytope for random instances.
+    """
 
     def __init__(self, d: int, m: int):
-        self.instance = RandomInstance(d=d, m=m)
-        self.full_name = 'random'
+        """Initializes the rnd polytope with the Random instance.
 
-        Polytope.__init__(self)
+        Args:
+            d: The number of dimensions.
+            m: The number of solutions.
+        """
+        Polytope.__init__(self, RandomInstance(d=d, m=m), 'random')

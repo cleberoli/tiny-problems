@@ -1,0 +1,1611 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.3" />
+<title>tinypy.generated.trees.tsp.TSP_n5 API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>tinypy.generated.trees.tsp.TSP_n5</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from tinypy.generated.trees.generated_tree import GeneratedTree
+
+from tinypy.geometry.point import Point
+
+
+class TSPTree(GeneratedTree):
+
+    def __init__(self, polytope):
+        self.polytope = polytope
+        self.hyperplanes = polytope.H
+
+    def test(self, point: Point):
+        if self.hyperplanes[1].in_halfspace(point):
+            if self.hyperplanes[9].in_halfspace(point):
+                if self.hyperplanes[11].in_halfspace(point):
+                    if self.hyperplanes[13].in_halfspace(point):
+                        if self.hyperplanes[15].in_halfspace(point):
+                            if self.hyperplanes[23].in_halfspace(point):
+                                if self.hyperplanes[25].in_halfspace(point):
+                                    if self.hyperplanes[27].in_halfspace(point):
+                                        if self.hyperplanes[29].in_halfspace(point):
+                                            if self.hyperplanes[30].in_halfspace(point):
+                                                return 1, 21, 10
+                                            else:
+                                                return 11, 20, 10
+                                        else:
+                                            return 10, 18, 9
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            if self.hyperplanes[10].in_halfspace(point):
+                                                return 9, 25, 10
+                                            else:
+                                                return 11, 24, 10
+                                        else:
+                                            return 10, 22, 9
+                                else:
+                                    if self.hyperplanes[4].in_halfspace(point):
+                                        if self.hyperplanes[6].in_halfspace(point):
+                                            if self.hyperplanes[12].in_halfspace(point):
+                                                return 8, 31, 10
+                                            else:
+                                                return 11, 30, 10
+                                        else:
+                                            return 10, 28, 9
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            if self.hyperplanes[10].in_halfspace(point):
+                                                return 9, 35, 10
+                                            else:
+                                                return 11, 34, 10
+                                        else:
+                                            return 10, 32, 9
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[5].in_halfspace(point):
+                                        return 7, 39, 8
+                                    else:
+                                        return 9, 38, 8
+                                else:
+                                    if self.hyperplanes[4].in_halfspace(point):
+                                        if self.hyperplanes[6].in_halfspace(point):
+                                            if self.hyperplanes[12].in_halfspace(point):
+                                                return 8, 45, 10
+                                            else:
+                                                return 11, 44, 10
+                                        else:
+                                            return 10, 42, 9
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            if self.hyperplanes[10].in_halfspace(point):
+                                                return 9, 49, 10
+                                            else:
+                                                return 11, 48, 10
+                                        else:
+                                            return 10, 46, 9
+                        else:
+                            if self.hyperplanes[16].in_halfspace(point):
+                                if self.hyperplanes[17].in_halfspace(point):
+                                    if self.hyperplanes[19].in_halfspace(point):
+                                        if self.hyperplanes[22].in_halfspace(point):
+                                            return 6, 57, 9
+                                        else:
+                                            return 11, 56, 9
+                                    else:
+                                        if self.hyperplanes[8].in_halfspace(point):
+                                            return 10, 59, 9
+                                        else:
+                                            return 11, 58, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 63, 9
+                                        else:
+                                            return 11, 62, 9
+                                    else:
+                                        if self.hyperplanes[8].in_halfspace(point):
+                                            return 10, 65, 9
+                                        else:
+                                            return 11, 64, 9
+                            else:
+                                if self.hyperplanes[4].in_halfspace(point):
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        if self.hyperplanes[12].in_halfspace(point):
+                                            return 8, 71, 9
+                                        else:
+                                            return 11, 70, 9
+                                    else:
+                                        if self.hyperplanes[8].in_halfspace(point):
+                                            return 10, 73, 9
+                                        else:
+                                            return 11, 72, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 77, 9
+                                        else:
+                                            return 11, 76, 9
+                                    else:
+                                        if self.hyperplanes[8].in_halfspace(point):
+                                            return 10, 79, 9
+                                        else:
+                                            return 11, 78, 9
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                return 5, 83, 6
+                            else:
+                                return 9, 82, 6
+                        else:
+                            if self.hyperplanes[17].in_halfspace(point):
+                                if self.hyperplanes[19].in_halfspace(point):
+                                    if self.hyperplanes[22].in_halfspace(point):
+                                        return 6, 89, 8
+                                    else:
+                                        return 11, 88, 8
+                                else:
+                                    if self.hyperplanes[8].in_halfspace(point):
+                                        return 10, 91, 8
+                                    else:
+                                        return 11, 90, 8
+                            else:
+                                if self.hyperplanes[3].in_halfspace(point):
+                                    if self.hyperplanes[10].in_halfspace(point):
+                                        return 9, 95, 8
+                                    else:
+                                        return 11, 94, 8
+                                else:
+                                    if self.hyperplanes[8].in_halfspace(point):
+                                        return 10, 97, 8
+                                    else:
+                                        return 11, 96, 8
+                else:
+                    if self.hyperplanes[5].in_halfspace(point):
+                        if self.hyperplanes[18].in_halfspace(point):
+                            return 4, 101, 5
+                        else:
+                            return 8, 100, 5
+                    else:
+                        if self.hyperplanes[16].in_halfspace(point):
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[22].in_halfspace(point):
+                                    return 6, 107, 7
+                                else:
+                                    return 11, 106, 7
+                            else:
+                                if self.hyperplanes[8].in_halfspace(point):
+                                    return 10, 109, 7
+                                else:
+                                    return 11, 108, 7
+                        else:
+                            if self.hyperplanes[6].in_halfspace(point):
+                                if self.hyperplanes[12].in_halfspace(point):
+                                    return 8, 113, 7
+                                else:
+                                    return 11, 112, 7
+                            else:
+                                if self.hyperplanes[8].in_halfspace(point):
+                                    return 10, 115, 7
+                                else:
+                                    return 11, 114, 7
+            else:
+                if self.hyperplanes[3].in_halfspace(point):
+                    if self.hyperplanes[6].in_halfspace(point):
+                        if self.hyperplanes[7].in_halfspace(point):
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[20].in_halfspace(point):
+                                    if self.hyperplanes[21].in_halfspace(point):
+                                        if self.hyperplanes[28].in_halfspace(point):
+                                            return 3, 129, 9
+                                        else:
+                                            return 11, 128, 9
+                                    else:
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 131, 9
+                                        else:
+                                            return 11, 130, 9
+                                else:
+                                    if self.hyperplanes[12].in_halfspace(point):
+                                        return 8, 133, 8
+                                    else:
+                                        return 11, 132, 8
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[5].in_halfspace(point):
+                                        if self.hyperplanes[14].in_halfspace(point):
+                                            return 7, 139, 9
+                                        else:
+                                            return 11, 138, 9
+                                    else:
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 141, 9
+                                        else:
+                                            return 11, 140, 9
+                                else:
+                                    if self.hyperplanes[12].in_halfspace(point):
+                                        return 8, 143, 8
+                                    else:
+                                        return 11, 142, 8
+                        else:
+                            if self.hyperplanes[22].in_halfspace(point):
+                                return 6, 145, 6
+                            else:
+                                return 11, 144, 6
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                if self.hyperplanes[24].in_halfspace(point):
+                                    return 5, 151, 7
+                                else:
+                                    return 11, 150, 7
+                            else:
+                                if self.hyperplanes[10].in_halfspace(point):
+                                    return 9, 153, 7
+                                else:
+                                    return 11, 152, 7
+                        else:
+                            if self.hyperplanes[22].in_halfspace(point):
+                                return 6, 155, 6
+                            else:
+                                return 11, 154, 6
+                else:
+                    if self.hyperplanes[5].in_halfspace(point):
+                        if self.hyperplanes[18].in_halfspace(point):
+                            if self.hyperplanes[26].in_halfspace(point):
+                                return 4, 161, 6
+                            else:
+                                return 11, 160, 6
+                        else:
+                            if self.hyperplanes[12].in_halfspace(point):
+                                return 8, 163, 6
+                            else:
+                                return 11, 162, 6
+                    else:
+                        if self.hyperplanes[22].in_halfspace(point):
+                            return 6, 165, 5
+                        else:
+                            return 11, 164, 5
+        else:
+            if self.hyperplanes[8].in_halfspace(point):
+                if self.hyperplanes[10].in_halfspace(point):
+                    if self.hyperplanes[12].in_halfspace(point):
+                        if self.hyperplanes[14].in_halfspace(point):
+                            if self.hyperplanes[22].in_halfspace(point):
+                                if self.hyperplanes[24].in_halfspace(point):
+                                    if self.hyperplanes[26].in_halfspace(point):
+                                        if self.hyperplanes[28].in_halfspace(point):
+                                            if self.hyperplanes[30].in_halfspace(point):
+                                                return 2, 183, 10
+                                            else:
+                                                return 12, 182, 10
+                                        else:
+                                            if self.hyperplanes[9].in_halfspace(point):
+                                                return 10, 185, 10
+                                            else:
+                                                return 12, 184, 10
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            return 9, 187, 9
+                                        else:
+                                            return 10, 186, 9
+                                else:
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        return 8, 189, 8
+                                    else:
+                                        return 10, 188, 8
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[5].in_halfspace(point):
+                                        if self.hyperplanes[7].in_halfspace(point):
+                                            if self.hyperplanes[15].in_halfspace(point):
+                                                return 7, 197, 10
+                                            else:
+                                                return 12, 196, 10
+                                        else:
+                                            if self.hyperplanes[9].in_halfspace(point):
+                                                return 10, 199, 10
+                                            else:
+                                                return 12, 198, 10
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            return 9, 201, 9
+                                        else:
+                                            return 10, 200, 9
+                                else:
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        return 8, 203, 8
+                                    else:
+                                        return 10, 202, 8
+                        else:
+                            if self.hyperplanes[19].in_halfspace(point):
+                                return 6, 205, 6
+                            else:
+                                return 10, 204, 6
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[16].in_halfspace(point):
+                                if self.hyperplanes[18].in_halfspace(point):
+                                    if self.hyperplanes[20].in_halfspace(point):
+                                        if self.hyperplanes[25].in_halfspace(point):
+                                            return 5, 215, 9
+                                        else:
+                                            return 12, 214, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 217, 9
+                                        else:
+                                            return 12, 216, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[11].in_halfspace(point):
+                                            return 9, 221, 9
+                                        else:
+                                            return 12, 220, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 223, 9
+                                        else:
+                                            return 12, 222, 9
+                            else:
+                                if self.hyperplanes[5].in_halfspace(point):
+                                    if self.hyperplanes[15].in_halfspace(point):
+                                        return 7, 227, 8
+                                    else:
+                                        return 12, 226, 8
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[11].in_halfspace(point):
+                                            return 9, 231, 9
+                                        else:
+                                            return 12, 230, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 233, 9
+                                        else:
+                                            return 12, 232, 9
+                        else:
+                            if self.hyperplanes[19].in_halfspace(point):
+                                return 6, 235, 6
+                            else:
+                                return 10, 234, 6
+                else:
+                    if self.hyperplanes[4].in_halfspace(point):
+                        if self.hyperplanes[5].in_halfspace(point):
+                            if self.hyperplanes[17].in_halfspace(point):
+                                if self.hyperplanes[18].in_halfspace(point):
+                                    if self.hyperplanes[21].in_halfspace(point):
+                                        if self.hyperplanes[27].in_halfspace(point):
+                                            return 4, 247, 9
+                                        else:
+                                            return 12, 246, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 249, 9
+                                        else:
+                                            return 12, 248, 9
+                                else:
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        if self.hyperplanes[13].in_halfspace(point):
+                                            return 8, 253, 9
+                                        else:
+                                            return 12, 252, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 255, 9
+                                        else:
+                                            return 12, 254, 9
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[15].in_halfspace(point):
+                                        return 7, 259, 8
+                                    else:
+                                        return 12, 258, 8
+                                else:
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        if self.hyperplanes[13].in_halfspace(point):
+                                            return 8, 263, 9
+                                        else:
+                                            return 12, 262, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 265, 9
+                                        else:
+                                            return 12, 264, 9
+                        else:
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[23].in_halfspace(point):
+                                    return 6, 269, 7
+                                else:
+                                    return 12, 268, 7
+                            else:
+                                if self.hyperplanes[9].in_halfspace(point):
+                                    return 10, 271, 7
+                                else:
+                                    return 12, 270, 7
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[25].in_halfspace(point):
+                                return 5, 275, 6
+                            else:
+                                return 12, 274, 6
+                        else:
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[23].in_halfspace(point):
+                                    return 6, 279, 7
+                                else:
+                                    return 12, 278, 7
+                            else:
+                                if self.hyperplanes[9].in_halfspace(point):
+                                    return 10, 281, 7
+                                else:
+                                    return 12, 280, 7
+            else:
+                if self.hyperplanes[3].in_halfspace(point):
+                    if self.hyperplanes[6].in_halfspace(point):
+                        if self.hyperplanes[19].in_halfspace(point):
+                            if self.hyperplanes[29].in_halfspace(point):
+                                return 3, 289, 6
+                            else:
+                                return 12, 288, 6
+                        else:
+                            if self.hyperplanes[15].in_halfspace(point):
+                                return 7, 291, 6
+                            else:
+                                return 12, 290, 6
+                    else:
+                        if self.hyperplanes[16].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                if self.hyperplanes[25].in_halfspace(point):
+                                    return 5, 297, 7
+                                else:
+                                    return 12, 296, 7
+                            else:
+                                if self.hyperplanes[11].in_halfspace(point):
+                                    return 9, 299, 7
+                                else:
+                                    return 12, 298, 7
+                        else:
+                            if self.hyperplanes[5].in_halfspace(point):
+                                if self.hyperplanes[15].in_halfspace(point):
+                                    return 7, 303, 7
+                                else:
+                                    return 12, 302, 7
+                            else:
+                                if self.hyperplanes[11].in_halfspace(point):
+                                    return 9, 305, 7
+                                else:
+                                    return 12, 304, 7
+                else:
+                    if self.hyperplanes[4].in_halfspace(point):
+                        if self.hyperplanes[5].in_halfspace(point):
+                            if self.hyperplanes[17].in_halfspace(point):
+                                if self.hyperplanes[18].in_halfspace(point):
+                                    if self.hyperplanes[27].in_halfspace(point):
+                                        return 4, 315, 8
+                                    else:
+                                        return 12, 314, 8
+                                else:
+                                    if self.hyperplanes[13].in_halfspace(point):
+                                        return 8, 317, 8
+                                    else:
+                                        return 12, 316, 8
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[15].in_halfspace(point):
+                                        return 7, 321, 8
+                                    else:
+                                        return 12, 320, 8
+                                else:
+                                    if self.hyperplanes[13].in_halfspace(point):
+                                        return 8, 323, 8
+                                    else:
+                                        return 12, 322, 8
+                        else:
+                            if self.hyperplanes[23].in_halfspace(point):
+                                return 6, 325, 6
+                            else:
+                                return 12, 324, 6
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[25].in_halfspace(point):
+                                return 5, 329, 6
+                            else:
+                                return 12, 328, 6
+                        else:
+                            if self.hyperplanes[23].in_halfspace(point):
+                                return 6, 331, 6
+                            else:
+                                return 12, 330, 6</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="tinypy.generated.trees.tsp.TSP_n5.TSPTree"><code class="flex name class">
+<span>class <span class="ident">TSPTree</span></span>
+<span>(</span><span>polytope)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TSPTree(GeneratedTree):
+
+    def __init__(self, polytope):
+        self.polytope = polytope
+        self.hyperplanes = polytope.H
+
+    def test(self, point: Point):
+        if self.hyperplanes[1].in_halfspace(point):
+            if self.hyperplanes[9].in_halfspace(point):
+                if self.hyperplanes[11].in_halfspace(point):
+                    if self.hyperplanes[13].in_halfspace(point):
+                        if self.hyperplanes[15].in_halfspace(point):
+                            if self.hyperplanes[23].in_halfspace(point):
+                                if self.hyperplanes[25].in_halfspace(point):
+                                    if self.hyperplanes[27].in_halfspace(point):
+                                        if self.hyperplanes[29].in_halfspace(point):
+                                            if self.hyperplanes[30].in_halfspace(point):
+                                                return 1, 21, 10
+                                            else:
+                                                return 11, 20, 10
+                                        else:
+                                            return 10, 18, 9
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            if self.hyperplanes[10].in_halfspace(point):
+                                                return 9, 25, 10
+                                            else:
+                                                return 11, 24, 10
+                                        else:
+                                            return 10, 22, 9
+                                else:
+                                    if self.hyperplanes[4].in_halfspace(point):
+                                        if self.hyperplanes[6].in_halfspace(point):
+                                            if self.hyperplanes[12].in_halfspace(point):
+                                                return 8, 31, 10
+                                            else:
+                                                return 11, 30, 10
+                                        else:
+                                            return 10, 28, 9
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            if self.hyperplanes[10].in_halfspace(point):
+                                                return 9, 35, 10
+                                            else:
+                                                return 11, 34, 10
+                                        else:
+                                            return 10, 32, 9
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[5].in_halfspace(point):
+                                        return 7, 39, 8
+                                    else:
+                                        return 9, 38, 8
+                                else:
+                                    if self.hyperplanes[4].in_halfspace(point):
+                                        if self.hyperplanes[6].in_halfspace(point):
+                                            if self.hyperplanes[12].in_halfspace(point):
+                                                return 8, 45, 10
+                                            else:
+                                                return 11, 44, 10
+                                        else:
+                                            return 10, 42, 9
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            if self.hyperplanes[10].in_halfspace(point):
+                                                return 9, 49, 10
+                                            else:
+                                                return 11, 48, 10
+                                        else:
+                                            return 10, 46, 9
+                        else:
+                            if self.hyperplanes[16].in_halfspace(point):
+                                if self.hyperplanes[17].in_halfspace(point):
+                                    if self.hyperplanes[19].in_halfspace(point):
+                                        if self.hyperplanes[22].in_halfspace(point):
+                                            return 6, 57, 9
+                                        else:
+                                            return 11, 56, 9
+                                    else:
+                                        if self.hyperplanes[8].in_halfspace(point):
+                                            return 10, 59, 9
+                                        else:
+                                            return 11, 58, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 63, 9
+                                        else:
+                                            return 11, 62, 9
+                                    else:
+                                        if self.hyperplanes[8].in_halfspace(point):
+                                            return 10, 65, 9
+                                        else:
+                                            return 11, 64, 9
+                            else:
+                                if self.hyperplanes[4].in_halfspace(point):
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        if self.hyperplanes[12].in_halfspace(point):
+                                            return 8, 71, 9
+                                        else:
+                                            return 11, 70, 9
+                                    else:
+                                        if self.hyperplanes[8].in_halfspace(point):
+                                            return 10, 73, 9
+                                        else:
+                                            return 11, 72, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 77, 9
+                                        else:
+                                            return 11, 76, 9
+                                    else:
+                                        if self.hyperplanes[8].in_halfspace(point):
+                                            return 10, 79, 9
+                                        else:
+                                            return 11, 78, 9
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                return 5, 83, 6
+                            else:
+                                return 9, 82, 6
+                        else:
+                            if self.hyperplanes[17].in_halfspace(point):
+                                if self.hyperplanes[19].in_halfspace(point):
+                                    if self.hyperplanes[22].in_halfspace(point):
+                                        return 6, 89, 8
+                                    else:
+                                        return 11, 88, 8
+                                else:
+                                    if self.hyperplanes[8].in_halfspace(point):
+                                        return 10, 91, 8
+                                    else:
+                                        return 11, 90, 8
+                            else:
+                                if self.hyperplanes[3].in_halfspace(point):
+                                    if self.hyperplanes[10].in_halfspace(point):
+                                        return 9, 95, 8
+                                    else:
+                                        return 11, 94, 8
+                                else:
+                                    if self.hyperplanes[8].in_halfspace(point):
+                                        return 10, 97, 8
+                                    else:
+                                        return 11, 96, 8
+                else:
+                    if self.hyperplanes[5].in_halfspace(point):
+                        if self.hyperplanes[18].in_halfspace(point):
+                            return 4, 101, 5
+                        else:
+                            return 8, 100, 5
+                    else:
+                        if self.hyperplanes[16].in_halfspace(point):
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[22].in_halfspace(point):
+                                    return 6, 107, 7
+                                else:
+                                    return 11, 106, 7
+                            else:
+                                if self.hyperplanes[8].in_halfspace(point):
+                                    return 10, 109, 7
+                                else:
+                                    return 11, 108, 7
+                        else:
+                            if self.hyperplanes[6].in_halfspace(point):
+                                if self.hyperplanes[12].in_halfspace(point):
+                                    return 8, 113, 7
+                                else:
+                                    return 11, 112, 7
+                            else:
+                                if self.hyperplanes[8].in_halfspace(point):
+                                    return 10, 115, 7
+                                else:
+                                    return 11, 114, 7
+            else:
+                if self.hyperplanes[3].in_halfspace(point):
+                    if self.hyperplanes[6].in_halfspace(point):
+                        if self.hyperplanes[7].in_halfspace(point):
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[20].in_halfspace(point):
+                                    if self.hyperplanes[21].in_halfspace(point):
+                                        if self.hyperplanes[28].in_halfspace(point):
+                                            return 3, 129, 9
+                                        else:
+                                            return 11, 128, 9
+                                    else:
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 131, 9
+                                        else:
+                                            return 11, 130, 9
+                                else:
+                                    if self.hyperplanes[12].in_halfspace(point):
+                                        return 8, 133, 8
+                                    else:
+                                        return 11, 132, 8
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[5].in_halfspace(point):
+                                        if self.hyperplanes[14].in_halfspace(point):
+                                            return 7, 139, 9
+                                        else:
+                                            return 11, 138, 9
+                                    else:
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 141, 9
+                                        else:
+                                            return 11, 140, 9
+                                else:
+                                    if self.hyperplanes[12].in_halfspace(point):
+                                        return 8, 143, 8
+                                    else:
+                                        return 11, 142, 8
+                        else:
+                            if self.hyperplanes[22].in_halfspace(point):
+                                return 6, 145, 6
+                            else:
+                                return 11, 144, 6
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                if self.hyperplanes[24].in_halfspace(point):
+                                    return 5, 151, 7
+                                else:
+                                    return 11, 150, 7
+                            else:
+                                if self.hyperplanes[10].in_halfspace(point):
+                                    return 9, 153, 7
+                                else:
+                                    return 11, 152, 7
+                        else:
+                            if self.hyperplanes[22].in_halfspace(point):
+                                return 6, 155, 6
+                            else:
+                                return 11, 154, 6
+                else:
+                    if self.hyperplanes[5].in_halfspace(point):
+                        if self.hyperplanes[18].in_halfspace(point):
+                            if self.hyperplanes[26].in_halfspace(point):
+                                return 4, 161, 6
+                            else:
+                                return 11, 160, 6
+                        else:
+                            if self.hyperplanes[12].in_halfspace(point):
+                                return 8, 163, 6
+                            else:
+                                return 11, 162, 6
+                    else:
+                        if self.hyperplanes[22].in_halfspace(point):
+                            return 6, 165, 5
+                        else:
+                            return 11, 164, 5
+        else:
+            if self.hyperplanes[8].in_halfspace(point):
+                if self.hyperplanes[10].in_halfspace(point):
+                    if self.hyperplanes[12].in_halfspace(point):
+                        if self.hyperplanes[14].in_halfspace(point):
+                            if self.hyperplanes[22].in_halfspace(point):
+                                if self.hyperplanes[24].in_halfspace(point):
+                                    if self.hyperplanes[26].in_halfspace(point):
+                                        if self.hyperplanes[28].in_halfspace(point):
+                                            if self.hyperplanes[30].in_halfspace(point):
+                                                return 2, 183, 10
+                                            else:
+                                                return 12, 182, 10
+                                        else:
+                                            if self.hyperplanes[9].in_halfspace(point):
+                                                return 10, 185, 10
+                                            else:
+                                                return 12, 184, 10
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            return 9, 187, 9
+                                        else:
+                                            return 10, 186, 9
+                                else:
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        return 8, 189, 8
+                                    else:
+                                        return 10, 188, 8
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[5].in_halfspace(point):
+                                        if self.hyperplanes[7].in_halfspace(point):
+                                            if self.hyperplanes[15].in_halfspace(point):
+                                                return 7, 197, 10
+                                            else:
+                                                return 12, 196, 10
+                                        else:
+                                            if self.hyperplanes[9].in_halfspace(point):
+                                                return 10, 199, 10
+                                            else:
+                                                return 12, 198, 10
+                                    else:
+                                        if self.hyperplanes[3].in_halfspace(point):
+                                            return 9, 201, 9
+                                        else:
+                                            return 10, 200, 9
+                                else:
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        return 8, 203, 8
+                                    else:
+                                        return 10, 202, 8
+                        else:
+                            if self.hyperplanes[19].in_halfspace(point):
+                                return 6, 205, 6
+                            else:
+                                return 10, 204, 6
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[16].in_halfspace(point):
+                                if self.hyperplanes[18].in_halfspace(point):
+                                    if self.hyperplanes[20].in_halfspace(point):
+                                        if self.hyperplanes[25].in_halfspace(point):
+                                            return 5, 215, 9
+                                        else:
+                                            return 12, 214, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 217, 9
+                                        else:
+                                            return 12, 216, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[11].in_halfspace(point):
+                                            return 9, 221, 9
+                                        else:
+                                            return 12, 220, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 223, 9
+                                        else:
+                                            return 12, 222, 9
+                            else:
+                                if self.hyperplanes[5].in_halfspace(point):
+                                    if self.hyperplanes[15].in_halfspace(point):
+                                        return 7, 227, 8
+                                    else:
+                                        return 12, 226, 8
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[11].in_halfspace(point):
+                                            return 9, 231, 9
+                                        else:
+                                            return 12, 230, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 233, 9
+                                        else:
+                                            return 12, 232, 9
+                        else:
+                            if self.hyperplanes[19].in_halfspace(point):
+                                return 6, 235, 6
+                            else:
+                                return 10, 234, 6
+                else:
+                    if self.hyperplanes[4].in_halfspace(point):
+                        if self.hyperplanes[5].in_halfspace(point):
+                            if self.hyperplanes[17].in_halfspace(point):
+                                if self.hyperplanes[18].in_halfspace(point):
+                                    if self.hyperplanes[21].in_halfspace(point):
+                                        if self.hyperplanes[27].in_halfspace(point):
+                                            return 4, 247, 9
+                                        else:
+                                            return 12, 246, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 249, 9
+                                        else:
+                                            return 12, 248, 9
+                                else:
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        if self.hyperplanes[13].in_halfspace(point):
+                                            return 8, 253, 9
+                                        else:
+                                            return 12, 252, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 255, 9
+                                        else:
+                                            return 12, 254, 9
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[15].in_halfspace(point):
+                                        return 7, 259, 8
+                                    else:
+                                        return 12, 258, 8
+                                else:
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        if self.hyperplanes[13].in_halfspace(point):
+                                            return 8, 263, 9
+                                        else:
+                                            return 12, 262, 9
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 265, 9
+                                        else:
+                                            return 12, 264, 9
+                        else:
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[23].in_halfspace(point):
+                                    return 6, 269, 7
+                                else:
+                                    return 12, 268, 7
+                            else:
+                                if self.hyperplanes[9].in_halfspace(point):
+                                    return 10, 271, 7
+                                else:
+                                    return 12, 270, 7
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[25].in_halfspace(point):
+                                return 5, 275, 6
+                            else:
+                                return 12, 274, 6
+                        else:
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[23].in_halfspace(point):
+                                    return 6, 279, 7
+                                else:
+                                    return 12, 278, 7
+                            else:
+                                if self.hyperplanes[9].in_halfspace(point):
+                                    return 10, 281, 7
+                                else:
+                                    return 12, 280, 7
+            else:
+                if self.hyperplanes[3].in_halfspace(point):
+                    if self.hyperplanes[6].in_halfspace(point):
+                        if self.hyperplanes[19].in_halfspace(point):
+                            if self.hyperplanes[29].in_halfspace(point):
+                                return 3, 289, 6
+                            else:
+                                return 12, 288, 6
+                        else:
+                            if self.hyperplanes[15].in_halfspace(point):
+                                return 7, 291, 6
+                            else:
+                                return 12, 290, 6
+                    else:
+                        if self.hyperplanes[16].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                if self.hyperplanes[25].in_halfspace(point):
+                                    return 5, 297, 7
+                                else:
+                                    return 12, 296, 7
+                            else:
+                                if self.hyperplanes[11].in_halfspace(point):
+                                    return 9, 299, 7
+                                else:
+                                    return 12, 298, 7
+                        else:
+                            if self.hyperplanes[5].in_halfspace(point):
+                                if self.hyperplanes[15].in_halfspace(point):
+                                    return 7, 303, 7
+                                else:
+                                    return 12, 302, 7
+                            else:
+                                if self.hyperplanes[11].in_halfspace(point):
+                                    return 9, 305, 7
+                                else:
+                                    return 12, 304, 7
+                else:
+                    if self.hyperplanes[4].in_halfspace(point):
+                        if self.hyperplanes[5].in_halfspace(point):
+                            if self.hyperplanes[17].in_halfspace(point):
+                                if self.hyperplanes[18].in_halfspace(point):
+                                    if self.hyperplanes[27].in_halfspace(point):
+                                        return 4, 315, 8
+                                    else:
+                                        return 12, 314, 8
+                                else:
+                                    if self.hyperplanes[13].in_halfspace(point):
+                                        return 8, 317, 8
+                                    else:
+                                        return 12, 316, 8
+                            else:
+                                if self.hyperplanes[2].in_halfspace(point):
+                                    if self.hyperplanes[15].in_halfspace(point):
+                                        return 7, 321, 8
+                                    else:
+                                        return 12, 320, 8
+                                else:
+                                    if self.hyperplanes[13].in_halfspace(point):
+                                        return 8, 323, 8
+                                    else:
+                                        return 12, 322, 8
+                        else:
+                            if self.hyperplanes[23].in_halfspace(point):
+                                return 6, 325, 6
+                            else:
+                                return 12, 324, 6
+                    else:
+                        if self.hyperplanes[2].in_halfspace(point):
+                            if self.hyperplanes[25].in_halfspace(point):
+                                return 5, 329, 6
+                            else:
+                                return 12, 328, 6
+                        else:
+                            if self.hyperplanes[23].in_halfspace(point):
+                                return 6, 331, 6
+                            else:
+                                return 12, 330, 6</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="tinypy.generated.trees.generated_tree.GeneratedTree" href="../generated_tree.html#tinypy.generated.trees.generated_tree.GeneratedTree">GeneratedTree</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="tinypy.generated.trees.tsp.TSP_n5.TSPTree.test"><code class="name flex">
+<span>def <span class="ident">test</span></span>(<span>self, point: <a title="tinypy.geometry.point.Point" href="../../../geometry/point.html#tinypy.geometry.point.Point">Point</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test(self, point: Point):
+    if self.hyperplanes[1].in_halfspace(point):
+        if self.hyperplanes[9].in_halfspace(point):
+            if self.hyperplanes[11].in_halfspace(point):
+                if self.hyperplanes[13].in_halfspace(point):
+                    if self.hyperplanes[15].in_halfspace(point):
+                        if self.hyperplanes[23].in_halfspace(point):
+                            if self.hyperplanes[25].in_halfspace(point):
+                                if self.hyperplanes[27].in_halfspace(point):
+                                    if self.hyperplanes[29].in_halfspace(point):
+                                        if self.hyperplanes[30].in_halfspace(point):
+                                            return 1, 21, 10
+                                        else:
+                                            return 11, 20, 10
+                                    else:
+                                        return 10, 18, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 25, 10
+                                        else:
+                                            return 11, 24, 10
+                                    else:
+                                        return 10, 22, 9
+                            else:
+                                if self.hyperplanes[4].in_halfspace(point):
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        if self.hyperplanes[12].in_halfspace(point):
+                                            return 8, 31, 10
+                                        else:
+                                            return 11, 30, 10
+                                    else:
+                                        return 10, 28, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 35, 10
+                                        else:
+                                            return 11, 34, 10
+                                    else:
+                                        return 10, 32, 9
+                        else:
+                            if self.hyperplanes[2].in_halfspace(point):
+                                if self.hyperplanes[5].in_halfspace(point):
+                                    return 7, 39, 8
+                                else:
+                                    return 9, 38, 8
+                            else:
+                                if self.hyperplanes[4].in_halfspace(point):
+                                    if self.hyperplanes[6].in_halfspace(point):
+                                        if self.hyperplanes[12].in_halfspace(point):
+                                            return 8, 45, 10
+                                        else:
+                                            return 11, 44, 10
+                                    else:
+                                        return 10, 42, 9
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        if self.hyperplanes[10].in_halfspace(point):
+                                            return 9, 49, 10
+                                        else:
+                                            return 11, 48, 10
+                                    else:
+                                        return 10, 46, 9
+                    else:
+                        if self.hyperplanes[16].in_halfspace(point):
+                            if self.hyperplanes[17].in_halfspace(point):
+                                if self.hyperplanes[19].in_halfspace(point):
+                                    if self.hyperplanes[22].in_halfspace(point):
+                                        return 6, 57, 9
+                                    else:
+                                        return 11, 56, 9
+                                else:
+                                    if self.hyperplanes[8].in_halfspace(point):
+                                        return 10, 59, 9
+                                    else:
+                                        return 11, 58, 9
+                            else:
+                                if self.hyperplanes[3].in_halfspace(point):
+                                    if self.hyperplanes[10].in_halfspace(point):
+                                        return 9, 63, 9
+                                    else:
+                                        return 11, 62, 9
+                                else:
+                                    if self.hyperplanes[8].in_halfspace(point):
+                                        return 10, 65, 9
+                                    else:
+                                        return 11, 64, 9
+                        else:
+                            if self.hyperplanes[4].in_halfspace(point):
+                                if self.hyperplanes[6].in_halfspace(point):
+                                    if self.hyperplanes[12].in_halfspace(point):
+                                        return 8, 71, 9
+                                    else:
+                                        return 11, 70, 9
+                                else:
+                                    if self.hyperplanes[8].in_halfspace(point):
+                                        return 10, 73, 9
+                                    else:
+                                        return 11, 72, 9
+                            else:
+                                if self.hyperplanes[3].in_halfspace(point):
+                                    if self.hyperplanes[10].in_halfspace(point):
+                                        return 9, 77, 9
+                                    else:
+                                        return 11, 76, 9
+                                else:
+                                    if self.hyperplanes[8].in_halfspace(point):
+                                        return 10, 79, 9
+                                    else:
+                                        return 11, 78, 9
+                else:
+                    if self.hyperplanes[2].in_halfspace(point):
+                        if self.hyperplanes[18].in_halfspace(point):
+                            return 5, 83, 6
+                        else:
+                            return 9, 82, 6
+                    else:
+                        if self.hyperplanes[17].in_halfspace(point):
+                            if self.hyperplanes[19].in_halfspace(point):
+                                if self.hyperplanes[22].in_halfspace(point):
+                                    return 6, 89, 8
+                                else:
+                                    return 11, 88, 8
+                            else:
+                                if self.hyperplanes[8].in_halfspace(point):
+                                    return 10, 91, 8
+                                else:
+                                    return 11, 90, 8
+                        else:
+                            if self.hyperplanes[3].in_halfspace(point):
+                                if self.hyperplanes[10].in_halfspace(point):
+                                    return 9, 95, 8
+                                else:
+                                    return 11, 94, 8
+                            else:
+                                if self.hyperplanes[8].in_halfspace(point):
+                                    return 10, 97, 8
+                                else:
+                                    return 11, 96, 8
+            else:
+                if self.hyperplanes[5].in_halfspace(point):
+                    if self.hyperplanes[18].in_halfspace(point):
+                        return 4, 101, 5
+                    else:
+                        return 8, 100, 5
+                else:
+                    if self.hyperplanes[16].in_halfspace(point):
+                        if self.hyperplanes[19].in_halfspace(point):
+                            if self.hyperplanes[22].in_halfspace(point):
+                                return 6, 107, 7
+                            else:
+                                return 11, 106, 7
+                        else:
+                            if self.hyperplanes[8].in_halfspace(point):
+                                return 10, 109, 7
+                            else:
+                                return 11, 108, 7
+                    else:
+                        if self.hyperplanes[6].in_halfspace(point):
+                            if self.hyperplanes[12].in_halfspace(point):
+                                return 8, 113, 7
+                            else:
+                                return 11, 112, 7
+                        else:
+                            if self.hyperplanes[8].in_halfspace(point):
+                                return 10, 115, 7
+                            else:
+                                return 11, 114, 7
+        else:
+            if self.hyperplanes[3].in_halfspace(point):
+                if self.hyperplanes[6].in_halfspace(point):
+                    if self.hyperplanes[7].in_halfspace(point):
+                        if self.hyperplanes[19].in_halfspace(point):
+                            if self.hyperplanes[20].in_halfspace(point):
+                                if self.hyperplanes[21].in_halfspace(point):
+                                    if self.hyperplanes[28].in_halfspace(point):
+                                        return 3, 129, 9
+                                    else:
+                                        return 11, 128, 9
+                                else:
+                                    if self.hyperplanes[10].in_halfspace(point):
+                                        return 9, 131, 9
+                                    else:
+                                        return 11, 130, 9
+                            else:
+                                if self.hyperplanes[12].in_halfspace(point):
+                                    return 8, 133, 8
+                                else:
+                                    return 11, 132, 8
+                        else:
+                            if self.hyperplanes[2].in_halfspace(point):
+                                if self.hyperplanes[5].in_halfspace(point):
+                                    if self.hyperplanes[14].in_halfspace(point):
+                                        return 7, 139, 9
+                                    else:
+                                        return 11, 138, 9
+                                else:
+                                    if self.hyperplanes[10].in_halfspace(point):
+                                        return 9, 141, 9
+                                    else:
+                                        return 11, 140, 9
+                            else:
+                                if self.hyperplanes[12].in_halfspace(point):
+                                    return 8, 143, 8
+                                else:
+                                    return 11, 142, 8
+                    else:
+                        if self.hyperplanes[22].in_halfspace(point):
+                            return 6, 145, 6
+                        else:
+                            return 11, 144, 6
+                else:
+                    if self.hyperplanes[2].in_halfspace(point):
+                        if self.hyperplanes[18].in_halfspace(point):
+                            if self.hyperplanes[24].in_halfspace(point):
+                                return 5, 151, 7
+                            else:
+                                return 11, 150, 7
+                        else:
+                            if self.hyperplanes[10].in_halfspace(point):
+                                return 9, 153, 7
+                            else:
+                                return 11, 152, 7
+                    else:
+                        if self.hyperplanes[22].in_halfspace(point):
+                            return 6, 155, 6
+                        else:
+                            return 11, 154, 6
+            else:
+                if self.hyperplanes[5].in_halfspace(point):
+                    if self.hyperplanes[18].in_halfspace(point):
+                        if self.hyperplanes[26].in_halfspace(point):
+                            return 4, 161, 6
+                        else:
+                            return 11, 160, 6
+                    else:
+                        if self.hyperplanes[12].in_halfspace(point):
+                            return 8, 163, 6
+                        else:
+                            return 11, 162, 6
+                else:
+                    if self.hyperplanes[22].in_halfspace(point):
+                        return 6, 165, 5
+                    else:
+                        return 11, 164, 5
+    else:
+        if self.hyperplanes[8].in_halfspace(point):
+            if self.hyperplanes[10].in_halfspace(point):
+                if self.hyperplanes[12].in_halfspace(point):
+                    if self.hyperplanes[14].in_halfspace(point):
+                        if self.hyperplanes[22].in_halfspace(point):
+                            if self.hyperplanes[24].in_halfspace(point):
+                                if self.hyperplanes[26].in_halfspace(point):
+                                    if self.hyperplanes[28].in_halfspace(point):
+                                        if self.hyperplanes[30].in_halfspace(point):
+                                            return 2, 183, 10
+                                        else:
+                                            return 12, 182, 10
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 185, 10
+                                        else:
+                                            return 12, 184, 10
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        return 9, 187, 9
+                                    else:
+                                        return 10, 186, 9
+                            else:
+                                if self.hyperplanes[6].in_halfspace(point):
+                                    return 8, 189, 8
+                                else:
+                                    return 10, 188, 8
+                        else:
+                            if self.hyperplanes[2].in_halfspace(point):
+                                if self.hyperplanes[5].in_halfspace(point):
+                                    if self.hyperplanes[7].in_halfspace(point):
+                                        if self.hyperplanes[15].in_halfspace(point):
+                                            return 7, 197, 10
+                                        else:
+                                            return 12, 196, 10
+                                    else:
+                                        if self.hyperplanes[9].in_halfspace(point):
+                                            return 10, 199, 10
+                                        else:
+                                            return 12, 198, 10
+                                else:
+                                    if self.hyperplanes[3].in_halfspace(point):
+                                        return 9, 201, 9
+                                    else:
+                                        return 10, 200, 9
+                            else:
+                                if self.hyperplanes[6].in_halfspace(point):
+                                    return 8, 203, 8
+                                else:
+                                    return 10, 202, 8
+                    else:
+                        if self.hyperplanes[19].in_halfspace(point):
+                            return 6, 205, 6
+                        else:
+                            return 10, 204, 6
+                else:
+                    if self.hyperplanes[2].in_halfspace(point):
+                        if self.hyperplanes[16].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                if self.hyperplanes[20].in_halfspace(point):
+                                    if self.hyperplanes[25].in_halfspace(point):
+                                        return 5, 215, 9
+                                    else:
+                                        return 12, 214, 9
+                                else:
+                                    if self.hyperplanes[9].in_halfspace(point):
+                                        return 10, 217, 9
+                                    else:
+                                        return 12, 216, 9
+                            else:
+                                if self.hyperplanes[3].in_halfspace(point):
+                                    if self.hyperplanes[11].in_halfspace(point):
+                                        return 9, 221, 9
+                                    else:
+                                        return 12, 220, 9
+                                else:
+                                    if self.hyperplanes[9].in_halfspace(point):
+                                        return 10, 223, 9
+                                    else:
+                                        return 12, 222, 9
+                        else:
+                            if self.hyperplanes[5].in_halfspace(point):
+                                if self.hyperplanes[15].in_halfspace(point):
+                                    return 7, 227, 8
+                                else:
+                                    return 12, 226, 8
+                            else:
+                                if self.hyperplanes[3].in_halfspace(point):
+                                    if self.hyperplanes[11].in_halfspace(point):
+                                        return 9, 231, 9
+                                    else:
+                                        return 12, 230, 9
+                                else:
+                                    if self.hyperplanes[9].in_halfspace(point):
+                                        return 10, 233, 9
+                                    else:
+                                        return 12, 232, 9
+                    else:
+                        if self.hyperplanes[19].in_halfspace(point):
+                            return 6, 235, 6
+                        else:
+                            return 10, 234, 6
+            else:
+                if self.hyperplanes[4].in_halfspace(point):
+                    if self.hyperplanes[5].in_halfspace(point):
+                        if self.hyperplanes[17].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                if self.hyperplanes[21].in_halfspace(point):
+                                    if self.hyperplanes[27].in_halfspace(point):
+                                        return 4, 247, 9
+                                    else:
+                                        return 12, 246, 9
+                                else:
+                                    if self.hyperplanes[9].in_halfspace(point):
+                                        return 10, 249, 9
+                                    else:
+                                        return 12, 248, 9
+                            else:
+                                if self.hyperplanes[6].in_halfspace(point):
+                                    if self.hyperplanes[13].in_halfspace(point):
+                                        return 8, 253, 9
+                                    else:
+                                        return 12, 252, 9
+                                else:
+                                    if self.hyperplanes[9].in_halfspace(point):
+                                        return 10, 255, 9
+                                    else:
+                                        return 12, 254, 9
+                        else:
+                            if self.hyperplanes[2].in_halfspace(point):
+                                if self.hyperplanes[15].in_halfspace(point):
+                                    return 7, 259, 8
+                                else:
+                                    return 12, 258, 8
+                            else:
+                                if self.hyperplanes[6].in_halfspace(point):
+                                    if self.hyperplanes[13].in_halfspace(point):
+                                        return 8, 263, 9
+                                    else:
+                                        return 12, 262, 9
+                                else:
+                                    if self.hyperplanes[9].in_halfspace(point):
+                                        return 10, 265, 9
+                                    else:
+                                        return 12, 264, 9
+                    else:
+                        if self.hyperplanes[19].in_halfspace(point):
+                            if self.hyperplanes[23].in_halfspace(point):
+                                return 6, 269, 7
+                            else:
+                                return 12, 268, 7
+                        else:
+                            if self.hyperplanes[9].in_halfspace(point):
+                                return 10, 271, 7
+                            else:
+                                return 12, 270, 7
+                else:
+                    if self.hyperplanes[2].in_halfspace(point):
+                        if self.hyperplanes[25].in_halfspace(point):
+                            return 5, 275, 6
+                        else:
+                            return 12, 274, 6
+                    else:
+                        if self.hyperplanes[19].in_halfspace(point):
+                            if self.hyperplanes[23].in_halfspace(point):
+                                return 6, 279, 7
+                            else:
+                                return 12, 278, 7
+                        else:
+                            if self.hyperplanes[9].in_halfspace(point):
+                                return 10, 281, 7
+                            else:
+                                return 12, 280, 7
+        else:
+            if self.hyperplanes[3].in_halfspace(point):
+                if self.hyperplanes[6].in_halfspace(point):
+                    if self.hyperplanes[19].in_halfspace(point):
+                        if self.hyperplanes[29].in_halfspace(point):
+                            return 3, 289, 6
+                        else:
+                            return 12, 288, 6
+                    else:
+                        if self.hyperplanes[15].in_halfspace(point):
+                            return 7, 291, 6
+                        else:
+                            return 12, 290, 6
+                else:
+                    if self.hyperplanes[16].in_halfspace(point):
+                        if self.hyperplanes[18].in_halfspace(point):
+                            if self.hyperplanes[25].in_halfspace(point):
+                                return 5, 297, 7
+                            else:
+                                return 12, 296, 7
+                        else:
+                            if self.hyperplanes[11].in_halfspace(point):
+                                return 9, 299, 7
+                            else:
+                                return 12, 298, 7
+                    else:
+                        if self.hyperplanes[5].in_halfspace(point):
+                            if self.hyperplanes[15].in_halfspace(point):
+                                return 7, 303, 7
+                            else:
+                                return 12, 302, 7
+                        else:
+                            if self.hyperplanes[11].in_halfspace(point):
+                                return 9, 305, 7
+                            else:
+                                return 12, 304, 7
+            else:
+                if self.hyperplanes[4].in_halfspace(point):
+                    if self.hyperplanes[5].in_halfspace(point):
+                        if self.hyperplanes[17].in_halfspace(point):
+                            if self.hyperplanes[18].in_halfspace(point):
+                                if self.hyperplanes[27].in_halfspace(point):
+                                    return 4, 315, 8
+                                else:
+                                    return 12, 314, 8
+                            else:
+                                if self.hyperplanes[13].in_halfspace(point):
+                                    return 8, 317, 8
+                                else:
+                                    return 12, 316, 8
+                        else:
+                            if self.hyperplanes[2].in_halfspace(point):
+                                if self.hyperplanes[15].in_halfspace(point):
+                                    return 7, 321, 8
+                                else:
+                                    return 12, 320, 8
+                            else:
+                                if self.hyperplanes[13].in_halfspace(point):
+                                    return 8, 323, 8
+                                else:
+                                    return 12, 322, 8
+                    else:
+                        if self.hyperplanes[23].in_halfspace(point):
+                            return 6, 325, 6
+                        else:
+                            return 12, 324, 6
+                else:
+                    if self.hyperplanes[2].in_halfspace(point):
+                        if self.hyperplanes[25].in_halfspace(point):
+                            return 5, 329, 6
+                        else:
+                            return 12, 328, 6
+                    else:
+                        if self.hyperplanes[23].in_halfspace(point):
+                            return 6, 331, 6
+                        else:
+                            return 12, 330, 6</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="tinypy.generated.trees.tsp" href="index.html">tinypy.generated.trees.tsp</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="tinypy.generated.trees.tsp.TSP_n5.TSPTree" href="#tinypy.generated.trees.tsp.TSP_n5.TSPTree">TSPTree</a></code></h4>
+<ul class="">
+<li><code><a title="tinypy.generated.trees.tsp.TSP_n5.TSPTree.test" href="#tinypy.generated.trees.tsp.TSP_n5.TSPTree.test">test</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.3</a>.</p>
+</footer>
+</body>
+</html>

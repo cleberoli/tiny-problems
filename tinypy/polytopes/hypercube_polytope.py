@@ -3,9 +3,13 @@ from tinypy.polytopes.base_polytope import Polytope
 
 
 class HypercubePolytope(Polytope):
+    """Extends the base polytope for hypercube instances.
+    """
 
     def __init__(self, n: int):
-        self.instance = HypercubeInstance(n=n)
-        self.full_name = 'hypercube'
+        """Initializes the cub polytope with the Hypercube instance.
 
-        Polytope.__init__(self)
+        Args:
+            n: The number of dimensions.
+        """
+        Polytope.__init__(self, HypercubeInstance(n=n), 'hypercube')

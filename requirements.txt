@@ -1,0 +1,10 @@
+coverage==5.2
+decorator==4.4.2
+gurobipy==9.0.0
+more-itertools==8.4.0
+networkx==2.4
+packaging==20.4
+pdoc3==0.8.3
+pluggy==0.13.1
+py==1.9.0
+pytest==5.4.3

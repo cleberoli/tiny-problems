@@ -3,9 +3,13 @@ from tinypy.polytopes.base_polytope import Polytope
 
 
 class TSPPolytope(Polytope):
+    """Extends the base polytope for traveling salesman instances.
+    """
 
     def __init__(self, n: int):
-        self.instance = TSPInstance(n=n)
-        self.full_name = 'travelling salesman'
+        """Initializes the tsp polytope with the Traveling Salesman instance.
 
-        Polytope.__init__(self)
+        Args:
+            n: The number of nodes in the graph.
+        """
+        Polytope.__init__(self, TSPInstance(n=n), 'travelling salesman')

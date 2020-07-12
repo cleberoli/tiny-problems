@@ -3,9 +3,13 @@ from tinypy.polytopes.base_polytope import Polytope
 
 
 class CutPolytope(Polytope):
+    """Extends the base polytope for cut instances.
+    """
 
     def __init__(self, n: int):
-        self.instance = CutInstance(n=n)
-        self.full_name = 'cut'
+        """Initializes the cut polytope with the Cut instance.
 
-        Polytope.__init__(self)
+        Args:
+            n: The number of nodes in the graph.
+        """
+        Polytope.__init__(self, CutInstance(n=n), 'cut')

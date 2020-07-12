@@ -3,7 +3,11 @@ venv/
 .pytest_cache
 
 tinypy/*/__pycache__/*
+tinypy/*/*/__pycache__/*
+tinypy/*/*/*/__pycache__/*
 tinypy/*/tests/.pytest_cache
 tinypy/__pycache__/*
 
 trees/*/
+files/intersections/*
+files/lps/*

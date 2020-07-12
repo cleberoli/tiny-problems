@@ -1,3 +1,4 @@
+import math
 import pytest
 
 from tinypy.geometry.point import Point
@@ -62,6 +63,23 @@ def test_random():
     assert p.dim == 8
     assert all([-2 <= x <= 5 for x in p.coords])
 
+    p = Point.random(3, norm=1)
+
+    assert p.dim == 3
+    assert math.isclose(p.norm, 1, abs_tol=0.0001)
+
+
+def test_random_triangle():
+    triangles = [[0, 1, 2]]
+    p = Point.random_triangle(3, triangles)
+    q = Point.random_triangle(3, triangles, norm=2)
+
+    assert p.respects_triangle_inequality(triangles)
+    assert math.isclose(p.norm, 1, abs_tol=0.0001)
+
+    assert q.respects_triangle_inequality(triangles)
+    assert math.isclose(q.norm, 2, abs_tol=0.0001)
+
 
 def test_homogeneous_coords():
     x = Point(3, 4)
@@ -90,17 +108,17 @@ def test_distance():
         x.distance(z)
 
 
-def test_add_coord():
-    x = Point(3, 4)
-    assert x.coords == (3, 4)
-    assert x.dim == 2
+def test_respects_triangle_inequality():
+    triangles = [[0, 1, 2]]
+    w = Point(1, 3, 2)
+    x = Point(1, 2, 3)
+    y = Point(3, 2, 1)
+    z = Point(3, 4, 5)
 
-    x.add_coord(1)
-    assert x.coords == (3, 4, 1)
-    assert x.dim == 3
-
-    with pytest.raises(ValueError):
-        x.add_coord(5.5)
+    assert not w.respects_triangle_inequality(triangles)
+    assert not x.respects_triangle_inequality(triangles)
+    assert not y.respects_triangle_inequality(triangles)
+    assert z.respects_triangle_inequality(triangles)
 
 
 def test_add():

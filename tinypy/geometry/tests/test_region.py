@@ -1,3 +1,5 @@
+from hashlib import blake2b
+
 from tinypy.geometry.region import Region
 
 
@@ -48,5 +50,7 @@ def test_str():
 
 def test_repr():
     r = Region([1, -2])
+    h = blake2b(digest_size=20)
+    h.update(b'[1, -2]')
 
-    assert repr(r) == '[1, -2]'
+    assert repr(r) == h.hexdigest()

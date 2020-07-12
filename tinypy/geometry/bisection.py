@@ -3,31 +3,51 @@ from typing import List
 
 
 class Bisection:
+    """Represents the bisection of the solutions by a given hyperplane.
+
+    Given a hyperplane this object represents which solution regions don't
+    intercept the hyperplane, being completely contained in either side of
+    the hyperplane.
+
+    Attributes:
+        left: List of solution indices to the left of the hyperplane.
+        right: List of solution indices to the right of the hyperplane.
+    """
+
+    left: List[int]
+    right: List[int]
 
     def __init__(self, left: List[int] = None, right: List[int] = None):
-        self.__left = left if left is not None else []
-        self.__right = right if right is not None else []
+        """Initializes the bisection.
 
-    @property
-    def left(self):
-        return self.__left
+        The bisection can be initialized with empty lists and the solutions
+        can be added later.
 
-    @property
-    def right(self):
-        return self.__right
+        Args:
+            left: List of solution indices to the left of the hyperplane.
+            right: List of solution indices to the right of the hyperplane.
+        """
+        self.left = sorted(left) if left is not None else []
+        self.right = sorted(right) if right is not None else []
 
     def add_left(self, left: int):
-        insort(self.__left, left)
+        """Adds a new solution to the left side, keeping the list sorted.
+
+        Args:
+            left: The solution index.
+        """
+        insort(self.left, left)
 
     def add_right(self, right: int):
-        insort(self.__right, right)
+        """Adds a new solution to the right side, keeping the list sorted.
 
-    def remove(self, item):
-        if item in self.__left:
-            self.__left.remove(item)
+        Args:
+            right: The solution index.
+        """
+        insort(self.right, right)
 
-        if item in self.__right:
-            self.__right.remove(item)
+    def __str__(self):
+        return str({'left': self.left, 'right': self.right})
 
     def __repr__(self):
-        return str({'left': self.__left, 'right': self.__right})
+        return str((self.left, self.right))

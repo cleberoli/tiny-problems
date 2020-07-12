@@ -3,9 +3,13 @@ from tinypy.polytopes.base_polytope import Polytope
 
 
 class HyperpyramidPolytope(Polytope):
+    """Extends the base polytope for hyperpyramid instances.
+    """
 
     def __init__(self, n: int):
-        self.instance = HyperpyramidInstance(n=n)
-        self.full_name = 'hyperpyramid'
+        """Initializes the pyr polytope with the Hyperpyramid instance.
 
-        Polytope.__init__(self)
+        Args:
+            n: The number of dimensions.
+        """
+        Polytope.__init__(self, HyperpyramidInstance(n=n), 'hyperpyramid')
