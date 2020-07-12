@@ -5,8 +5,15 @@ from tinypy.instances.base_instance import Instance
 
 
 class RandomInstance(Instance):
+    """Generates instance for the random polytope.
+    """
 
     def __init__(self, **kwargs):
+        """Initializes the rnd instance.
+
+        Args:
+            **kwargs: A dictionary containing the parameters.
+        """
         if 'd' not in kwargs or 'm' not in kwargs:
             raise ValueError('Wrong arguments.')
 
@@ -16,15 +23,18 @@ class RandomInstance(Instance):
         if kwargs['m'] > 2**kwargs['d']:
             raise ValueError('The size should be at most 2^d.')
 
-        self.n = int(kwargs["m"])
-        self.dimension = int(kwargs["d"])
-        self.size = int(kwargs["m"])
-        self.name = f'RND-d{self.dimension}-m{self.size}'
-        self.type = 'rnd'
+        n = int(kwargs["m"])
+        dimension = int(kwargs["d"])
+        size = int(kwargs["m"])
 
-        Instance.__init__(self)
+        Instance.__init__(self, f'RND-d{dimension}-m{size}', 'rnd', dimension, size, n)
 
     def generate_solutions(self) -> List['Point']:
+        """Generate the solution list.
+
+        Returns:
+            The solution list.
+        """
         solutions = set()
 
         while len(solutions) < self.size:
