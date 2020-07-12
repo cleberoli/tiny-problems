@@ -9,6 +9,16 @@ from tinypy.utils.file import create_directory, delete_directory, file_exists, g
 
 
 class IntersectionProblem:
+    """Linear program model to determine the intersections.
+
+    Attributes:
+        dim: The space dimension.
+        name: The instance name.
+        log: A boolean representing whether the model files should be saved.
+        lp_directory: The path where the lp solutions should be stored.
+        cones: Set of cones.
+        hyperplanes: Set of hyperplanes.
+    """
 
     STATUS_OPTIMAL = 2
     STATUS_INFEASIBLE = 3
@@ -24,6 +34,15 @@ class IntersectionProblem:
     hyperplanes: Dict[int, 'Hyperplane']
 
     def __init__(self, dim: int, name: str, cones: Dict[int, 'Cone'], hyperplanes: Dict[int, 'Hyperplane'], log: bool = False):
+        """Initializes the intersection model.
+
+        Args:
+            dim: The space dimension.
+            name: The instance name.
+            cones: Set of cones.
+            hyperplanes: Set of hyperplanes.
+            log: A boolean representing whether the model files should be saved.
+        """
         self.dim = dim
         self.name = name
         self.cones = cones
@@ -33,9 +52,21 @@ class IntersectionProblem:
         create_directory(self.lp_directory)
 
     def clear_files(self):
+        """Deletes the files used to stored the models and results.
+        """
         delete_directory(self.lp_directory)
 
     def test_intersection(self, region: 'Region', cone: int, hyperplane: int) -> bool:
+        """Checks whether the hyperplane intercepts the given cone.
+
+        Args:
+            region: Restriction of the space.
+            cone: The cone index.
+            hyperplane: The hyperplane index.
+
+        Returns:
+            Whether the hyperplane intercepts the cone.
+        """
         path = f'{self.lp_directory}/{repr(region)}_{cone}_{hyperplane}'
 
         if file_exists(f'{path}.sol'):
@@ -60,6 +91,14 @@ class IntersectionProblem:
         return True if status == IntersectionProblem.STATUS_OPTIMAL else False
 
     def __model(self, m: Model, region: 'Region', c: int, h: int):
+        """Defines the model.
+
+        Args:
+            m: The gurobi model.
+            region: Restriction of the space.
+            c: The cone index.
+            h: The hyperplane index.
+        """
         delimiters = region.hyperplanes + self.cones[c].hyperplanes
         x = dict()
         y = dict()
