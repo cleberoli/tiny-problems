@@ -74,7 +74,7 @@ class VoronoiDiagram:
         for (s, solution) in solutions.items():
             cone = Cone(s, solution)
             edges = self.delaunay.get_edges(s)
-            hyperplanes = [self.delaunay.get_edge(s, e, 'h') for e in edges]
+            hyperplanes = [self.delaunay.get_edge(s, e) for e in edges]
 
             for h in hyperplanes:
                 hyperplane = self.hyperplanes[h]

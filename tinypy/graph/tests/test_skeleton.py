@@ -30,8 +30,8 @@ def test_get_edge():
     skeleton.add_edge(0, 1, h=2)
     skeleton.add_edge(0, 2, h=1)
 
-    assert skeleton.get_edge(0, 1, 'h') == 2
-    assert skeleton.get_edge(0, 2, 'h') == 1
+    assert skeleton.get_edge(0, 1) == 2
+    assert skeleton.get_edge(0, 2) == 1
 
     with pytest.raises(KeyError):
         skeleton.get_edge(0, 1, 'p')

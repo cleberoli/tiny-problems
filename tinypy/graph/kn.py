@@ -6,12 +6,24 @@ from tinypy.utils.combinatorics import get_combinations, get_permutations
 
 
 class Kn:
+    """Represents the complete graph with n nodes.
+
+    Attributes:
+        n: The number of nodes.
+        nodes: List of nodes [1..n].
+        edges: List of edges.
+    """
 
     n: int
     nodes: List[int]
     edges: List[str]
 
     def __init__(self, n: int):
+        """Initializes the Kn graph.
+
+        Args:
+            n: The number of nodes.
+        """
         if n <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
@@ -24,6 +36,11 @@ class Kn:
                 self.edges.append(f'{self.nodes[i]}-{self.nodes[j]}')
 
     def get_hamilton_cycles(self) -> Dict[int, 'Point']:
+        """Returns all Hamiltonian cycles.
+
+        Returns:
+            All Hamiltonian cycles as points.
+        """
         permutations = get_permutations(self.nodes[1:])
         permutations = [(self.nodes[0], ) + p + (self.nodes[0], ) for p in permutations]
         cycles = set()
@@ -37,6 +54,11 @@ class Kn:
         return dict((key, cycles[key]) for key in range(len(cycles)))
 
     def get_cuts(self) -> Dict[int, 'Point']:
+        """Returns all possible cuts.
+
+        Returns:
+            All cuts as points that represent that edges to be removed.
+        """
         cuts = {Point.origin(len(self.edges))}
 
         for i in range(1, floor(self.n / 2) + 1):
@@ -53,6 +75,12 @@ class Kn:
         return dict((key, cuts[key]) for key in range(len(cuts)))
 
     def get_triangles(self) -> List[List[int]]:
+        """Returns all triangles.
+
+        Returns:
+            A list containing the triangles with each triangle being represented
+            by a list of three vertices.
+        """
         triangles = []
 
         for i in range(self.n):
@@ -68,6 +96,11 @@ class Kn:
         return triangles
 
     def __get_point_from_permutation(self, permutation: tuple) -> 'Point':
+        """Returns a point from a permutation of the nodes.
+
+        Args:
+            permutation: Permutation of the nodes.
+        """
         edges = []
 
         for i in range(self.n):
@@ -79,6 +112,12 @@ class Kn:
         return self.__get_point_from_edges(edges)
 
     def __get_point_from_partition(self, a: List[int], b: List[int]) -> 'Point':
+        """Returns a point from a partition of the nodes.
+
+        Args:
+            a: One set of the partition.
+            b: Other set of the partition.
+        """
         edges = []
 
         for i in range(len(a)):
@@ -91,5 +130,10 @@ class Kn:
         return self.__get_point_from_edges(edges)
 
     def __get_point_from_edges(self, edges: List[str]) -> 'Point':
+        """Returns a point from a list of edges.
+
+        Args:
+            edges: List of edges.
+        """
         coords = [1 if e in edges else 0 for e in self.edges]
         return Point(coords)
