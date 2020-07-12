@@ -13,6 +13,25 @@ from tinypy.utils.file import create_directory, file_exists, get_full_path
 
 
 class Polytope(ABC):
+    """Base class that build the polytopes for different instances.
+
+    Attributes:
+        full_name: The polytope full name.
+        name: The instance name.
+        dimension: The instance dimension.
+        size: The instance size.
+        n: The instance main parameter.
+        skeleton_file: The path where the skeleton should be stored.
+        polytope_file: The path where the polytope should be stored.
+        instance: The instance.
+        skeleton: The skeleton graph.
+        extended_skeleton: The extended skeleton graph.
+        H: The set of hyperplanes.
+        extended_H: The extended set of hyperplanes.
+        delaunay: The Delaunay triangulation.
+        voronoi: The Voronoi diagram.
+        vertices: The polytope vertices.
+    """
 
     full_name: str
     name: str
@@ -31,7 +50,15 @@ class Polytope(ABC):
     voronoi: VoronoiDiagram
     vertices: Dict[int, Point]
 
-    def __init__(self):
+    def __init__(self, instance: Instance, full_name: str):
+        """Initializes the polytope with the given instance and name.
+
+        Args:
+            instance: The instance.
+            full_name: The polytope full name.
+        """
+        self.instance = instance
+        self.full_name = full_name
         self.name = self.instance.type
         self.dimension = self.instance.dimension
         self.size = self.instance.size
@@ -53,6 +80,11 @@ class Polytope(ABC):
             self.__write_polytope_file()
 
     def build_skeleton(self):
+        """Build the polytope skeleton.
+
+        If the skeleton has been previously computed it is loaded from the file.
+        Otherwise it is generated and saved.
+        """
         if file_exists(self.skeleton_file):
             self.skeleton, self.H, self.extended_skeleton, self.extended_H = self.__read_skeleton_file()
         else:
@@ -60,12 +92,30 @@ class Polytope(ABC):
             self.__write_skeleton_file()
 
     def get_bisector(self, i: int, j: int) -> int:
+        """Returns the bisector of two points.
+
+        Args:
+            i: First node.
+            j: Second node.
+
+        Returns:
+            The index of the bisector hyperplane, chosen from the skeleton or
+            the extended skeleton.
+        """
         if self.skeleton.has_edge(i, j):
             return self.skeleton.get_edge(i, j, 'h')
         else:
             return self.extended_skeleton.get_edge(i, j, 'h')
 
     def __generate_skeleton(self) -> Tuple['Skeleton', Dict[int, 'Hyperplane'], 'Skeleton', Dict[int, 'Hyperplane']]:
+        """Generates the skeleton along with the hyperplanes.
+
+        Returns:
+            The skeleton graph.
+            The set of hyperplanes.
+            The extended skeleton graph.
+            The extended set of hyperplanes.
+        """
         skeleton = Skeleton()
         extended_skeleton = Skeleton()
         adjacency_lp = AdjacencyProblem(self.dimension, self.instance.name, self.vertices)
@@ -106,6 +156,14 @@ class Polytope(ABC):
         return skeleton, hyperplanes, extended_skeleton, extended_hyperplanes
 
     def __read_skeleton_file(self) -> Tuple['Skeleton', Dict[int, 'Hyperplane'], 'Skeleton', Dict[int, 'Hyperplane']]:
+        """Loads the skeleton from the file.
+
+        Returns:
+            The skeleton graph.
+            The set of hyperplanes.
+            The extended skeleton graph.
+            The extended set of hyperplanes.
+        """
         skeleton = Skeleton()
         hyperplanes = dict()
         extended_skeleton = Skeleton()
@@ -155,6 +213,8 @@ class Polytope(ABC):
         return skeleton, hyperplanes, extended_skeleton, extended_hyperplanes
 
     def __write_skeleton_file(self):
+        """Writes the skeleton to a file.
+        """
         now = datetime.now()
 
         with open(self.skeleton_file, 'w+') as file:
@@ -188,6 +248,8 @@ class Polytope(ABC):
                 file.write(f'{edge[0]} {edge[1]} {self.extended_skeleton.get_edge(edge[0], edge[1], "h")}\n')
 
     def __write_polytope_file(self):
+        """Writes the polytope to a file.
+        """
         with open(self.polytope_file, 'w+') as file:
             file.write(repr(self))
 
