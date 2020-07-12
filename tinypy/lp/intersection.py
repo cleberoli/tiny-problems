@@ -5,7 +5,7 @@ from gurobipy.gurobipy import Model, GRB, quicksum
 from tinypy.geometry.cone import Cone
 from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.region import Region
-from tinypy.utils.file import create_folder, delete_directory, file_exists, get_full_path
+from tinypy.utils.file import create_directory, delete_directory, file_exists, get_full_path
 
 
 class IntersectionProblem:
@@ -30,7 +30,7 @@ class IntersectionProblem:
         self.hyperplanes = hyperplanes
         self.log = log
         self.lp_directory = get_full_path('files', 'lps', 'intersection', name)
-        create_folder(self.lp_directory)
+        create_directory(self.lp_directory)
 
     def clear_files(self):
         delete_directory(self.lp_directory)

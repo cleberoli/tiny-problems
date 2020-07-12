@@ -9,7 +9,7 @@ from tinypy.graph.delaunay import DelaunayTriangulation
 from tinypy.graph.skeleton import Skeleton
 from tinypy.instances.base_instance import Instance
 from tinypy.lp.adjacency import AdjacencyProblem
-from tinypy.utils.file import create_folder, file_exists, get_full_path
+from tinypy.utils.file import create_directory, file_exists, get_full_path
 
 
 class Polytope(ABC):
@@ -38,8 +38,8 @@ class Polytope(ABC):
         self.n = self.instance.n
         self.skeleton_file = get_full_path('files', 'skeletons', self.instance.type, f'{self.instance.name}.tpsf')
         self.polytope_file = get_full_path('files', 'polytopes', self.instance.type, f'{self.instance.name}.tppf')
-        create_folder(get_full_path('files', 'skeletons', self.instance.type))
-        create_folder(get_full_path('files', 'polytopes', self.instance.type))
+        create_directory(get_full_path('files', 'skeletons', self.instance.type))
+        create_directory(get_full_path('files', 'polytopes', self.instance.type))
 
         self.vertices = self.instance.get_solution_dict().copy()
         self.vertices = dict((key, Point([1] * self.dimension) - 2 * point) for (key, point) in self.vertices.items())

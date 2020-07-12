@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 from tinypy.geometry.point import Point
 from tinypy.instances.base_instance import Instance
-from tinypy.utils.file import create_folder, get_full_path
+from tinypy.utils.file import create_directory, get_full_path
 
 
 class Benchmark(ABC):
@@ -40,7 +40,7 @@ class Benchmark(ABC):
         """
         self.instance = instance
         self.euclidean = euclidean
-        create_folder(get_full_path('files', 'benchmarks', self.instance.type))
+        create_directory(get_full_path('files', 'benchmarks', self.instance.type))
 
     def generate_benchmark(self, size: int = 10000):
         """Generate the benchmark file with the required number of points.

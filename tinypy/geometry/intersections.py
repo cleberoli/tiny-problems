@@ -8,7 +8,7 @@ from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.region import Region
 from tinypy.lp.intersection import IntersectionProblem
 from tinypy.polytopes.base_polytope import Polytope
-from tinypy.utils.file import create_folder, delete_directory, file_exists, get_full_path
+from tinypy.utils.file import create_directory, delete_directory, file_exists, get_full_path
 
 
 class Intersections:
@@ -74,7 +74,7 @@ class Intersections:
             The bisections of the given cones for each hyperplane.
         """
         self.intersection_file = get_full_path('files', 'intersections', self.type, self.name, f'{repr(region)}.tptf')
-        create_folder(get_full_path('files', 'intersections', self.type, self.name))
+        create_directory(get_full_path('files', 'intersections', self.type, self.name))
 
         if file_exists(self.intersection_file):
             positions = self.__read_intersection_file(len(hyperplanes))

@@ -3,7 +3,7 @@ from typing import Dict
 from gurobipy.gurobipy import Model, GRB, quicksum
 
 from tinypy.geometry.point import Point
-from tinypy.utils.file import create_folder, delete_directory, file_exists, get_full_path
+from tinypy.utils.file import create_directory, delete_directory, file_exists, get_full_path
 
 
 class AdjacencyProblem:
@@ -25,7 +25,7 @@ class AdjacencyProblem:
         self.p = vertices
         self.log = log
         self.lp_directory = get_full_path('files', 'lps', 'adjacency', name)
-        create_folder(self.lp_directory)
+        create_directory(self.lp_directory)
 
     def clear_files(self):
         delete_directory(self.lp_directory)

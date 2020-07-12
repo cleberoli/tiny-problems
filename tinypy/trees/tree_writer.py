@@ -1,5 +1,5 @@
 from tinypy.trees.tree import Tree
-from tinypy.utils.file import create_folder, file_exists, get_full_path
+from tinypy.utils.file import create_directory, file_exists, get_full_path
 
 TAB = '    '
 
@@ -13,7 +13,7 @@ class TreeWriter:
         self.tree = tree
         self.tree_file = get_full_path('tinypy', 'generated', 'trees',
                                        tree.polytope.instance.type, f'{tree.polytope.instance.name.replace("-", "_")}.py')
-        create_folder(get_full_path('tinypy', 'generated', 'trees', tree.polytope.instance.type))
+        create_directory(get_full_path('tinypy', 'generated', 'trees', tree.polytope.instance.type))
         with open(get_full_path('tinypy', 'generated', 'trees', tree.polytope.instance.type, '__init__.py'), 'w') as file:
             file.write('')
 

@@ -5,7 +5,7 @@ from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.point import Point
 from tinypy.geometry.cone import Cone
 from tinypy.graph.delaunay import DelaunayTriangulation
-from tinypy.utils.file import create_folder, file_exists, get_full_path
+from tinypy.utils.file import create_directory, file_exists, get_full_path
 
 
 class VoronoiDiagram:
@@ -40,7 +40,7 @@ class VoronoiDiagram:
         self.type = instance_type
         self.name = instance_name
         self.cone_file = get_full_path('files', 'cones', instance_type, f'{instance_name}.tpcf')
-        create_folder(get_full_path('files', 'cones', instance_type))
+        create_directory(get_full_path('files', 'cones', instance_type))
 
         self.delaunay = delaunay
         self.hyperplanes = hyperplanes
