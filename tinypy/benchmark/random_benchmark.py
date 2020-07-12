@@ -9,12 +9,6 @@ class RandomBenchmark(Benchmark):
 
     Extends the base Benchmark. This instance is not based on a graph and the
     points don't respect the euclidean constraints.
-
-    Attributes:
-        instance: Reference to the problem instance class.
-        euclidean: A boolean indicating whether the objective functions should
-            respect euclidean constraints.
-        benchmark_file: The path where the benchmark should be stored.
     """
 
     def __init__(self, **kwargs):

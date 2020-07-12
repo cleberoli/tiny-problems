@@ -1,15 +1,26 @@
-from tinypy.trees.tree import Tree
+from tinypy.trees.base_tree import Tree
 from tinypy.utils.file import create_directory, file_exists, get_full_path
 
 TAB = '    '
 
 
 class TreeWriter:
+    """Takes a tree and writes the program to perform the comparisons.
+
+    Attributes:
+        tree: The tree.
+        tree_file: The path where the generated tree should be stored.
+    """
 
     tree: Tree
     tree_file: str
 
     def __init__(self, tree):
+        """Initializes the writer.
+
+        Args:
+            tree: The tree.
+        """
         self.tree = tree
         self.tree_file = get_full_path('tinypy', 'generated', 'trees',
                                        tree.polytope.instance.type, f'{tree.polytope.instance.name.replace("-", "_")}.py')
@@ -18,27 +29,50 @@ class TreeWriter:
             file.write('')
 
     def write_tree(self):
+        """Writes the generate tree file.
+        """
         # if not file_exists(self.tree_file):
         with open(self.tree_file, 'w+') as file:
-            self.write_imports(file)
-            self.write_class(file)
-            self.write_test(file)
+            self.__write_imports(file)
+            self.__write_class(file)
+            self.__write_test(file)
 
-    def write_imports(self, file):
+    def __write_imports(self, file):
+        """Writes the import section.
+
+        Args:
+            file: The file.
+        """
         file.write('from tinypy.generated.trees.generated_tree import GeneratedTree\n\n')
         file.write('from tinypy.geometry.point import Point\n\n\n')
 
-    def write_class(self, file):
+    def __write_class(self, file):
+        """Writes the class definition.
+
+        Args:
+            file: The file.
+        """
         file.write(f'class {self.tree.polytope.instance.type.upper()}Tree(GeneratedTree):\n\n')
         file.write(f'{TAB}def __init__(self, polytope):\n')
         file.write(f'{TAB}{TAB}self.polytope = polytope\n')
         file.write(f'{TAB}{TAB}self.hyperplanes = polytope.H\n\n')
 
-    def write_test(self, file):
-        file.write(f'{TAB}def test(self, point: Point):\n')
-        self.write_if(file, self.tree.root)
+    def __write_test(self, file):
+        """Writes the test method.
 
-    def write_if(self, file, index: int):
+        Args:
+            file: The file.
+        """
+        file.write(f'{TAB}def test(self, point: Point):\n')
+        self.__write_if(file, self.tree.root)
+
+    def __write_if(self, file, index: int):
+        """Writes the if condition.
+
+        Args:
+            file: The file.
+            index: The node index.
+        """
         node = self.tree.graph.nodes[index]
         solutions, height = node['solutions'], node['height']
 
@@ -56,6 +90,6 @@ class TreeWriter:
                     right_node = key
 
             file.write(f'{TAB}{TAB}{TAB * height}if self.hyperplanes[{hyperplane}].in_halfspace(point):\n')
-            self.write_if(file, right_node)
+            self.__write_if(file, right_node)
             file.write(f'{TAB}{TAB}{TAB * height}else:\n')
-            self.write_if(file, left_node)
+            self.__write_if(file, left_node)

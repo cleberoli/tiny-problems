@@ -10,8 +10,33 @@ from tinypy.polytopes.base_polytope import Polytope
 
 
 class Tree(ABC):
+    """Base class that generates the decisions trees for different polytopes.
+
+    Attributes:
+        graph: The graph representation for the tree.
+        polytope: The given polytope.
+        intersections: Computes the intersections of hyperplanes and cones.
+        queue: List of node indices to explore.
+        next_node: Index of next node assignable.
+        height: Current tree height.
+        root: Index of root node.
+    """
+
+    graph: DiGraph
+    polytope: Polytope
+    intersections: Intersections
+
+    queue: List[int]
+    next_node: int
+    height: int
+    root: int
 
     def __init__(self, polytope: Polytope):
+        """Initializes the tree.
+
+        Args:
+            polytope: The given polytope.
+        """
         self.graph = DiGraph()
         self.polytope = polytope
         self.intersections = Intersections(polytope)
@@ -21,11 +46,21 @@ class Tree(ABC):
         self.root = 1
 
     def make_tree(self, bfs=False):
+        """Constructs the tree.
+
+        Args:
+            bfs: Whether should use a breadth first or depth first approach.
+        """
         root_node = self.__add_node(0, list(self.polytope.vertices.keys()), Region())
         self.queue.append(root_node)
-        self.explore(bfs)
+        self.__explore(bfs)
 
-    def explore(self, bfs: bool = False):
+    def __explore(self, bfs: bool = False):
+        """Explores each node.
+
+        Args:
+            bfs: Whether should use a breadth first or depth first approach.
+        """
         height: int
         solutions: List[int]
         hyperplanes: List[int]
@@ -65,14 +100,34 @@ class Tree(ABC):
 
     @abstractmethod
     def select_hyperplane(self, solutions: List[int]) -> int:  # pragma: no cover
+        """Selects the next hyperplane given the possible solutions.
+
+        Args:
+            solutions: The list of possible solution indices.
+
+        Returns:
+            Index of the next hyperplane.
+        """
         pass
 
     def __add_node(self, height: int, solutions: List[int], region: Region) -> int:
+        """Adds a node to the tree and updates its height.
+
+        Args:
+            height: Node height.
+            solutions: Node solutions.
+            region: Node region.
+
+        Returns:
+            Index of the inserted node.
+        """
         self.graph.add_node(self.__get_next_node(), height=height, solutions=solutions, region=region)
         self.height = max(self.height, height)
 
         return self.next_node
 
     def __get_next_node(self):
+        """Increments and returns the next node.
+        """
         self.next_node = self.next_node + 1
         return self.next_node
