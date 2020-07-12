@@ -23,7 +23,7 @@ of well-known classical problems, based on the geometric characteristics of thes
 In order to accomplish this goal our system has five main use cases shown in the figure below,
 where the user is responsible for performing all use cases as it is specified.
 
-![Use case diagram](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/use-cases.jpg?raw=true)
+![Use case diagram](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/use-cases.jpg?raw=true)
 
 ### 1. Generate Instance
 
@@ -107,7 +107,7 @@ point in the benchmark.
 
 The project's architecture is divided into eight modules, shown as an overview in the class diagram below.
 
-![Overview of classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/overview.jpg?raw=true)
+![Overview of classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/overview.jpg?raw=true)
 
 Keeping in mind the general structure presented we shall look into module specifically.
 
@@ -118,7 +118,7 @@ The main functions are implemented in the base benchmark and all other possible 
 extend the base one and implement only the specified function. Along with these classes there is the BenchmarkRunner class which takes a generated tree and runs it
 for all benchmarks points.
 
-![Benchmark classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/benchmark.jpg?raw=true)
+![Benchmark classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/benchmark.jpg?raw=true)
 
 ### 2. Geometry
 Offers implementations of basic geometric concepts and objects.
@@ -127,7 +127,7 @@ The geometry classes represent geometric entities like points, hyperplanes, and 
 structures like Voronoi diagrams. The classes here are independent in the sense they can be
 initialized freely as long as you respect the parameters.
 
-![Geometry classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/geometry.jpg?raw=true)
+![Geometry classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/geometry.jpg?raw=true)
 
 ### 3. Graph
 Offers implementations of graph related objects and graphs themselves.
@@ -135,7 +135,7 @@ Offers implementations of graph related objects and graphs themselves.
 The geometry classes represent either basic graphs like the complete graph Kn, or graph structures
 associated to the problem like the skeleton. All graph implementations are based on the [NetworkX](https://networkx.github.io/) package.
 
-![Graph classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/graph.jpg?raw=true)
+![Graph classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/graph.jpg?raw=true)
 
 ### 4. Instances
 Contains the instance classes with the methods for generating them.
@@ -143,12 +143,12 @@ Contains the instance classes with the methods for generating them.
 The main functions are implemented in the base instance and all other possible instances should
 extend the base one and implement only the specified function.
 
-![Instance classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/instances.jpg?raw=true)
+![Instance classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/instances.jpg?raw=true)
 
 ### 5. Lp
 Contains implementation for the linear programming models used.
 
-![Lp classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/lp.jpg?raw=true)
+![Lp classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/lp.jpg?raw=true)
 
 ### 6. Polytopes
 Contains the polytope classes with the methods for building them.
@@ -156,7 +156,7 @@ Contains the polytope classes with the methods for building them.
 The main functions are implemented in the base polytope and all other possible polytopes should
 extend the base one and only specific the correct instance to be used.
 
-![Polytope classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/polytopes.jpg?raw=true)
+![Polytope classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/polytopes.jpg?raw=true)
 
 ### 7. Trees
 Contains the different decision tree along their writer.
@@ -164,18 +164,18 @@ Contains the different decision tree along their writer.
 The main function for building the tree are implemented in the base tree. All possible variations
 should extend the base one and define the method for choosing the hyperplane.
 
-![Tree classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/trees.jpg?raw=true)
+![Tree classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/trees.jpg?raw=true)
 
 ### 8. Utils
 Contains utility functions to deal with combinatorial problems and accessing files.
 
-![Util classes](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/utils.jpg?raw=true)
+![Util classes](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/utils.jpg?raw=true)
 
 ### Dependencies
 The following diagram shows the dependencies among the previous modules, with the exception
 of the `utils` module, since every other module depends on it.
 
-![Dependencies](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/dependencies.jpg?raw=true)
+![Dependencies](https://github.com/cleberoli/tiny-problems/blob/master/docs/uml/dependencies.jpg?raw=true)
 
 ## Quality Assessment
 In order to evaluate the system quality two approaches were used.
