@@ -176,3 +176,19 @@ The following diagram shows the dependencies among the previous modules, with th
 of the `utils` module, since every other module depends on it.
 
 ![Dependencies](https://github.com/cleberoli/tiny-problems/blob/develop/docs/uml/dependencies.jpg?raw=true)
+
+## Quality Assessment
+In order to evaluate the system quality two approaches were used.
+
+### 1. Unit Tests
+Unit tests were during the developing to evaluate individual functions. 
+Inside each module there is a `tests` submodule containing the test files used. 
+The assertions made mostly regarded the expected values and sometimes also their types.
+
+The `coverage` directory contains the report generated showing the score of 100% coverage
+and the `test.log` file contains the output of tests showing that all of them are passing.
+
+### 2. Validation Tests
+These tests were designed to evaluate the system performance as a whole. The goal was to process
+the benchmark for the `CUB-n3` and `TSP-n5` instances achieving a 100% accuracy. These results can be
+found in the `files/benchmarks` directory with their respective solution files.

@@ -1,0 +1,127 @@
+Testing started at 5:11 PM ...
+D:\Documents\Documents\git\tiny-problems\venv\Scripts\python.exe "D:\Program Files\JetBrains\PyCharm 2020.1.1\plugins\python\helpers\pycharm\_jb_pytest_runner.py" --path D:/Documents/Documents/git/tiny-problems/tinypy -- --capture=fd
+Launching pytest with arguments --capture=fd D:/Documents/Documents/git/tiny-problems/tinypy in D:\Documents\Documents\git\tiny-problems\tinypy
+
+============================= test session starts =============================
+platform win32 -- Python 3.7.4, pytest-5.4.3, py-1.9.0, pluggy-0.13.1 -- D:\Documents\Documents\git\tiny-problems\venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Documents\Documents\git\tiny-problems\tinypy
+collecting ... collected 110 items
+
+geometry/tests/test_bisection.py::test_bisection
+geometry/tests/test_bisection.py::test_add
+geometry/tests/test_bisection.py::test_str
+geometry/tests/test_bisection.py::test_repr
+geometry/tests/test_cone.py::test_cone
+geometry/tests/test_hyperplane.py::test_hyperplane
+geometry/tests/test_hyperplane.py::test_invalid_hyperplane
+geometry/tests/test_hyperplane.py::test_position
+geometry/tests/test_hyperplane.py::test_in_halfspace
+geometry/tests/test_hyperplane.py::test_neg
+geometry/tests/test_hyperplane.py::test_hash
+geometry/tests/test_hyperplane.py::test_get_item
+geometry/tests/test_hyperplane.py::test_comp
+geometry/tests/test_hyperplane.py::test_str
+geometry/tests/test_hyperplane.py::test_repr
+geometry/tests/test_intersections.py::test_intersections
+geometry/tests/test_intersections.py::test_get_positions
+geometry/tests/test_intersections.py::test_get_positions_region
+geometry/tests/test_point.py::test_point
+geometry/tests/test_point.py::test_invalid_point
+geometry/tests/test_point.py::test_origin
+geometry/tests/test_point.py::test_random
+geometry/tests/test_point.py::test_random_triangle
+geometry/tests/test_point.py::test_homogeneous_coords
+geometry/tests/test_point.py::test_norm
+geometry/tests/test_point.py::test_distance
+geometry/tests/test_point.py::test_respects_triangle_inequality
+geometry/tests/test_point.py::test_add
+geometry/tests/test_point.py::test_sub
+geometry/tests/test_point.py::test_mul
+geometry/tests/test_point.py::test_dot
+geometry/tests/test_point.py::test_neg
+geometry/tests/test_point.py::test_get_item
+geometry/tests/test_point.py::test_hash
+geometry/tests/test_point.py::test_comp
+geometry/tests/test_point.py::test_str
+geometry/tests/test_point.py::test_repr
+geometry/tests/test_region.py::test_region
+geometry/tests/test_region.py::test_add_hyperplane
+geometry/tests/test_region.py::test_union
+geometry/tests/test_region.py::test_str
+geometry/tests/test_region.py::test_repr
+geometry/tests/test_voronoi.py::test_voronoi
+graph/tests/test_delaunay.py::test_delaunay PASSED                  [  0%]PASSED                        [  1%]PASSED                        [  2%]PASSED                       [  3%]PASSED                            [  4%]PASSED                [  5%]PASSED        [  6%]PASSED                  [  7%]PASSED              [  8%]PASSED                       [  9%]PASSED                      [ 10%]PASSED                  [ 10%]PASSED                      [ 11%]PASSED                       [ 12%]PASSED                      [ 13%]PASSED          [ 14%]PASSED          [ 15%]Using license file C:\Program Files\Gurobi\gurobi.lic
+Academic license - for non-commercial use only
+PASSED   [ 16%]PASSED                          [ 17%]PASSED                  [ 18%]PASSED                         [ 19%]PASSED                         [ 20%]PASSED                [ 20%]PASSED             [ 21%]PASSED                           [ 22%]PASSED                       [ 23%]PASSED   [ 24%]PASSED                            [ 25%]PASSED                            [ 26%]PASSED                            [ 27%]PASSED                            [ 28%]PASSED                            [ 29%]PASSED                       [ 30%]PASSED                           [ 30%]PASSED                           [ 31%]PASSED                            [ 32%]PASSED                           [ 33%]PASSED                        [ 34%]PASSED                [ 35%]PASSED                         [ 36%]PASSED                           [ 37%]PASSED                          [ 38%]PASSED                      [ 39%]PASSED                       [ 40%]
+graph/tests/test_delaunay.py::test_add_edge PASSED                       [ 40%]
+graph/tests/test_delaunay.py::test_get_edge PASSED                       [ 41%]
+graph/tests/test_delaunay.py::test_get_edges PASSED                      [ 42%]
+graph/tests/test_delaunay.py::test_has_edge PASSED                       [ 43%]
+graph/tests/test_kn.py::test_kn PASSED                                   [ 44%]
+graph/tests/test_kn.py::test_get_hamilton_cycles PASSED                  [ 45%]
+graph/tests/test_kn.py::test_get_cuts PASSED                             [ 46%]
+graph/tests/test_kn.py::test_get_triangles PASSED                        [ 47%]
+graph/tests/test_kn.py::test_invalid_kn PASSED                           [ 48%]
+graph/tests/test_skeleton.py::test_skeleton PASSED                       [ 49%]
+graph/tests/test_skeleton.py::test_add_edge PASSED                       [ 50%]
+graph/tests/test_skeleton.py::test_get_edge PASSED                       [ 50%]
+graph/tests/test_skeleton.py::test_get_edges PASSED                      [ 51%]
+graph/tests/test_skeleton.py::test_has_edge PASSED                       [ 52%]
+instances/tests/test_cut_instance.py::test_cut_instance_5
+instances/tests/test_cut_instance.py::test_cut_instance_6
+instances/tests/test_cut_instance.py::test_invalid_cut_instance
+instances/tests/test_cut_instance.py::test_generate_solutions
+instances/tests/test_hypercube_instance.py::test_hypercube_instance_3
+instances/tests/test_hyperpyramid_instance.py::test_hyperpyramid_instance_6
+instances/tests/test_hyperpyramid_instance.py::test_invalid_hyperpyramid_instance
+instances/tests/test_hyperpyramid_instance.py::test_generate_solutions
+instances/tests/test_random_instance.py::test_random_instance_3_4
+instances/tests/test_tsp_instance.py::test_tsp_instance_6
+instances/tests/test_tsp_instance.py::test_invalid_tsp_instance
+instances/tests/test_tsp_instance.py::test_generate_solutions
+lp/tests/test_adjacency.py::test_adjacency PASSED         [ 53%]PASSED         [ 54%]PASSED   [ 55%]PASSED     [ 56%]PASSED [ 57%]
+instances/tests/test_hypercube_instance.py::test_hypercube_instance_6 PASSED [ 58%]
+instances/tests/test_hypercube_instance.py::test_invalid_hypercube_instance PASSED [ 59%]
+instances/tests/test_hypercube_instance.py::test_generate_solutions PASSED [ 60%]
+instances/tests/test_hyperpyramid_instance.py::test_hyperpyramid_instance_3 PASSED [ 60%]PASSED [ 61%]PASSED [ 62%]PASSED [ 63%]PASSED [ 64%]
+instances/tests/test_random_instance.py::test_random_instance_6_8 PASSED [ 65%]
+instances/tests/test_random_instance.py::test_invalid_random_instance PASSED [ 66%]
+instances/tests/test_random_instance.py::test_new_random_instance PASSED [ 67%]
+instances/tests/test_random_instance.py::test_generate_solutions PASSED  [ 68%]
+instances/tests/test_random_instance.py::test_get_solution PASSED        [ 69%]
+instances/tests/test_tsp_instance.py::test_tsp_instance_5 PASSED         [ 70%]PASSED         [ 70%]PASSED   [ 71%]PASSED     [ 72%]
+lp/tests/test_adjacency.py::test_primal
+lp/tests/test_adjacency.py::test_dual
+lp/tests/test_adjacency.py::test_log
+lp/tests/test_adjacency.py::test_clear
+lp/tests/test_interesection.py::test_intersection PASSED                        [ 73%]PASSED                           [ 74%]PASSED                             [ 75%]PASSED                              [ 76%]PASSED                            [ 77%]PASSED                 [ 78%]
+lp/tests/test_interesection.py::test_model PASSED                        [ 79%]
+lp/tests/test_interesection.py::test_log PASSED                          [ 80%]
+lp/tests/test_interesection.py::test_clear PASSED                        [ 80%]
+polytopes/tests/test_cut_polytope.py::test_cut_polytope_5
+polytopes/tests/test_cut_polytope.py::test_cut_polytope_6
+polytopes/tests/test_cut_polytope.py::test_invalid_cut_polytope
+polytopes/tests/test_hypercube_polytope.py::test_hypercube_polytope_3
+polytopes/tests/test_random_polytope.py::test_random_polytope_6_8
+polytopes/tests/test_random_polytope.py::test_invalid_random_polytope
+polytopes/tests/test_random_polytope.py::test_new_random_polytope
+polytopes/tests/test_tsp_polytope.py::test_tsp_polytope_5 PASSED         [ 81%]PASSED         [ 82%]PASSED   [ 83%]PASSED [ 84%]
+polytopes/tests/test_hypercube_polytope.py::test_hypercube_polytope_6 PASSED [ 85%]
+polytopes/tests/test_hypercube_polytope.py::test_invalid_hypercube_polytope PASSED [ 86%]
+polytopes/tests/test_hyperpyramid_polytope.py::test_hyperpyramid_polytope_3 PASSED [ 87%]
+polytopes/tests/test_hyperpyramid_polytope.py::test_hyperpyramid_polytope_6 PASSED [ 88%]
+polytopes/tests/test_hyperpyramid_polytope.py::test_invalid_hyperpyramid_polytope PASSED [ 89%]
+polytopes/tests/test_random_polytope.py::test_random_polytope_3_4 PASSED [ 90%]PASSED [ 90%]PASSED [ 91%]PASSED [ 92%]PASSED         [ 93%]
+polytopes/tests/test_tsp_polytope.py::test_tsp_polytope_6 PASSED         [ 94%]
+polytopes/tests/test_tsp_polytope.py::test_invalid_tsp_polytope PASSED   [ 95%]
+trees/tests/enumeration_tree_test.py::test_enumeration_tree
+trees/tests/enumeration_tree_test.py::test_enumeration_bfs
+trees/tests/tree_writer_test.py::test_tree_writer PASSED       [ 96%]PASSED        [ 97%]PASSED                 [ 98%]
+utils/tests/test_combinatorics.py::test_get_combinations
+utils/tests/test_combinatorics.py::test_get_permutations
+
+============================= 110 passed in 1.01s =============================
+
+Process finished with exit code 0
+PASSED          [ 99%]PASSED          [100%]
