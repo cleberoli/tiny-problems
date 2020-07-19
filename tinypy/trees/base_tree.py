@@ -50,9 +50,12 @@ class Tree(ABC):
         self.tree_file = get_full_path('files', 'trees', self.polytope.instance.type, f'{self.polytope.instance.name}.tptf')
         create_directory(get_full_path('files', 'trees', self.polytope.instance.type))
 
-        self.make_tree()
-        self.__write_tree_file()
-        self.__read_tree_file()
+        if file_exists(self.tree_file):
+            self.graph = self.__read_tree_file()
+        else:
+            self.make_tree()
+            self.__write_tree_file()
+            self.intersections.clear_files()
 
     def make_tree(self, bfs=False):
         """Constructs the tree.
@@ -153,7 +156,7 @@ class Tree(ABC):
             file.readline()  # hyperplanes
             nodes = int(file.readline().split()[1])
             edges = int(file.readline().split()[1])
-            height = int(file.readline().split()[1])
+            self.height = int(file.readline().split()[1])
             file.readline()
 
             file.readline()  # NODES SECTION

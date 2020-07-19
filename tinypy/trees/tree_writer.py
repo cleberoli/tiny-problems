@@ -54,8 +54,7 @@ class TreeWriter:
         """
         file.write(f'class {self.tree.polytope.instance.type.upper()}Tree(GeneratedTree):\n\n')
         file.write(f'{TAB}def __init__(self, polytope):\n')
-        file.write(f'{TAB}{TAB}self.polytope = polytope\n')
-        file.write(f'{TAB}{TAB}self.hyperplanes = polytope.H\n\n')
+        file.write(f'{TAB}{TAB}GeneratedTree.__init__(self, polytope)\n\n')
 
     def __write_test(self, file):
         """Writes the test method.

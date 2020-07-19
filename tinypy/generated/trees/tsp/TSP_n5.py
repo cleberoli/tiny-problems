@@ -6,8 +6,7 @@ from tinypy.geometry.point import Point
 class TSPTree(GeneratedTree):
 
     def __init__(self, polytope):
-        self.polytope = polytope
-        self.hyperplanes = polytope.H
+        GeneratedTree.__init__(self, polytope)
 
     def test(self, point: Point):
         if self.hyperplanes[1].in_halfspace(point):
