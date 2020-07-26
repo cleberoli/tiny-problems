@@ -1,9 +1,10 @@
-from typing import Dict
+from typing import Dict, List
 
 from gurobipy.gurobipy import Model, GRB, quicksum
 
 from tinypy.geometry.cone import Cone
 from tinypy.geometry.hyperplane import Hyperplane
+from tinypy.geometry.point import Point
 from tinypy.geometry.region import Region
 from tinypy.utils.file import create_directory, delete_directory, file_exists, get_full_path
 
@@ -32,8 +33,10 @@ class IntersectionProblem:
 
     cones: Dict[int, 'Cone']
     hyperplanes: Dict[int, 'Hyperplane']
+    euclidean_hyperplanes: List['Hyperplane']
 
-    def __init__(self, dim: int, name: str, cones: Dict[int, 'Cone'], hyperplanes: Dict[int, 'Hyperplane'], log: bool = False):
+    def __init__(self, dim: int, name: str, cones: Dict[int, 'Cone'], hyperplanes: Dict[int, 'Hyperplane'], triangles: List[List[int]],
+                 log: bool = False):
         """Initializes the intersection model.
 
         Args:
@@ -47,6 +50,7 @@ class IntersectionProblem:
         self.name = name
         self.cones = cones
         self.hyperplanes = hyperplanes
+        self.euclidean_hyperplanes = self.__get_euclidean_hyperplanes(triangles)
         self.log = log
         self.lp_directory = get_full_path('files', 'lps', 'intersection', name)
         create_directory(self.lp_directory)
@@ -90,6 +94,20 @@ class IntersectionProblem:
 
         return True if status == IntersectionProblem.STATUS_OPTIMAL else False
 
+    def __get_euclidean_hyperplanes(self, triangles: List[List[int]]) -> List[Hyperplane]:
+        hyperplanes = []
+
+        if len(triangles) > 0:
+            for i in range(self.dim):
+                point = Point([0] * i + [1] + [0] * (self.dim - i - 1))
+                hyperplanes.append(Hyperplane(point, d=0))
+
+            for triangle in triangles:
+                point = Point([1 if i in triangle else 0 for i in range(self.dim)])
+                hyperplanes.append(Hyperplane(point, d=0))
+
+        return hyperplanes
+
     def __model(self, m: Model, region: 'Region', c: int, h: int):
         """Defines the model.
 
@@ -109,10 +127,13 @@ class IntersectionProblem:
 
         m.setObjective(0, GRB.MINIMIZE)
 
+        for euclidean in self.euclidean_hyperplanes:
+            m.addConstr(quicksum(x[d] * euclidean[d] for d in range(self.dim)) >= euclidean.d)
+
         for index in delimiters:
             hyperplane = self.hyperplanes[index] if index > 0 else -self.hyperplanes[-index]
-            m.addConstr(quicksum(x[d] * hyperplane[d] for d in range(self.dim)) >= 0)
-            m.addConstr(quicksum(y[d] * hyperplane[d] for d in range(self.dim)) >= 0)
+            m.addConstr(quicksum(x[d] * hyperplane[d] for d in range(self.dim)) >= hyperplane.d)
+            m.addConstr(quicksum(y[d] * hyperplane[d] for d in range(self.dim)) >= hyperplane.d)
 
         m.addConstr(quicksum(x[d] * self.hyperplanes[h][d] for d in range(self.dim)) >= self.hyperplanes[h].d + self.EPSILON)
         m.addConstr(quicksum(y[d] * self.hyperplanes[h][d] for d in range(self.dim)) <= self.hyperplanes[h].d - self.EPSILON)

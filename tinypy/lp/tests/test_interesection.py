@@ -20,7 +20,7 @@ cones = {1: Cone(1, solutions[1], [-1, -2, -3]), 2: Cone(2, solutions[2], [1, -2
 
 
 def test_intersection():
-    intersection_lp = IntersectionProblem(3, 'misc', cones, hyperplanes, True)
+    intersection_lp = IntersectionProblem(3, 'misc', cones, hyperplanes, [], True)
 
     assert intersection_lp.dim == 3
     assert intersection_lp.name == 'misc'
@@ -32,7 +32,7 @@ def test_intersection():
 
 
 def test_model():
-    intersection_lp = IntersectionProblem(3, 'misc', cones, hyperplanes, True)
+    intersection_lp = IntersectionProblem(3, 'misc', cones, hyperplanes, [], True)
     assert not intersection_lp.test_intersection(Region(), 1, 4)
     assert not intersection_lp.test_intersection(Region(), 2, 4)
     assert not intersection_lp.test_intersection(Region(), 7, 4)
@@ -48,7 +48,7 @@ def test_model():
 
 
 def test_log():
-    intersection_lp = IntersectionProblem(3, 'misc', cones, hyperplanes)
+    intersection_lp = IntersectionProblem(3, 'misc', cones, hyperplanes, [])
     assert not intersection_lp.log
     assert not intersection_lp.test_intersection(Region(), 1, 1)
     assert not intersection_lp.test_intersection(Region(), 1, 2)
@@ -56,7 +56,7 @@ def test_log():
 
 
 def test_clear():
-    intersection_lp = IntersectionProblem(3, 'misc', cones, hyperplanes, True)
+    intersection_lp = IntersectionProblem(3, 'misc', cones, hyperplanes, [], True)
     assert file_exists(get_full_path('files', 'lps', 'intersection', 'misc'))
 
     intersection_lp.clear_files()

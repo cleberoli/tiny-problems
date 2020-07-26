@@ -27,7 +27,7 @@ class TreeWriter:
         create_directory(get_full_path('tinypy', 'generated', 'trees', tree.polytope.instance.type))
 
         with open(get_full_path('tinypy', 'generated', 'trees', tree.polytope.instance.type, '__init__.py'), 'w') as file:
-            file.write(f'"""Contains the generated tree classes for the {tree.polytope.full_name.capitalize()} polytope.\n')
+            file.write(f'"""Contains the generated tree classes for the {tree.polytope.full_name.title()} polytope.\n')
             file.write('"""')
 
     def write_tree(self):
