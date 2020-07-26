@@ -1,5 +1,3 @@
-from typing import List
-
 from tinypy.benchmark.base_benchmark import Benchmark
 from tinypy.instances.hypercube_instance import HypercubeInstance
 
@@ -20,12 +18,3 @@ class HypercubeBenchmark(Benchmark):
         self.instance = HypercubeInstance(**kwargs)
         self.euclidean = False
         Benchmark.__init__(self, HypercubeInstance(**kwargs), False)
-
-    def get_triangles(self) -> List[List[int]]:
-        """Returns the triangles to be consider in the triangle inequalities.
-
-        Returns:
-            An empty list since this instance don't respect the triangle
-            inequality constraints.
-        """
-        return []

@@ -1,7 +1,4 @@
-from typing import List
-
 from tinypy.benchmark.base_benchmark import Benchmark
-from tinypy.graph.kn import Kn
 from tinypy.instances.tsp_instance import TSPInstance
 
 
@@ -20,13 +17,3 @@ class TSPBenchmark(Benchmark):
                 instance.
         """
         Benchmark.__init__(self, TSPInstance(**kwargs), True)
-
-    def get_triangles(self) -> List[List[int]]:
-        """Returns the triangles to be consider in the triangle inequalities.
-
-        Returns:
-            A list containing the triangles with each triangle being represented
-            by a list of three vertices.
-        """
-        kn = Kn(self.instance.n)
-        return kn.get_triangles()

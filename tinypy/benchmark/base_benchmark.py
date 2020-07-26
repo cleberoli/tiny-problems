@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 from datetime import datetime
 from typing import List, Tuple
 
@@ -58,7 +58,7 @@ class Benchmark(ABC):
 
         while len(solutions) < size * self.instance.size:
             if self.euclidean:
-                point = Point.random_triangle(self.instance.dimension, self.get_triangles())
+                point = Point.random_triangle(self.instance.dimension, self.instance.get_triangles())
             else:
                 point = Point.random(self.instance.dimension, a=-1, b=1, decimals=4, norm=1)
 
@@ -92,13 +92,3 @@ class Benchmark(ABC):
             for point in points_solutions:
                 solution_str = ' '.join(map(str, point[0]))
                 file.write(f'{point[1]}: {solution_str}\n')
-
-    @abstractmethod
-    def get_triangles(self) -> List[List[int]]:
-        """Returns the triangles to be consider in the triangle inequalities.
-
-        Returns:
-            A list containing the triangles with each triangle being represented
-            by a list of three vertices.
-        """
-        pass

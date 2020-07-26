@@ -48,6 +48,6 @@ def test_get_positions_region():
     intersections.clear_lp_files()
     assert not file_exists(get_full_path('files', 'lps', 'intersection', 'CUB-n3'))
 
-    assert file_exists(get_full_path('files', 'intersections', 'cub'))
+    assert file_exists(get_full_path('files', 'intersections', 'cub', 'CUB-n3'))
     intersections.clear_files()
-    assert not file_exists(get_full_path('files', 'intersections', 'cub'))
+    assert not file_exists(get_full_path('files', 'intersections', 'cub', 'CUB-n3'))
