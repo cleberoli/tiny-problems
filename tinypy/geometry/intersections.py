@@ -55,7 +55,7 @@ class Intersections:
     def clear_files(self):
         """Deletes the files used to stored previous results.
         """
-        delete_directory(get_full_path('files', 'intersections', self.type))
+        delete_directory(get_full_path('files', 'intersections', self.type, self.name))
 
     def clear_lp_files(self):
         """Deletes the files used by the linear program.
