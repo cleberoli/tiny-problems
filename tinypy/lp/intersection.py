@@ -6,7 +6,7 @@ from tinypy.geometry.cone import Cone
 from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.point import Point
 from tinypy.geometry.region import Region
-from tinypy.utils.file import create_directory, delete_directory, file_exists, get_full_path
+from tinypy.utils.file import create_directory, delete_directory_files, file_exists, get_full_path
 
 
 class IntersectionProblem:
@@ -55,10 +55,15 @@ class IntersectionProblem:
         self.lp_directory = get_full_path('files', 'lps', 'intersection', name)
         create_directory(self.lp_directory)
 
-    def clear_files(self):
-        """Deletes the files used to stored the models and results.
+    def clear_files(self, region: Region = None):
+        """Deletes the files used to stored the models and results for the region.
+
+        If no region is provided then all intersection lp files will be deleted.
+
+        Args:
+            region: The region whose files will be deleted.
         """
-        delete_directory(self.lp_directory)
+        delete_directory_files(self.lp_directory, repr(region))
 
     def test_intersection(self, region: 'Region', cone: int, hyperplane: int) -> bool:
         """Checks whether the hyperplane intercepts the given cone.
