@@ -67,7 +67,6 @@ class Tree(ABC):
         else:
             self.__make_tree(bfs)
             self.__write_tree_file()
-            self.intersections.clear_files()
 
     def __make_tree(self, bfs=False):
         """Constructs the tree.
