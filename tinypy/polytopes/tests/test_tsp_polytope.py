@@ -6,7 +6,7 @@ from tinypy.polytopes.tsp_polytope import TSPInstance, TSPPolytope
 def test_tsp_polytope_5():
     tsp5 = TSPPolytope(5)
 
-    assert tsp5.full_name == 'travelling salesman'
+    assert tsp5.full_name == 'traveling salesman'
     assert tsp5.name == 'tsp'
     assert tsp5.dimension == 10
     assert tsp5.size == 12
@@ -18,7 +18,7 @@ def test_tsp_polytope_5():
 def test_tsp_polytope_6():
     tsp6 = TSPPolytope(6)
 
-    assert tsp6.full_name == 'travelling salesman'
+    assert tsp6.full_name == 'traveling salesman'
     assert tsp6.name == 'tsp'
     assert tsp6.dimension == 15
     assert tsp6.size == 60
