@@ -63,6 +63,10 @@ class Point:
         point = cls(args)
 
         if norm is not None:
+            while point.norm <= 0:
+                args = [random.randint(a, b) for _ in range(dim)] if decimals == 0 else [round(random.uniform(a, b), decimals) for _ in range(dim)]
+                point = cls(args)
+
             unitary_point = point * (norm / point.norm)
             point = cls([round(i, max(decimals, 4)) for i in unitary_point.coords])
 

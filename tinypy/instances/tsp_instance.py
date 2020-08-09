@@ -37,3 +37,13 @@ class TSPInstance(Instance):
         kn = Kn(self.n)
         cycles = kn.get_hamilton_cycles()
         return list(cycles.values())
+
+    def get_triangles(self) -> List[List[int]]:
+        """Returns the triangles to be consider in the triangle inequalities.
+
+        Returns:
+            A list containing the triangles with each triangle being represented
+            by a list of three vertices.
+        """
+        kn = Kn(self.n)
+        return kn.get_triangles()

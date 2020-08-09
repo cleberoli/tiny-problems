@@ -36,3 +36,13 @@ class CutInstance(Instance):
         kn = Kn(self.n)
         cuts = kn.get_cuts()
         return list(cuts.values())
+
+    def get_triangles(self) -> List[List[int]]:
+        """Returns the triangles to be consider in the triangle inequalities.
+
+        Returns:
+            A list containing the triangles with each triangle being represented
+            by a list of three vertices.
+        """
+        kn = Kn(self.n)
+        return kn.get_triangles()

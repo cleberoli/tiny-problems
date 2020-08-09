@@ -37,3 +37,12 @@ class HyperpyramidInstance(Instance):
         vertices = [Point(v + (0,)) for v in vertices]
         vertices.append(Point(tuple([1] * self.n)))
         return vertices
+
+    def get_triangles(self) -> List[List[int]]:
+        """Returns the triangles to be consider in the triangle inequalities.
+
+        Returns:
+            An empty list since this instance don't respect the triangle
+            inequality constraints.
+        """
+        return []

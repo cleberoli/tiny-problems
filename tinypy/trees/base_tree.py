@@ -34,7 +34,7 @@ class Tree(ABC):
     height: int
     root: int
 
-    def __init__(self, polytope: Polytope):
+    def __init__(self, polytope: Polytope, bfs=False):
         """Initializes the tree.
 
         Args:
@@ -53,11 +53,11 @@ class Tree(ABC):
         if file_exists(self.tree_file):
             self.graph = self.__read_tree_file()
         else:
-            self.make_tree()
+            self.__make_tree(bfs)
             self.__write_tree_file()
             self.intersections.clear_files()
 
-    def make_tree(self, bfs=False):
+    def __make_tree(self, bfs=False):
         """Constructs the tree.
 
         Args:

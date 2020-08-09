@@ -41,6 +41,18 @@ def delete_directory(path: str):
     shutil.rmtree(path)
 
 
+def delete_directory_files(path: str, prefix: str):
+    """Deletes all files in the given path if they start with the given prefix.
+
+    Args:
+        path: The path.
+        prefix: The prefix.
+    """
+    for f_name in os.listdir(path):
+        if f_name.startswith(prefix):
+            os.remove(os.path.join(path, f_name))
+
+
 def delete_file(path: str):
     """Deletes the file.
 

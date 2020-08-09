@@ -47,3 +47,12 @@ class RandomInstance(Instance):
         solutions.sort()
 
         return solutions[:self.size]
+
+    def get_triangles(self) -> List[List[int]]:
+        """Returns the triangles to be consider in the triangle inequalities.
+
+        Returns:
+            An empty list since this instance don't respect the triangle
+            inequality constraints.
+        """
+        return []

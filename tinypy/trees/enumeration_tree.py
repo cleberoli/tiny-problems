@@ -11,13 +11,13 @@ class EnumerationTree(Tree):
     but uses the information of intersections to discard some solutions.
     """
 
-    def __init__(self, polytope: Polytope):
+    def __init__(self, polytope: Polytope, bfs=False):
         """Initializes the enumeration tree.
 
         Args:
             polytope: The given polytope.
         """
-        Tree.__init__(self, polytope)
+        Tree.__init__(self, polytope, bfs)
 
     def select_hyperplane(self, solutions: List[int]) -> int:
         """Selects the next hyperplane given the possible solutions.
