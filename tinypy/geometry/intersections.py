@@ -8,7 +8,7 @@ from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.region import Region
 from tinypy.lp.intersection import IntersectionProblem
 from tinypy.polytopes.base_polytope import Polytope
-from tinypy.utils.file import create_directory, delete_directory, file_exists, get_full_path
+from tinypy.utils.file import create_directory, delete_directory, delete_directory_files, file_exists, get_full_path
 
 
 class Intersections:
@@ -50,7 +50,8 @@ class Intersections:
         self.hyperplanes = polytope.H
         self.hyperplanes.update(polytope.extended_H)
         self.cones = polytope.voronoi.cones
-        self.intersection_lp = IntersectionProblem(polytope.dimension, polytope.instance.name, polytope.voronoi.cones, polytope.H, True)
+        self.intersection_lp = IntersectionProblem(polytope.dimension, polytope.instance.name, self.cones, self.hyperplanes,
+                                                   polytope.instance.get_triangles(), True)
 
     def clear_files(self):
         """Deletes the files used to stored previous results.
@@ -62,13 +63,15 @@ class Intersections:
         """
         self.intersection_lp.clear_files()
 
-    def get_positions(self, region: 'Region', cones: List[int], hyperplanes: List[int]) -> Dict[int, 'Bisection']:
+    def get_positions(self, region: 'Region', cones: List[int]) -> Dict[int, 'Bisection']:
         """Returns the the positions of cones with respect to hyperplanes.
+
+        Computes the positions of cones relative to all possible hyperplanes
+        that do not delimit the given region.
 
         Args:
             region: The region to be considered.
             cones: The cones to be considered.
-            hyperplanes: The hyperplanes whose bisections we want.
 
         Returns:
             The bisections of the given cones for each hyperplane.
@@ -76,11 +79,14 @@ class Intersections:
         self.intersection_file = get_full_path('files', 'intersections', self.type, self.name, f'{repr(region)}.tptf')
         create_directory(get_full_path('files', 'intersections', self.type, self.name))
 
+        hyperplanes = [h for h in self.hyperplanes.keys() if h not in region.hyperplanes and -h not in region.hyperplanes]
+
         if file_exists(self.intersection_file):
             positions = self.__read_intersection_file(len(hyperplanes))
         else:
             positions = self.__compute_positions(region, cones, hyperplanes)
             self.__write_intersection_file(region, cones, hyperplanes, positions)
+            self.intersection_lp.clear_files(region)
 
         return positions
 
