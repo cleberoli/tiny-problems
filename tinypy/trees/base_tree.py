@@ -34,7 +34,7 @@ class Tree(ABC):
     height: int
     root: int
 
-    def __init__(self, polytope: Polytope, bfs=False):
+    def __init__(self, polytope: Polytope):
         """Initializes the tree.
 
         Args:
@@ -50,7 +50,19 @@ class Tree(ABC):
         self.tree_file = get_full_path('files', 'trees', self.polytope.instance.type, f'{self.polytope.instance.name}.tptf')
         create_directory(get_full_path('files', 'trees', self.polytope.instance.type))
 
-        if file_exists(self.tree_file):
+    def build_tree(self, bfs=False, recompute=False):
+        """Build the tree.
+        It build the tree if it has not been constructed before or in case
+        it should recompute it again.
+
+        Args:
+            bfs: Whether should use a breath-first search
+            recompute: Whether should recompute the tree
+
+        Returns:
+
+        """
+        if file_exists(self.tree_file) and not recompute:
             self.graph = self.__read_tree_file()
         else:
             self.__make_tree(bfs)
@@ -61,7 +73,7 @@ class Tree(ABC):
         """Constructs the tree.
 
         Args:
-            bfs: Whether should use a breadth first or depth first approach.
+            bfs: Whether should use a breath-first search
         """
         root_node = self.__add_node(0, list(self.polytope.vertices.keys()), Region())
         self.queue.append(root_node)
@@ -88,7 +100,7 @@ class Tree(ABC):
             height, solutions, region = node['height'], node['solutions'].copy(), deepcopy(node['region'])
             hyperplane = self.select_hyperplane(solutions)
             node['hyperplane'] = hyperplane
-            positions = self.intersections.get_positions(region, solutions, [hyperplane])
+            positions = self.intersections.get_positions(region, solutions)
 
             left_solutions = [item for item in solutions if item not in positions[hyperplane].right]
             right_solutions = [item for item in solutions if item not in positions[hyperplane].left]
