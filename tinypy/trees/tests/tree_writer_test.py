@@ -10,6 +10,7 @@ def test_tree_writer():
     tree_file = get_full_path('tinypy', 'generated', 'trees', 'cub', 'CUB_n4.py')
     assert not file_exists(tree_file)
 
+    tree.build_tree()
     writer = TreeWriter(tree)
     writer.write_tree()
     assert file_exists(tree_file)

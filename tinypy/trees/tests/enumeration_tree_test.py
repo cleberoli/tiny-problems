@@ -5,6 +5,7 @@ from tinypy.trees.enumeration_tree import EnumerationTree
 def test_enumeration_tree():
     polytope = HypercubePolytope(4)
     tree = EnumerationTree(polytope)
+    tree.build_tree()
 
     assert tree.polytope == polytope
     assert len(tree.graph.nodes) == 31
@@ -15,6 +16,7 @@ def test_enumeration_tree():
 
 def test_enumeration_bfs():
     polytope = HypercubePolytope(4)
-    tree = EnumerationTree(polytope, True)
+    tree = EnumerationTree(polytope)
+    tree.build_tree()
     
     assert tree.height == 4

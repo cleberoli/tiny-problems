@@ -50,6 +50,7 @@ class BenchmarkRunner:
             input_file.readline()
             solutions = self.polytope.instance.get_solution_dict()
             heights = 0
+            pos, neg = 0, 0
 
             with open(self.solution_file, 'w+') as output_file:
                 for _ in range(instances):
@@ -61,6 +62,14 @@ class BenchmarkRunner:
                     equivalent_solutions = isclose(point * solutions[solution], point * solutions[sol], abs_tol=0.0001)
                     output_file.write(f'{same_solutions} {equivalent_solutions} {solution} {sol} {node} {height} \n')
                     heights = heights + height
+                    if equivalent_solutions:
+                        pos = pos + 1
+                    else:
+                        neg = neg + 1
 
                 output_file.write(f'AVERAGE HEIGHT: {round(heights / instances, 4)}\n')
+                output_file.write(f'POSITIVE: {pos} {round(pos / instances, 4)}\n')
+                output_file.write(f'NEGATIVE: {neg} {round(neg / instances, 4)}\n')
                 print(f'AVERAGE HEIGHT: {round(heights / instances, 4)}\n')
+                print(f'POSITIVE: {pos} {round(pos / instances, 4)}\n')
+                print(f'NEGATIVE: {neg} {round(neg / instances, 4)}\n')
