@@ -111,8 +111,11 @@ class IntersectionProblem:
                 hyperplanes.append(Hyperplane(point, d=0))
 
             for triangle in triangles:
-                point = Point([1 if i in triangle else 0 for i in range(self.dim)])
-                hyperplanes.append(Hyperplane(point, d=0))
+                pairs = [[triangle[0], triangle[1]], [triangle[0], triangle[2]], [triangle[1], triangle[2]]]
+
+                for pair in pairs:
+                    point = Point([1 if i in pair else 0 for i in range(self.dim)])
+                    hyperplanes.append(Hyperplane(point, d=0))
 
         return hyperplanes
 
@@ -137,6 +140,7 @@ class IntersectionProblem:
 
         for euclidean in self.euclidean_hyperplanes:
             m.addConstr(quicksum(x[d] * euclidean[d] for d in range(self.dim)) >= euclidean.d)
+            m.addConstr(quicksum(y[d] * euclidean[d] for d in range(self.dim)) >= euclidean.d)
 
         for index in delimiters:
             hyperplane = self.hyperplanes[index] if index > 0 else -self.hyperplanes[-index]
