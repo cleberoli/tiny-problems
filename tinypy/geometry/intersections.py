@@ -63,7 +63,7 @@ class Intersections:
         """
         self.intersection_lp.clear_files()
 
-    def get_positions(self, region: 'Region', cones: List[int]) -> Dict[int, 'Bisection']:
+    def get_positions(self, region: 'Region', cones: List[int], hyperplanes: List[int] = None) -> Dict[int, 'Bisection']:
         """Returns the the positions of cones with respect to hyperplanes.
 
         Computes the positions of cones relative to all possible hyperplanes
@@ -79,7 +79,8 @@ class Intersections:
         self.intersection_file = get_full_path('files', 'intersections', self.type, self.name, f'{repr(region)}.tptf')
         create_directory(get_full_path('files', 'intersections', self.type, self.name))
 
-        hyperplanes = [h for h in self.hyperplanes.keys() if h not in region.hyperplanes and -h not in region.hyperplanes]
+        if hyperplanes is None:
+            hyperplanes = [h for h in self.hyperplanes.keys() if h not in region.hyperplanes and -h not in region.hyperplanes]
 
         if file_exists(self.intersection_file):
             positions = self.__read_intersection_file(len(hyperplanes))

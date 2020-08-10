@@ -39,7 +39,7 @@ def write_tree(polytope: Polytope):
     print(polytope)
 
     tree = EnumerationTree(polytope)
-    tree.build_tree(recompute=True)
+    tree.build_tree()
     print(f'HEIGHT: {tree.height}')
 
     tree_writer = TreeWriter(tree)
@@ -48,15 +48,15 @@ def write_tree(polytope: Polytope):
 
 def run_benchmark(polytope: Polytope):
     from tinypy.benchmark.benchmark_runner import BenchmarkRunner
-    from tinypy.generated.trees.tsp.TSP_n5 import TSPTree
+    from tinypy.generated.trees.tsp.TSP_n6 import TSPTree
 
     runner = BenchmarkRunner(TSPTree(polytope))
     runner.run()
 
 
 if __name__ == '__main__':
-    polytope = TSPPolytope(5)
+    polytope = TSPPolytope(6)
     write_tree(polytope)
-    # run_benchmark(polytope)
+    run_benchmark(polytope)
 
 
