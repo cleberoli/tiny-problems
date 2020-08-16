@@ -57,10 +57,10 @@ class BenchmarkRunner:
                     line = input_file.readline().split(':')
                     solution = int(line[0])
                     point = Point(list(map(float, line[1].split())))
-                    sol, node, height = self.tree.test(point)
+                    sol, node, height, hyperplanes = self.tree.test(point)
                     same_solutions = solution == sol
                     equivalent_solutions = isclose(point * solutions[solution], point * solutions[sol], abs_tol=0.0001)
-                    output_file.write(f'{same_solutions} {equivalent_solutions} {solution} {sol} {node} {height} \n')
+                    output_file.write(f'{same_solutions} {equivalent_solutions} {solution} {sol} {node} {height} {hyperplanes}\n')
                     heights = heights + height
                     if equivalent_solutions:
                         pos = pos + 1

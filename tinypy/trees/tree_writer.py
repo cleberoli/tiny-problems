@@ -1,3 +1,5 @@
+from typing import List
+
 from tinypy.trees.base_tree import Tree
 from tinypy.utils.file import create_directory, file_exists, get_full_path
 
@@ -65,9 +67,9 @@ class TreeWriter:
             file: The file.
         """
         file.write(f'{TAB}def test(self, point: Point):\n')
-        self.__write_if(file, self.tree.root)
+        self.__write_if(file, self.tree.root, [])
 
-    def __write_if(self, file, index: int):
+    def __write_if(self, file, index: int, hyperplanes: List[int]):
         """Writes the if condition.
 
         Args:
@@ -78,9 +80,9 @@ class TreeWriter:
         solutions, height = node['solutions'], node['height']
 
         if len(solutions) == 1:
-            file.write(f'{TAB}{TAB}{TAB * height}return {solutions[0]}, {index}, {height}\n')
+            file.write(f'{TAB}{TAB}{TAB * height}return {solutions[0]}, {index}, {height}, {hyperplanes}\n')
         else:
-            hyperplane = node['hyperplane']
+            hyperplane = int(node['hyperplane'])
             successors = self.tree.graph.succ[index]
             left_node, right_node = 0, 0
 
@@ -90,7 +92,12 @@ class TreeWriter:
                 if value['direction'] == 'right':
                     right_node = key
 
+            h_right = hyperplanes.copy()
+            h_left = hyperplanes.copy()
+            h_right.append(hyperplane)
+            h_left.append(-hyperplane)
+
             file.write(f'{TAB}{TAB}{TAB * height}if self.hyperplanes[{hyperplane}].in_halfspace(point):\n')
-            self.__write_if(file, right_node)
+            self.__write_if(file, right_node, h_right)
             file.write(f'{TAB}{TAB}{TAB * height}else:\n')
-            self.__write_if(file, left_node)
+            self.__write_if(file, left_node, h_left)
