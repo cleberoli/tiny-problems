@@ -24,7 +24,7 @@ class IntersectionProblem:
     STATUS_OPTIMAL = 2
     STATUS_INFEASIBLE = 3
     STATUS_UNBOUNDED = 5
-    EPSILON = 1E-2
+    EPSILON = 1E-4
 
     dim: int
     name: str
@@ -133,8 +133,8 @@ class IntersectionProblem:
         y = dict()
 
         for d in range(self.dim):
-            x[d] = m.addVar(name=f'x_{d}', vtype=GRB.CONTINUOUS, lb=-1, ub=1)
-            y[d] = m.addVar(name=f'y_{d}', vtype=GRB.CONTINUOUS, lb=-1, ub=1)
+            x[d] = m.addVar(name=f'x_{d}', vtype=GRB.CONTINUOUS)
+            y[d] = m.addVar(name=f'y_{d}', vtype=GRB.CONTINUOUS)
 
         m.setObjective(0, GRB.MINIMIZE)
 
