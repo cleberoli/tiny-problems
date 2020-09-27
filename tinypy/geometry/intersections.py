@@ -28,6 +28,8 @@ class Intersections:
         intersection_lp: Instance of the intersection linear program model.
     """
 
+    EPSILON = 1E-4
+
     type: str
     name: str
     intersection_file: str
@@ -111,7 +113,8 @@ class Intersections:
 
             for c in cones:
                 if self.hyperplanes[h].in_halfspace(self.cones[c].solution):
-                    positions[h].add_right(c)
+                    if self.hyperplanes[h].position(self.cones[c].solution) > self.EPSILON:
+                        positions[h].add_right(c)
                 else:
                     positions[h].add_left(c)
 
