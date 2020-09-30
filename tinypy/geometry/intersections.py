@@ -1,6 +1,6 @@
 from ast import literal_eval as make_tuple
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from tinypy.geometry.bisection import Bisection
 from tinypy.geometry.cone import Cone
@@ -29,6 +29,8 @@ class Intersections:
     """
 
     EPSILON = 1E-4
+    LEFT = 0
+    RIGHT = 1
 
     type: str
     name: str
@@ -109,34 +111,33 @@ class Intersections:
 
         for h in reference_hyperplanes:
             positions[h] = Bisection()
-            cones = [c for (c, value) in intersections[h].items() if value is False]
+            cones = [c for (c, value) in intersections[h].items() if value[0] is False or value[1] is False]
 
             for c in cones:
-                if self.hyperplanes[h].in_halfspace(self.cones[c].solution):
-                    if self.hyperplanes[h].position(self.cones[c].solution) > self.EPSILON:
-                        positions[h].add_right(c)
+                if intersections[h][c][self.RIGHT] is True:
+                    positions[h].add_right(c)
                 else:
                     positions[h].add_left(c)
 
         return positions
 
-    def __compute_intersections(self, region: 'Region', reference_cones: List[int], reference_hyperplanes: List[int]) -> Dict[int, Dict[int, bool]]:
+    def __compute_intersections(self, region: 'Region', cones: List[int], hyperplanes: List[int]) -> Dict[int, Dict[int, Tuple[bool, bool]]]:
         """Computes the intersections of each hyperplane with each cone.
 
         Args:
             region: The region to be considered.
-            reference_cones: The cones to be considered.
-            reference_hyperplanes: The hyperplanes whose bisections we want.
+            cones: The cones to be considered.
+            hyperplanes: The hyperplanes whose bisections we want.
 
         Returns:
             The intersections of the hyperplanes with cones.
         """
         intersections = dict()
 
-        for h in reference_hyperplanes:
+        for h in hyperplanes:
             intersections[h] = dict()
 
-            for c in reference_cones:
+            for c in cones:
                 intersections[h][c] = self.intersection_lp.test_intersection(region, c, h)
 
         return intersections

@@ -93,6 +93,7 @@ class Tree(ABC):
                 hyperplanes.append(-h)
 
             height, solutions, region = height + 1, new_solutions, new_region
+            print(positions, solutions, hyperplanes)
 
         return solutions[0]
 
