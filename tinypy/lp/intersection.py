@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 from gurobipy.gurobipy import Model, GRB, quicksum
 
@@ -24,7 +24,7 @@ class IntersectionProblem:
     STATUS_OPTIMAL = 2
     STATUS_INFEASIBLE = 3
     STATUS_UNBOUNDED = 5
-    EPSILON = 1E-2
+    EPSILON = 1E-4
 
     dim: int
     name: str
@@ -68,7 +68,7 @@ class IntersectionProblem:
         else:
             delete_directory_files(self.lp_directory, repr(region))
 
-    def test_intersection(self, region: 'Region', cone: int, hyperplane: int) -> bool:
+    def test_intersection(self, region: 'Region', cone: int, hyperplane: int) -> Tuple[bool, bool]:
         """Checks whether the hyperplane intercepts the given cone.
 
         Args:
@@ -83,24 +83,36 @@ class IntersectionProblem:
 
         if file_exists(f'{path}.sol'):
             with open(f'{path}.sol', 'r') as file:
-                status = int(file.readline())
+                line = file.readline().split()
+                left_status, right_status = int(line[0]), int(line[1])
         else:
-            model = Model()
-            model.setParam('LogToConsole', 0)
-            model.setParam('DualReductions', 0)
-            self.__model(model, region, cone, hyperplane)
+            right_model = Model()
+            left_model = Model()
+            right_model.setParam('LogToConsole', 0)
+            left_model.setParam('LogToConsole', 0)
+            right_model.setParam('DualReductions', 0)
+            left_model.setParam('DualReductions', 0)
+            self.__model(right_model, region, cone, hyperplane, True)
+            self.__model(left_model, region, cone, hyperplane, False)
 
-            model.update()
-            model.optimize()
-            status = model.status
+            right_model.update()
+            left_model.update()
+            right_model.optimize()
+            left_model.optimize()
+            right_status = right_model.status
+            left_status = left_model.status
 
             if self.log:
-                model.write(f'{path}.lp')
+                right_model.write(f'{path}+.lp')
+                left_model.write(f'{path}-.lp')
 
             with open(f'{path}.sol', 'w+') as file:
-                file.write(f'{status}')
+                file.write(f'{left_status} {right_status}')
 
-        return True if status == IntersectionProblem.STATUS_OPTIMAL else False
+        left_status = True if left_status == IntersectionProblem.STATUS_OPTIMAL else False
+        right_status = True if right_status == IntersectionProblem.STATUS_OPTIMAL else False
+
+        return left_status, right_status
 
     def __get_euclidean_hyperplanes(self, triangles: List[List[int]]) -> List[Hyperplane]:
         hyperplanes = []
@@ -119,7 +131,7 @@ class IntersectionProblem:
 
         return hyperplanes
 
-    def __model(self, m: Model, region: 'Region', c: int, h: int):
+    def __model(self, m: Model, region: 'Region', c: int, h: int, right: bool = True):
         """Defines the model.
 
         Args:
@@ -130,22 +142,20 @@ class IntersectionProblem:
         """
         delimiters = region.hyperplanes + self.cones[c].hyperplanes
         x = dict()
-        y = dict()
 
         for d in range(self.dim):
-            x[d] = m.addVar(name=f'x_{d}', vtype=GRB.CONTINUOUS, lb=-1, ub=1)
-            y[d] = m.addVar(name=f'y_{d}', vtype=GRB.CONTINUOUS, lb=-1, ub=1)
+            x[d] = m.addVar(name=f'x_{d}', vtype=GRB.CONTINUOUS)
 
         m.setObjective(0, GRB.MINIMIZE)
 
         for euclidean in self.euclidean_hyperplanes:
             m.addConstr(quicksum(x[d] * euclidean[d] for d in range(self.dim)) >= euclidean.d)
-            m.addConstr(quicksum(y[d] * euclidean[d] for d in range(self.dim)) >= euclidean.d)
 
         for index in delimiters:
             hyperplane = self.hyperplanes[index] if index > 0 else -self.hyperplanes[-index]
             m.addConstr(quicksum(x[d] * hyperplane[d] for d in range(self.dim)) >= hyperplane.d)
-            m.addConstr(quicksum(y[d] * hyperplane[d] for d in range(self.dim)) >= hyperplane.d)
 
-        m.addConstr(quicksum(x[d] * self.hyperplanes[h][d] for d in range(self.dim)) >= self.hyperplanes[h].d + self.EPSILON)
-        m.addConstr(quicksum(y[d] * self.hyperplanes[h][d] for d in range(self.dim)) <= self.hyperplanes[h].d - self.EPSILON)
+        if right is True:
+            m.addConstr(quicksum(x[d] * self.hyperplanes[h][d] for d in range(self.dim)) >= self.hyperplanes[h].d + self.EPSILON)
+        else:
+            m.addConstr(quicksum(x[d] * self.hyperplanes[h][d] for d in range(self.dim)) <= self.hyperplanes[h].d - self.EPSILON)

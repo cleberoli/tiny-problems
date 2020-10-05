@@ -67,7 +67,35 @@ class Tree(ABC):
         else:
             self.__make_tree(bfs)
             self.__write_tree_file()
-            self.intersections.clear_files()
+
+    def test_point(self, p: 'Point'):
+        height = 0
+        solutions = list(self.polytope.vertices.keys())
+        region = Region()
+        hyperplanes = []
+
+        while len(solutions) > 1:
+            s = solutions.copy()
+            r = deepcopy(region)
+            h = self.select_hyperplane(s)
+            hyperplane = self.polytope.get_hyperplane(h)
+            positions = self.intersections.get_positions(r, s, [h])
+
+            if hyperplane.in_halfspace(p):
+                new_solutions = [item for item in solutions if item not in positions[h].left]
+                new_region = deepcopy(r)
+                new_region.add_hyperplane(h)
+                hyperplanes.append(h)
+            else:
+                new_solutions = [item for item in solutions if item not in positions[h].right]
+                new_region = deepcopy(r)
+                new_region.add_hyperplane(-h)
+                hyperplanes.append(-h)
+
+            height, solutions, region = height + 1, new_solutions, new_region
+            print(positions, solutions, hyperplanes)
+
+        return solutions[0]
 
     def __make_tree(self, bfs=False):
         """Constructs the tree.
@@ -100,7 +128,7 @@ class Tree(ABC):
             height, solutions, region = node['height'], node['solutions'].copy(), deepcopy(node['region'])
             hyperplane = self.select_hyperplane(solutions)
             node['hyperplane'] = hyperplane
-            positions = self.intersections.get_positions(region, solutions)
+            positions = self.intersections.get_positions(region, solutions, [hyperplane])
 
             left_solutions = [item for item in solutions if item not in positions[hyperplane].right]
             right_solutions = [item for item in solutions if item not in positions[hyperplane].left]

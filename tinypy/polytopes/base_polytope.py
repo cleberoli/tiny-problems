@@ -107,6 +107,12 @@ class Polytope(ABC):
         else:
             return self.extended_skeleton.get_edge(i, j, 'h')
 
+    def get_hyperplane(self, h: int) -> 'Hyperplane':
+        if h in self.H.keys():
+            return self.H[h]
+        else:
+            return self.extended_H[h]
+
     def __generate_skeleton(self) -> Tuple['Skeleton', Dict[int, 'Hyperplane'], 'Skeleton', Dict[int, 'Hyperplane']]:
         """Generates the skeleton along with the hyperplanes.
 
