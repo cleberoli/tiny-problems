@@ -11,5 +11,10 @@ class GeneratedTree(ABC):
     polytope: Polytope
     hyperplanes: Dict[int, Hyperplane]
 
+    def __init__(self, polytope: Polytope):
+        self.polytope = polytope
+        self.hyperplanes = polytope.H
+        self.hyperplanes.update(polytope.extended_H)
+
     def test(self, point: Point):
         pass

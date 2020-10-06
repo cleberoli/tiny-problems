@@ -12,4 +12,4 @@ class TSPPolytope(Polytope):
         Args:
             n: The number of nodes in the graph.
         """
-        Polytope.__init__(self, TSPInstance(n=n), 'travelling salesman')
+        Polytope.__init__(self, TSPInstance(n=n), 'traveling salesman')
