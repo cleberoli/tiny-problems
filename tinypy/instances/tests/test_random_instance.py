@@ -76,17 +76,6 @@ def test_invalid_random_instance():
         RandomInstance()
 
 
-def test_new_random_instance():
-    instance_file = get_full_path('files', 'instances', 'rnd', 'RND-d40-m4.tpif')
-    assert not file_exists(instance_file)
-
-    RandomInstance(d=40, m=4)
-    assert file_exists(instance_file)
-
-    delete_file(instance_file)
-    assert not file_exists(instance_file)
-
-
 def test_generate_solutions():
     assert len(RandomInstance(d=3, m=4).generate_solutions()) == 4
     assert len(RandomInstance(d=6, m=8).generate_solutions()) == 8
