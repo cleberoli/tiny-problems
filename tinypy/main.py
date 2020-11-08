@@ -1,4 +1,6 @@
 from tinypy.benchmark.hypercube_benchmark import HypercubeBenchmark
+from tinypy.instances.hypercube_instance import HypercubeInstance
+from tinypy.instances.tsp_instance import TSPInstance
 
 from tinypy.polytopes.base_polytope import Polytope
 from tinypy.polytopes.cut_polytope import CutPolytope
@@ -6,6 +8,7 @@ from tinypy.polytopes.hyperpyramid_polytope import HyperpyramidPolytope
 from tinypy.polytopes.hypercube_polytope import HypercubePolytope
 from tinypy.polytopes.random_polytope import RandomPolytope
 from tinypy.polytopes.tsp_polytope import TSPPolytope
+from tinypy.trees.dp_tree import DPTree
 
 from tinypy.trees.enumeration_tree import EnumerationTree
 from tinypy.trees.tree_writer import TreeWriter
@@ -48,15 +51,27 @@ def write_tree(polytope: Polytope):
 
 def run_benchmark(polytope: Polytope):
     from tinypy.benchmark.benchmark_runner import BenchmarkRunner
-    from tinypy.generated.trees.tsp.TSP_n6 import TSPTree
+    from tinypy.generated.trees.tsp.TSP_n5 import TSPTree
+    from tinypy.generated.trees.cub.CUB_n3 import CUBTree
 
     runner = BenchmarkRunner(TSPTree(polytope))
     runner.run()
 
 
 if __name__ == '__main__':
-    polytope = TSPPolytope(6)
-    write_tree(polytope)
-    run_benchmark(polytope)
+    # polytope = TSPPolytope(5)
+    # # polytope = HypercubePolytope(3)
+    # # write_tree(polytope)
+    # #
+    # tree = DPTree(polytope)
+    # tree.build_tree(3)
+    # print(tree.graph.edges)
+    #
+    # tree_writer = TreeWriter(tree)
+    # tree_writer.write_tree()
+    #
+    # run_benchmark(polytope)
 
+    run_all()
+    # print(TSPPolytope(5))
 
