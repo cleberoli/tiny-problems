@@ -3,6 +3,7 @@ import pymongo
 CLIENT = pymongo.MongoClient('mongodb://localhost:27017/')
 DB = CLIENT['tinypy']
 
+CONES = DB['cones']
 INSTANCES = DB['instances']
 POLYTOPES = DB['polytopes']
 POSITIONS = DB['positions']

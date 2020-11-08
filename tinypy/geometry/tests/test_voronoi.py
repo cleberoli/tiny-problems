@@ -1,24 +1,18 @@
-from tinypy.geometry.point import Point
 from tinypy.geometry.voronoi import VoronoiDiagram
 from tinypy.graph.delaunay import DelaunayTriangulation
 from tinypy.graph.skeleton import Skeleton
-from tinypy.utils.file import delete_directory, file_exists, get_full_path
+from tinypy.instances.tsp_instance import TSPInstance
 
 
 def test_voronoi():
+    instance = TSPInstance(n=4)
     delaunay = DelaunayTriangulation(Skeleton())
     hyperplanes = dict()
-    solutions = {1: Point(1, 1, 1)}
-    voronoi = VoronoiDiagram(delaunay, hyperplanes, 'type', 'name')
+    solutions = instance.get_solution_dict()
+    voronoi = VoronoiDiagram(instance, delaunay, hyperplanes)
 
-    assert voronoi.type == 'type'
-    assert voronoi.name == 'name'
-    assert file_exists(get_full_path('files', 'cones', 'type'))
-    assert not file_exists(get_full_path('files', 'cones', 'type', 'name.tpcf'))
+    assert voronoi.type == 'tsp'
+    assert voronoi.name == 'TSP-n4'
 
     voronoi.build(solutions)
     voronoi.build(solutions)
-    assert file_exists(get_full_path('files', 'cones', 'type', 'name.tpcf'))
-
-    delete_directory(get_full_path(get_full_path('files', 'cones', 'type')))
-    assert not file_exists(get_full_path('files', 'cones', 'type'))

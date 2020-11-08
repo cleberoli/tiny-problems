@@ -8,7 +8,6 @@ from tinypy.graph.delaunay import DelaunayTriangulation
 from tinypy.graph.skeleton import Skeleton
 from tinypy.instances.base_instance import Instance
 from tinypy.lp.adjacency import AdjacencyProblem
-from tinypy.utils.file import create_directory, file_exists, get_full_path
 from tinypy.models.skeleton import Skeleton as DBSkeleton
 from tinypy.models.polytope import Polytope as DBPolytope
 
@@ -62,15 +61,13 @@ class Polytope(ABC):
         self.dimension = self.instance.dimension
         self.size = self.instance.size
         self.n = self.instance.n
-        self.polytope_file = get_full_path('files', 'polytopes', self.instance.type, f'{self.instance.name}.tppf')
-        create_directory(get_full_path('files', 'polytopes', self.instance.type))
 
         self.vertices = self.instance.get_solution_dict().copy()
         self.vertices = dict((key, Point([1] * self.dimension) - 2 * point) for (key, point) in self.vertices.items())
 
         self.build_skeleton()
         self.delaunay = DelaunayTriangulation(self.skeleton)
-        self.voronoi = VoronoiDiagram(self.delaunay, self.hyperplanes, self.instance.type, self.instance.name)
+        self.voronoi = VoronoiDiagram(self.instance, self.delaunay, self.hyperplanes)
         self.voronoi.build(self.vertices)
 
         degrees = [self.skeleton.graph.degree(i) for i in self.skeleton.graph.nodes]

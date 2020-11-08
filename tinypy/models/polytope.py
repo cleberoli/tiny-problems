@@ -26,6 +26,7 @@ class Polytope(DBModel):
     @classmethod
     def from_doc(cls, doc: dict) -> DBModel:
         polytope = Polytope(doc['name'], doc['type'], doc['dimension'], doc['solutions'], doc['hyperplanes'], doc['edges'], doc['degree'])
+        polytope.load_doc()
 
         return polytope
 
@@ -34,7 +35,7 @@ class Polytope(DBModel):
         return POLYTOPES
 
     def load_doc(self, doc: dict):
-        pass
+        self.id = str(doc['_id'])
 
     def get_repr(self) -> dict:
         return {'name': self.name,
