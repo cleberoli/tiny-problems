@@ -4,6 +4,7 @@ CLIENT = pymongo.MongoClient('mongodb://localhost:27017/')
 DB = CLIENT['tinypy']
 
 INSTANCES = DB['instances']
+POLYTOPES = DB['polytopes']
 POSITIONS = DB['positions']
 SKELETONS = DB['skeletons']
 SUBTREES = DB['subtrees']

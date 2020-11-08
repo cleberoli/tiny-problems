@@ -10,6 +10,7 @@ from tinypy.instances.base_instance import Instance
 from tinypy.lp.adjacency import AdjacencyProblem
 from tinypy.utils.file import create_directory, file_exists, get_full_path
 from tinypy.models.skeleton import Skeleton as DBSkeleton
+from tinypy.models.polytope import Polytope as DBPolytope
 
 
 class Polytope(ABC):
@@ -72,8 +73,12 @@ class Polytope(ABC):
         self.voronoi = VoronoiDiagram(self.delaunay, self.hyperplanes, self.instance.type, self.instance.name)
         self.voronoi.build(self.vertices)
 
-        if not file_exists(self.polytope_file):
-            self.__write_polytope_file()
+        degrees = [self.skeleton.graph.degree(i) for i in self.skeleton.graph.nodes]
+        db_polytope = DBPolytope(instance.name, instance.type, instance.dimension, instance.size,
+                                 self.n_skeleton_hyperplanes, len(self.skeleton.edges), sum(degrees) / max(len(degrees), 1))
+
+        if db_polytope.get_doc() is None:
+            db_polytope.add_doc()
 
     def build_skeleton(self):
         """Build the polytope skeleton.
@@ -81,7 +86,7 @@ class Polytope(ABC):
         If the skeleton has been previously computed it is loaded from the file.
         Otherwise it is generated and saved.
         """
-        db_skeleton = DBSkeleton(self.instance, list(self.vertices.keys()))
+        db_skeleton = DBSkeleton(self.instance.name, self.instance.type, self.instance.dimension, self.instance.size, list(self.vertices.keys()))
         doc = db_skeleton.get_doc()
 
         if doc is not None:
@@ -171,12 +176,6 @@ class Polytope(ABC):
             extended_skeleton.add_edge(edge[0], edge[1], h=extended_map_dict[extended_skeleton.get_edge(edge[0], edge[1], 'h')])
 
         return {**hyperplanes, **extended_hyperplanes}, skeleton, extended_skeleton, len(hyperplanes), len(extended_hyperplanes)
-
-    def __write_polytope_file(self):
-        """Writes the polytope to a file.
-        """
-        with open(self.polytope_file, 'w+') as file:
-            file.write(repr(self))
 
     def __repr__(self):  # pragma: no cover
         degrees = [self.skeleton.graph.degree(i) for i in self.skeleton.graph.nodes]

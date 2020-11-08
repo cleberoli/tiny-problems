@@ -4,7 +4,6 @@ from pymongo.collection import Collection
 
 from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.point import Point
-from tinypy.instances.base_instance import Instance
 from tinypy.models.db_model import DBModel
 from tinypy.utils.db import SKELETONS
 
@@ -22,14 +21,14 @@ class Skeleton(DBModel):
     skeleton_edges: List[Tuple[int, int, int]]
     complement_edges: List[Tuple[int, int, int]]
 
-    def __init__(self, instance: Instance, nodes: List[int] = None, hyperplanes: Dict[int, Hyperplane] = None,
-                 n_skeleton_hyperplanes: int = None, n_complement_hyperplanes: int = None,
+    def __init__(self, name: str, type: str, dimension: int, size: int, nodes: List[int] = None,
+                 hyperplanes: Dict[int, Hyperplane] = None, n_skeleton_hyperplanes: int = None, n_complement_hyperplanes: int = None,
                  skeleton_edges: List[Tuple[int]] = None, complement_edges: List[Tuple[int]] = None):
-        self.name = instance.name
-        self.type = instance.type
-        self.dimension = instance.dimension
-        self.size = instance.size
-        self.nodes = list(range(1, instance.size + 1)) if nodes is None else nodes
+        self.name = name
+        self.type = type
+        self.dimension = dimension
+        self.size = size
+        self.nodes = list(range(1, size + 1)) if nodes is None else nodes
         self.hyperplanes = dict() if hyperplanes is None else hyperplanes
         self.n_skeleton_hyperplanes = 0 if n_skeleton_hyperplanes is None else n_skeleton_hyperplanes
         self.n_complement_hyperplanes = 0 if n_complement_hyperplanes is None else n_complement_hyperplanes
