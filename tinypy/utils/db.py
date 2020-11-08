@@ -5,6 +5,7 @@ DB = CLIENT['tinypy']
 
 INSTANCES = DB['instances']
 POSITIONS = DB['positions']
+SKELETONS = DB['skeletons']
 SUBTREES = DB['subtrees']
 
 

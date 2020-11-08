@@ -84,7 +84,32 @@ class IntersectionProblem:
         if file_exists(f'{path}.sol'):
             with open(f'{path}.sol', 'r') as file:
                 line = file.readline().split()
-                left_status, right_status = int(line[0]), int(line[1])
+
+                if len(line) >= 2:
+                    left_status, right_status = int(line[0]), int(line[1])
+                else:
+                    right_model = Model()
+                    left_model = Model()
+                    right_model.setParam('LogToConsole', 0)
+                    left_model.setParam('LogToConsole', 0)
+                    right_model.setParam('DualReductions', 0)
+                    left_model.setParam('DualReductions', 0)
+                    self.__model(right_model, region, cone, hyperplane, True)
+                    self.__model(left_model, region, cone, hyperplane, False)
+
+                    right_model.update()
+                    left_model.update()
+                    right_model.optimize()
+                    left_model.optimize()
+                    right_status = right_model.status
+                    left_status = left_model.status
+
+                    if self.log:
+                        right_model.write(f'{path}+.lp')
+                        left_model.write(f'{path}-.lp')
+
+                    with open(f'{path}.sol', 'w+') as file:
+                        file.write(f'{left_status} {right_status}')
         else:
             right_model = Model()
             left_model = Model()
@@ -144,7 +169,7 @@ class IntersectionProblem:
         x = dict()
 
         for d in range(self.dim):
-            x[d] = m.addVar(name=f'x_{d}', vtype=GRB.CONTINUOUS)
+            x[d] = m.addVar(name=f'x_{d}', vtype=GRB.CONTINUOUS, lb=-GRB.INFINITY, ub=GRB.INFINITY)
 
         m.setObjective(0, GRB.MINIMIZE)
 

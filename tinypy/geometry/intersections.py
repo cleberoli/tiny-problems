@@ -48,8 +48,7 @@ class Intersections:
         self.name = polytope.instance.name
 
         self.polytope = polytope
-        self.hyperplanes = polytope.H
-        self.hyperplanes.update(polytope.extended_H)
+        self.hyperplanes = polytope.hyperplanes
         self.cones = polytope.voronoi.cones
         self.intersection_lp = IntersectionProblem(polytope.dimension, polytope.instance.name, self.cones, self.hyperplanes,
                                                    polytope.instance.get_triangles(), True)

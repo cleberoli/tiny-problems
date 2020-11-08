@@ -1,5 +1,4 @@
 from abc import ABC
-from datetime import datetime
 from typing import Dict, Tuple
 
 from tinypy.geometry.point import Point
@@ -10,6 +9,7 @@ from tinypy.graph.skeleton import Skeleton
 from tinypy.instances.base_instance import Instance
 from tinypy.lp.adjacency import AdjacencyProblem
 from tinypy.utils.file import create_directory, file_exists, get_full_path
+from tinypy.models.skeleton import Skeleton as DBSkeleton
 
 
 class Polytope(ABC):
@@ -21,13 +21,11 @@ class Polytope(ABC):
         dimension: The instance dimension.
         size: The instance size.
         n: The instance main parameter.
-        skeleton_file: The path where the skeleton should be stored.
         polytope_file: The path where the polytope should be stored.
         instance: The instance.
         skeleton: The skeleton graph.
-        extended_skeleton: The extended skeleton graph.
-        H: The set of hyperplanes.
-        extended_H: The extended set of hyperplanes.
+        complement: The extended skeleton graph.
+        hyperplanes: The set of hyperplanes.
         delaunay: The Delaunay triangulation.
         voronoi: The Voronoi diagram.
         vertices: The polytope vertices.
@@ -38,14 +36,14 @@ class Polytope(ABC):
     dimension: int
     size: int
     n: int
-    skeleton_file: str
     polytope_file: str
 
     instance: Instance
     skeleton: Skeleton
-    extended_skeleton: Skeleton
-    H: Dict[int, 'Hyperplane']
-    extended_H: Dict[int, 'Hyperplane']
+    complement: Skeleton
+    hyperplanes: Dict[int, Hyperplane]
+    n_skeleton_hyperplanes: int
+    n_complement_hyperplanes: int
     delaunay: DelaunayTriangulation
     voronoi: VoronoiDiagram
     vertices: Dict[int, Point]
@@ -63,9 +61,7 @@ class Polytope(ABC):
         self.dimension = self.instance.dimension
         self.size = self.instance.size
         self.n = self.instance.n
-        self.skeleton_file = get_full_path('files', 'skeletons', self.instance.type, f'{self.instance.name}.tpsf')
         self.polytope_file = get_full_path('files', 'polytopes', self.instance.type, f'{self.instance.name}.tppf')
-        create_directory(get_full_path('files', 'skeletons', self.instance.type))
         create_directory(get_full_path('files', 'polytopes', self.instance.type))
 
         self.vertices = self.instance.get_solution_dict().copy()
@@ -73,7 +69,7 @@ class Polytope(ABC):
 
         self.build_skeleton()
         self.delaunay = DelaunayTriangulation(self.skeleton)
-        self.voronoi = VoronoiDiagram(self.delaunay, self.H, self.instance.type, self.instance.name)
+        self.voronoi = VoronoiDiagram(self.delaunay, self.hyperplanes, self.instance.type, self.instance.name)
         self.voronoi.build(self.vertices)
 
         if not file_exists(self.polytope_file):
@@ -85,11 +81,29 @@ class Polytope(ABC):
         If the skeleton has been previously computed it is loaded from the file.
         Otherwise it is generated and saved.
         """
-        if file_exists(self.skeleton_file):
-            self.skeleton, self.H, self.extended_skeleton, self.extended_H = self.__read_skeleton_file()
+        db_skeleton = DBSkeleton(self.instance, list(self.vertices.keys()))
+        doc = db_skeleton.get_doc()
+
+        if doc is not None:
+            self.hyperplanes = db_skeleton.hyperplanes
+            self.n_skeleton_hyperplanes = db_skeleton.n_skeleton_hyperplanes
+            self.n_complement_hyperplanes = db_skeleton.n_complement_hyperplanes
+            self.skeleton = Skeleton()
+            self.complement = Skeleton()
+
+            for s_edge in db_skeleton.skeleton_edges:
+                self.skeleton.add_edge(s_edge[0], s_edge[1], s_edge[2])
+
+            for c_edge in db_skeleton.complement_edges:
+                self.complement.add_edge(c_edge[0], c_edge[1], c_edge[2])
         else:
-            self.skeleton, self.H, self.extended_skeleton, self.extended_H = self.__generate_skeleton()
-            self.__write_skeleton_file()
+            self.hyperplanes, self.skeleton, self.complement, self.n_skeleton_hyperplanes, self.n_complement_hyperplanes = self.__generate_skeleton()
+            db_skeleton.hyperplanes = self.hyperplanes
+            db_skeleton.n_skeleton_hyperplanes = self.n_skeleton_hyperplanes
+            db_skeleton.n_complement_hyperplanes = self.n_complement_hyperplanes
+            db_skeleton.skeleton_edges = self.skeleton.graph.edges.data('h')
+            db_skeleton.complement_edges = self.complement.graph.edges.data('h')
+            db_skeleton.add_doc()
 
     def get_bisector(self, i: int, j: int) -> int:
         """Returns the bisector of two points.
@@ -105,15 +119,12 @@ class Polytope(ABC):
         if self.skeleton.has_edge(i, j):
             return self.skeleton.get_edge(i, j, 'h')
         else:
-            return self.extended_skeleton.get_edge(i, j, 'h')
+            return self.complement.get_edge(i, j, 'h')
 
-    def get_hyperplane(self, h: int) -> 'Hyperplane':
-        if h in self.H.keys():
-            return self.H[h]
-        else:
-            return self.extended_H[h]
+    def get_hyperplane(self, h: int) -> Hyperplane:
+        return self.hyperplanes[h]
 
-    def __generate_skeleton(self) -> Tuple['Skeleton', Dict[int, 'Hyperplane'], 'Skeleton', Dict[int, 'Hyperplane']]:
+    def __generate_skeleton(self) -> Tuple[Dict[int, Hyperplane], Skeleton, Skeleton, int, int]:
         """Generates the skeleton along with the hyperplanes.
 
         Returns:
@@ -159,99 +170,7 @@ class Polytope(ABC):
         for edge in extended_skeleton.edges:
             extended_skeleton.add_edge(edge[0], edge[1], h=extended_map_dict[extended_skeleton.get_edge(edge[0], edge[1], 'h')])
 
-        return skeleton, hyperplanes, extended_skeleton, extended_hyperplanes
-
-    def __read_skeleton_file(self) -> Tuple['Skeleton', Dict[int, 'Hyperplane'], 'Skeleton', Dict[int, 'Hyperplane']]:
-        """Loads the skeleton from the file.
-
-        Returns:
-            The skeleton graph.
-            The set of hyperplanes.
-            The extended skeleton graph.
-            The extended set of hyperplanes.
-        """
-        skeleton = Skeleton()
-        hyperplanes = dict()
-        extended_skeleton = Skeleton()
-        extended_hyperplanes = dict()
-
-        with open(self.skeleton_file, 'r') as file:
-            file.readline()     # name
-            file.readline()     # type
-            file.readline()     # generated
-            file.readline()     # dimension
-            file.readline()     # size
-            h_size = int(file.readline().split()[1])
-            e_size = int(file.readline().split()[1])
-            e_h_size = int(file.readline().split()[2])
-            e_e_size = int(file.readline().split()[2])
-            file.readline()
-
-            file.readline()     # HYPERPLANES SECTION
-            for _ in range(h_size):
-                line = file.readline().split(':')
-                key = int(line[0].strip())
-                hyperplane = list(map(int, line[1].split()))
-                hyperplane = Hyperplane(Point(hyperplane[:-1]), d=hyperplane[-1])
-                hyperplanes[key] = hyperplane
-            file.readline()
-
-            file.readline()     # SKELETON SECTION
-            for _ in range(e_size):
-                edge = list(map(int, file.readline().split()))
-                skeleton.add_edge(edge[0], edge[1], h=edge[2])
-            file.readline()
-
-            file.readline()  # EXTENDED HYPERPLANES SECTION
-            for _ in range(e_h_size):
-                line = file.readline().split(':')
-                key = int(line[0].strip())
-                hyperplane = list(map(int, line[1].split()))
-                hyperplane = Hyperplane(Point(hyperplane[:-1]), d=hyperplane[-1])
-                extended_hyperplanes[key] = hyperplane
-            file.readline()
-
-            file.readline()  # SKELETON SECTION
-            for _ in range(e_e_size):
-                edge = list(map(int, file.readline().split()))
-                extended_skeleton.add_edge(edge[0], edge[1], h=edge[2])
-
-        return skeleton, hyperplanes, extended_skeleton, extended_hyperplanes
-
-    def __write_skeleton_file(self):
-        """Writes the skeleton to a file.
-        """
-        now = datetime.now()
-
-        with open(self.skeleton_file, 'w+') as file:
-            file.write(f'NAME: {self.instance.name}\n')
-            file.write(f'TYPE: {self.instance.type.upper()}\n')
-            file.write(f'GENERATED: {now.strftime("%d/%m/%Y %H:%M:%S")}\n')
-            file.write(f'DIMENSION: {self.dimension}\n')
-            file.write(f'SOLUTIONS: {self.size}\n')
-            file.write(f'HYPERPLANES: {len(self.H)}\n')
-            file.write(f'EDGES: {len(self.skeleton.edges)}\n')
-            file.write(f'EXTENDED HYPERPLANES: {len(self.extended_H)}\n')
-            file.write(f'EXTENDED EDGES: {len(self.extended_skeleton.edges)}\n\n')
-
-            file.write(f'HYPERPLANES SECTION\n')
-            for (index, hyperplane) in self.H.items():
-                file.write(f'{index}: {" ".join(map(str, hyperplane.normal))} {hyperplane.d}\n')
-            file.write('\n')
-
-            file.write(f'SKELETON SECTION\n')
-            for edge in self.skeleton.edges:
-                file.write(f'{edge[0]} {edge[1]} {self.skeleton.get_edge(edge[0], edge[1], "h")}\n')
-            file.write('\n')
-
-            file.write(f'EXTENDED HYPERPLANES SECTION\n')
-            for (index, hyperplane) in self.extended_H.items():
-                file.write(f'{index}: {" ".join(map(str, hyperplane.normal))} {hyperplane.d}\n')
-            file.write('\n')
-
-            file.write(f'EXTENDED SKELETON SECTION\n')
-            for edge in self.extended_skeleton.edges:
-                file.write(f'{edge[0]} {edge[1]} {self.extended_skeleton.get_edge(edge[0], edge[1], "h")}\n')
+        return {**hyperplanes, **extended_hyperplanes}, skeleton, extended_skeleton, len(hyperplanes), len(extended_hyperplanes)
 
     def __write_polytope_file(self):
         """Writes the polytope to a file.
@@ -266,6 +185,6 @@ class Polytope(ABC):
                f'TYPE: {self.instance.type.upper()}\n' \
                f'DIMENSION: {self.dimension}\n' \
                f'SOLUTIONS: {self.size}\n' \
-               f'HYPERPLANES: {len(self.H)}\n' \
+               f'HYPERPLANES: {self.n_skeleton_hyperplanes}\n' \
                f'EDGES: {len(self.skeleton.edges)}\n' \
                f'AVERAGE DEGREE: {sum(degrees) / max(len(degrees), 1)}\n'

@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict
 
 from pymongo.collection import Collection
 
@@ -24,7 +24,7 @@ class Instance(DBModel):
 
     @classmethod
     def from_doc(cls, doc: dict) -> DBModel:
-        instance = Instance(doc['name'], doc['type'], doc['dimension'], doc['size'], doc['solutions'])
+        instance = Instance(doc['name'], doc['type'], doc['dimension'], doc['size'])
         instance.load_doc(doc)
 
         return instance
