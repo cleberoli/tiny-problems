@@ -15,6 +15,10 @@ def get_document(collection: pymongo.collection.Collection, query: dict) -> dict
     return collection.find_one(query)
 
 
+def delete_document(collection: pymongo.collection.Collection, query: dict):
+    collection.delete_one(query)
+
+
 def add_document(collection: pymongo.collection.Collection, doc: dict) -> str:
     result = collection.insert_one(doc)
     return result.inserted_id
@@ -22,4 +26,3 @@ def add_document(collection: pymongo.collection.Collection, doc: dict) -> str:
 
 def update_document(collection: pymongo.collection.Collection, query: dict, values: dict):
     collection.update_one(query, {'$set': values})
-
