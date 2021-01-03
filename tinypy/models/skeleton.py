@@ -4,8 +4,7 @@ from pymongo.collection import Collection
 
 from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.point import Point
-from tinypy.models.db_model import DBModel
-from tinypy.utils.db import SKELETONS
+from tinypy.models.db_model import DBModel, SKELETONS
 
 
 class Skeleton(DBModel):
@@ -46,8 +45,10 @@ class Skeleton(DBModel):
     def get_collection(cls) -> Collection:
         return SKELETONS
 
+    def get_file_name(self) -> str:
+        return self.name
+
     def load_doc(self, doc: dict):
-        self.id = str(doc['_id'])
         self.n_skeleton_hyperplanes = doc['n_skeleton_hyperplanes']
         self.n_complement_hyperplanes = doc['n_complement_hyperplanes']
 
@@ -80,10 +81,10 @@ class Skeleton(DBModel):
                 'type': self.type,
                 'dimension': self.dimension,
                 'size': self.size,
-                'nodes': self.nodes,
-                'hyperplanes': hyperplanes,
                 'n_skeleton_hyperplanes': self.n_skeleton_hyperplanes,
                 'n_complement_hyperplanes': self.n_complement_hyperplanes,
+                'nodes': self.nodes,
+                'hyperplanes': hyperplanes,
                 'skeleton_edges': skeleton_edges,
                 'complement_edges': complement_edges}
 

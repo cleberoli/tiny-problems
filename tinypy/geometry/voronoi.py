@@ -3,7 +3,7 @@ from typing import Dict
 from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.point import Point
 from tinypy.geometry.cone import Cone
-from tinypy.graph.delaunay import DelaunayTriangulation
+from tinypy.graph.skeleton import Skeleton
 from tinypy.models.cone import Cone as DBCone
 from tinypy.instances.base_instance import Instance
 
@@ -14,7 +14,7 @@ class VoronoiDiagram:
     Attributes:
         type: The instance type.
         name: The instance name.
-        delaunay: The corresponding Delaunay triangulation.
+        skeleton: The skeleton graph.
         hyperplanes: The corresponding hyperplanes for each Delaunay edge.
         cones: The cones for each solution.
     """
@@ -24,22 +24,22 @@ class VoronoiDiagram:
     cone_file: str
 
     instance: Instance
-    delaunay: DelaunayTriangulation
+    skeleton: Skeleton
     hyperplanes: Dict[int, Hyperplane]
     cones: Dict[int, Cone]
 
-    def __init__(self,  instance: Instance, delaunay: DelaunayTriangulation, hyperplanes: Dict[int, Hyperplane]):
+    def __init__(self,  instance: Instance, skeleton: Skeleton, hyperplanes: Dict[int, Hyperplane]):
         """Initializes the Voronoi diagram.
 
         Args:
-            delaunay: The corresponding Delaunay triangulation.
+            skeleton: The skeleton graph.
             hyperplanes: The corresponding hyperplanes for each Delaunay edge.
         """
         self.type = instance.type
         self.name = instance.name
 
         self.instance = instance
-        self.delaunay = delaunay
+        self.skeleton = skeleton
         self.hyperplanes = hyperplanes
 
     def build(self, solutions: Dict[int, Point]):
@@ -82,8 +82,8 @@ class VoronoiDiagram:
 
         for (s, solution) in solutions.items():
             cone = Cone(s, solution)
-            edges = self.delaunay.get_edges(s)
-            hyperplanes = [self.delaunay.get_edge(s, e) for e in edges]
+            edges = self.skeleton.get_edges(s)
+            hyperplanes = [self.skeleton.get_edge(s, e) for e in edges]
 
             for h in hyperplanes:
                 hyperplane = self.hyperplanes[h]
