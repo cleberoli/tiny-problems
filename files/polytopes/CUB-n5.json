@@ -1,0 +1,9 @@
+{
+  "name": "CUB-n5",
+  "type": "cub",
+  "dimension": 5,
+  "solutions": 32,
+  "hyperplanes": 5,
+  "edges": 80,
+  "degree": 5.0
+}

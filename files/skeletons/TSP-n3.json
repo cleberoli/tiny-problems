@@ -1,0 +1,12 @@
+{
+  "name": "TSP-n3",
+  "type": "tsp",
+  "dimension": 3,
+  "size": 1,
+  "n_skeleton_hyperplanes": 0,
+  "n_complement_hyperplanes": 0,
+  "nodes": [1],
+  "hyperplanes": {},
+  "skeleton_edges": [],
+  "complement_edges": []
+}

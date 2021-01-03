@@ -1,0 +1,9 @@
+{
+  "name": "TSP-n7",
+  "type": "tsp",
+  "dimension": 21,
+  "solutions": 360,
+  "hyperplanes": 9660,
+  "edges": 30240,
+  "degree": 168.0
+}

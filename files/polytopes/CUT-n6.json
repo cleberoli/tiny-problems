@@ -1,0 +1,9 @@
+{
+  "name": "CUT-n6",
+  "type": "cut",
+  "dimension": 15,
+  "solutions": 32,
+  "hyperplanes": 496,
+  "edges": 496,
+  "degree": 31.0
+}

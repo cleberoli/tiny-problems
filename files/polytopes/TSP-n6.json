@@ -1,0 +1,9 @@
+{
+  "name": "TSP-n6",
+  "type": "tsp",
+  "dimension": 15,
+  "solutions": 60,
+  "hyperplanes": 555,
+  "edges": 1230,
+  "degree": 41.0
+}

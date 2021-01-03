@@ -1,0 +1,9 @@
+{
+  "name": "TSP-n3",
+  "type": "tsp",
+  "dimension": 3,
+  "size": 1,
+  "solutions": {
+    "1": [1, 1, 1]
+  }
+}

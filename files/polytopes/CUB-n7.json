@@ -1,0 +1,9 @@
+{
+  "name": "CUB-n7",
+  "type": "cub",
+  "dimension": 7,
+  "solutions": 128,
+  "hyperplanes": 7,
+  "edges": 448,
+  "degree": 7.0
+}

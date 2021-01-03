@@ -1,0 +1,7 @@
+{
+  "name": "TSP-n3",
+  "type": "tsp",
+  "dimension": 3,
+  "size": 1,
+  "cones": {}
+}

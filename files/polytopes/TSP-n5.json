@@ -1,0 +1,9 @@
+{
+  "name": "TSP-n5",
+  "type": "tsp",
+  "dimension": 10,
+  "solutions": 12,
+  "hyperplanes": 30,
+  "edges": 60,
+  "degree": 10.0
+}

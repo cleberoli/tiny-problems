@@ -1,0 +1,9 @@
+{
+  "name": "CUB-n4",
+  "type": "cub",
+  "dimension": 4,
+  "solutions": 16,
+  "hyperplanes": 4,
+  "edges": 32,
+  "degree": 4.0
+}
