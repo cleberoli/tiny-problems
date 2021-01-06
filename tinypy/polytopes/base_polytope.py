@@ -149,8 +149,6 @@ class Polytope(ABC):
                     extended_hyperplanes.add(h)
                     extended_skeleton.add_edge(i, j, h=hash(h))
 
-        adjacency_lp.clear_files()
-
         hyperplanes = list(hyperplanes)
         hyperplanes.sort()
         hyperplanes = dict((key + 1, hyperplanes[key]) for key in range(len(hyperplanes)))

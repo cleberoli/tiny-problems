@@ -1,2 +1,2 @@
 #!/bin/sh
-python3 -m tinypy.main
+python3 tinypy.py
