@@ -1,0 +1,9 @@
+{
+  "name": "TSP-n3",
+  "type": "tsp",
+  "dimension": 3,
+  "solutions": 1,
+  "hyperplanes": 0,
+  "edges": 0,
+  "degree": 0.0
+}

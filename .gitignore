@@ -11,3 +11,5 @@ tinypy/__pycache__/*
 trees/*/
 files/intersections/*
 files/lps/*
+files/*/PYR*
+files/*/RND*

@@ -2,7 +2,6 @@ from tinypy.geometry.intersections import Intersections
 from tinypy.geometry.region import Region
 from tinypy.polytopes.hypercube_polytope import HypercubePolytope
 from tinypy.polytopes.tsp_polytope import TSPPolytope
-from tinypy.utils.file import file_exists, get_full_path
 
 cub3 = HypercubePolytope(3)
 tsp5 = TSPPolytope(5)
@@ -13,7 +12,6 @@ def test_intersections():
 
     assert intersections.hyperplanes == cub3.hyperplanes
     assert intersections.cones == cub3.voronoi.cones
-    assert file_exists(get_full_path('files', 'lps', 'intersection', 'CUB-n3'))
 
 
 def test_get_positions():
@@ -26,10 +24,6 @@ def test_get_positions():
     assert positions[2].right == [1, 2, 5, 6]
     assert positions[3].left == [5, 6, 7, 8]
     assert positions[3].right == [1, 2, 3, 4]
-
-    assert file_exists(get_full_path('files', 'lps', 'intersection', 'CUB-n3'))
-    intersections.clear_lp_files()
-    assert not file_exists(get_full_path('files', 'lps', 'intersection', 'CUB-n3'))
 
 
 def test_get_positions_region():

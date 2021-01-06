@@ -41,15 +41,15 @@ class Instance(ABC):
         self.size = size
         self.n = n
 
-        instance = DBInstance(self.name, self.type, self.dimension, self.size)
-        doc = instance.get_doc()
+        db_instance = DBInstance(self.name, self.type, self.dimension, self.size)
+        doc = db_instance.get_doc()
 
         if doc is not None:
-            self.solutions = list(instance.solutions.values())
+            self.solutions = list(db_instance.solutions.values())
         else:
             self.solutions = self.generate_solutions()
-            instance.solutions = self.get_solution_dict()
-            instance.add_doc()
+            db_instance.solutions = self.get_solution_dict()
+            db_instance.add_doc()
 
     def get_solution_list(self) -> List[Point]:
         """Returns the solutions as list of points.

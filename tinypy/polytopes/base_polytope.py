@@ -4,7 +4,6 @@ from typing import Dict, Tuple
 from tinypy.geometry.point import Point
 from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.voronoi import VoronoiDiagram
-from tinypy.graph.delaunay import DelaunayTriangulation
 from tinypy.graph.skeleton import Skeleton
 from tinypy.instances.base_instance import Instance
 from tinypy.lp.adjacency import AdjacencyProblem
@@ -44,7 +43,6 @@ class Polytope(ABC):
     hyperplanes: Dict[int, Hyperplane]
     n_skeleton_hyperplanes: int
     n_complement_hyperplanes: int
-    delaunay: DelaunayTriangulation
     voronoi: VoronoiDiagram
     vertices: Dict[int, Point]
 
@@ -66,13 +64,11 @@ class Polytope(ABC):
         self.vertices = dict((key, Point([1] * self.dimension) - 2 * point) for (key, point) in self.vertices.items())
 
         self.build_skeleton()
-        self.delaunay = DelaunayTriangulation(self.skeleton)
-        self.voronoi = VoronoiDiagram(self.instance, self.delaunay, self.hyperplanes)
+        self.voronoi = VoronoiDiagram(self.instance, self.skeleton, self.hyperplanes)
         self.voronoi.build(self.vertices)
 
-        degrees = [self.skeleton.graph.degree(i) for i in self.skeleton.graph.nodes]
         db_polytope = DBPolytope(instance.name, instance.type, instance.dimension, instance.size,
-                                 self.n_skeleton_hyperplanes, len(self.skeleton.edges), sum(degrees) / max(len(degrees), 1))
+                                 self.n_skeleton_hyperplanes, len(self.skeleton.edges), self.skeleton.degree)
 
         if db_polytope.get_doc() is None:
             db_polytope.add_doc()
@@ -183,4 +179,4 @@ class Polytope(ABC):
                f'SOLUTIONS: {self.size}\n' \
                f'HYPERPLANES: {self.n_skeleton_hyperplanes}\n' \
                f'EDGES: {len(self.skeleton.edges)}\n' \
-               f'AVERAGE DEGREE: {sum(degrees) / max(len(degrees), 1)}\n'
+               f'AVERAGE DEGREE: {self.skeleton.degree}\n'

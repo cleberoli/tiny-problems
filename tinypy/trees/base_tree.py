@@ -128,10 +128,13 @@ class Tree(ABC):
             height, solutions, region = node['height'], node['solutions'].copy(), deepcopy(node['region'])
             hyperplane = self.select_hyperplane(solutions)
             node['hyperplane'] = hyperplane
-            positions = self.intersections.get_positions(region, solutions, [hyperplane])
+            positions = self.intersections.get_positions(region, solutions)
+            print(positions[hyperplane])
 
             left_solutions = [item for item in solutions if item not in positions[hyperplane].right]
             right_solutions = [item for item in solutions if item not in positions[hyperplane].left]
+
+            del positions
 
             left_region = deepcopy(region)
             right_region = deepcopy(region)

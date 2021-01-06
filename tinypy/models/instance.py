@@ -1,10 +1,7 @@
 from typing import Dict
 
-from pymongo.collection import Collection
-
 from tinypy.geometry.point import Point
-from tinypy.models.db_model import DBModel
-from tinypy.utils.db import INSTANCES
+from tinypy.models.db_model import DBModel, INSTANCES
 
 
 class Instance(DBModel):
@@ -30,12 +27,13 @@ class Instance(DBModel):
         return instance
 
     @classmethod
-    def get_collection(cls) -> Collection:
+    def get_collection(cls) -> str:
         return INSTANCES
 
-    def load_doc(self, doc: dict):
-        self.id = str(doc['_id'])
+    def get_file_name(self) -> str:
+        return self.name
 
+    def load_doc(self, doc: dict):
         for (key, value) in doc['solutions'].items():
             point = Point(value)
             self.solutions[int(key)] = point
@@ -51,9 +49,3 @@ class Instance(DBModel):
                 'dimension': self.dimension,
                 'size': self.size,
                 'solutions': solutions}
-
-    def get_query(self) -> dict:
-        return {'name': self.name}
-
-    def get_update_values(self) -> dict:
-        pass

@@ -14,7 +14,6 @@ class TreeWriter:
         tree_file: The path where the generated tree should be stored.
     """
 
-    tree: Tree
     tree_file: str
 
     def __init__(self, tree):

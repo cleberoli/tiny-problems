@@ -3,7 +3,6 @@ from typing import Dict
 from gurobipy.gurobipy import Model, GRB, quicksum
 
 from tinypy.geometry.point import Point
-from tinypy.utils.file import create_directory, delete_directory, file_exists, get_full_path
 
 
 class AdjacencyProblem:
@@ -12,8 +11,6 @@ class AdjacencyProblem:
     Attributes:
         dim: The space dimension.
         name: The instance name.
-        log: A boolean representing whether the model files should be saved.
-        lp_directory: The path where the lp solutions should be stored.
         p: The polytope vertices.
     """
 
@@ -28,26 +25,17 @@ class AdjacencyProblem:
 
     p: Dict[int, 'Point']
 
-    def __init__(self, dim: int, name: str, vertices: Dict[int, 'Point'], log: bool = False):
+    def __init__(self, dim: int, name: str, vertices: Dict[int, 'Point']):
         """Initializes the adjacency model.
 
         Args:
             dim: The space dimension.
             name: The instance name.
             vertices: The polytope vertices.
-            log: A boolean representing whether the model files should be saved.
         """
         self.dim = dim
         self.name = name
         self.p = vertices
-        self.log = log
-        self.lp_directory = get_full_path('files', 'lps', 'adjacency', name)
-        create_directory(self.lp_directory)
-
-    def clear_files(self):
-        """Deletes the files used to stored the models and results.
-        """
-        delete_directory(self.lp_directory)
 
     def test_edge_primal(self, i: int, j: int) -> bool:
         """Checks whether the vertices are adjacent using the primal model.
@@ -59,26 +47,14 @@ class AdjacencyProblem:
         Returns:
             Whether the vertices are adjacent.
         """
-        path = f'{self.lp_directory}/primal_{i}_{j}'
+        model = Model()
+        model.setParam('LogToConsole', 0)
+        model.setParam('DualReductions', 0)
+        self.__primal_model(model, i, j)
 
-        if file_exists(f'{path}.sol'):
-            with open(f'{path}.sol', 'r') as file:
-                status = int(file.readline())
-        else:
-            model = Model()
-            model.setParam('LogToConsole', 0)
-            model.setParam('DualReductions', 0)
-            self.__primal_model(model, i, j)
-
-            model.update()
-            model.optimize()
-            status = model.status
-
-            if self.log:
-                model.write(f'{path}.lp')
-
-            with open(f'{path}.sol', 'w+') as file:
-                file.write(f'{status}')
+        model.update()
+        model.optimize()
+        status = model.status
 
         return True if status == AdjacencyProblem.STATUS_INFEASIBLE else False
 
@@ -92,26 +68,14 @@ class AdjacencyProblem:
         Returns:
             Whether the vertices are adjacent.
         """
-        path = f'{self.lp_directory}/dual_{i}_{j}'
+        model = Model()
+        model.setParam('LogToConsole', 0)
+        model.setParam('DualReductions', 0)
+        self.__dual_model(model, i, j)
 
-        if file_exists(f'{path}.sol'):
-            with open(f'{path}.sol', 'r') as file:
-                status = int(file.readline())
-        else:
-            model = Model()
-            model.setParam('LogToConsole', 0)
-            model.setParam('DualReductions', 0)
-            self.__dual_model(model, i, j)
-
-            model.update()
-            model.optimize()
-            status = model.status
-
-            if self.log:
-                model.write(f'{path}.lp')
-
-            with open(f'{path}.sol', 'w+') as file:
-                file.write(f'{status}')
+        model.update()
+        model.optimize()
+        status = model.status
 
         return True if status == AdjacencyProblem.STATUS_UNBOUNDED else False
 

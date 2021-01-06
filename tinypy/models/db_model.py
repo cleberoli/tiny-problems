@@ -1,19 +1,16 @@
+import json
 from abc import ABC, abstractmethod
 
-from pymongo.collection import Collection
-from bson.objectid import ObjectId
+from tinypy.utils.file import file_exists, get_full_path
 
-from tinypy.utils.db import add_document, get_document, update_document
+CONES = 'cones'
+INSTANCES = 'instances'
+POLYTOPES = 'polytopes'
+SKELETONS = 'skeletons'
+TREES = 'trees'
 
 
 class DBModel(ABC):
-
-    id: str
-
-    @classmethod
-    def from_id(cls, object_id: str):
-        doc = get_document(cls.get_collection(), {'_id': ObjectId(object_id)})
-        return cls.from_doc(doc)
 
     @classmethod
     @abstractmethod
@@ -22,7 +19,11 @@ class DBModel(ABC):
 
     @classmethod
     @abstractmethod
-    def get_collection(cls) -> Collection:
+    def get_collection(cls) -> str:
+        pass
+
+    @abstractmethod
+    def get_file_name(self) -> str:
         pass
 
     @abstractmethod
@@ -33,23 +34,19 @@ class DBModel(ABC):
     def get_repr(self) -> dict:
         pass
 
-    @abstractmethod
-    def get_query(self) -> dict:
-        pass
-
-    @abstractmethod
-    def get_update_values(self) -> dict:
-        pass
+    def get_file_path(self) -> str:
+        return get_full_path('files', self.get_collection(), f'{self.get_file_name()}.json')
 
     def add_doc(self):
-        self.id = add_document(self.get_collection(), self.get_repr())
+        with open(self.get_file_path(), 'w') as file:
+            json.dump(self.get_repr(), file)
 
     def get_doc(self):
-        doc = get_document(self.get_collection(), self.get_query())
-        if doc is not None:
-            self.load_doc(doc)
+        doc = None
+
+        if file_exists(self.get_file_path()):
+            with open(self.get_file_path()) as file:
+                doc = json.load(file)
+                self.load_doc(doc)
 
         return doc
-
-    def update_doc(self):
-        update_document(self.get_collection(), self.get_query(), self.get_update_values())

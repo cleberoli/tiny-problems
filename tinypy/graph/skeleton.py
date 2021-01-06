@@ -31,6 +31,13 @@ class Skeleton:
         """
         return list(self.graph.nodes)
 
+    @property
+    def degree(self) -> float:
+        """Returns the skeleton average degree.
+        """
+        degrees = [self.graph.degree(i) for i in self.graph.nodes]
+        return round(sum(degrees) / max(len(degrees), 1), 3)
+
     def add_edge(self, i: int, j: int, h: int = None):
         """Adds a new edge to the skeleton graph.
 

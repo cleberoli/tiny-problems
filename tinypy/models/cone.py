@@ -1,9 +1,6 @@
 from typing import Dict, List
 
-from pymongo.collection import Collection
-
-from tinypy.models.db_model import DBModel
-from tinypy.utils.db import CONES
+from tinypy.models.db_model import DBModel, CONES
 
 
 class Cone(DBModel):
@@ -29,12 +26,13 @@ class Cone(DBModel):
         return cone
 
     @classmethod
-    def get_collection(cls) -> Collection:
+    def get_collection(cls) -> str:
         return CONES
 
-    def load_doc(self, doc: dict):
-        self.id = str(doc['_id'])
+    def get_file_name(self) -> str:
+        return self.name
 
+    def load_doc(self, doc: dict):
         for (key, value) in doc['cones'].items():
             self.cones[int(key)] = value
 
@@ -49,9 +47,3 @@ class Cone(DBModel):
                 'dimension': self.dimension,
                 'size': self.size,
                 'cones': cones}
-
-    def get_query(self) -> dict:
-        return {'name': self.name}
-
-    def get_update_values(self) -> dict:
-        pass
