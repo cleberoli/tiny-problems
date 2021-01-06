@@ -6,8 +6,8 @@ from tinypy.polytopes.tsp_polytope import TSPPolytope
 from tinypy.trees.iterative_tree import IterativeTree
 
 if __name__ == '__main__':
-    # polytope = CutPolytope(4)
-    polytope = TSPPolytope(5)
+    polytope = CutPolytope(3)
+    # polytope = TSPPolytope(5)
 
     tree = IterativeTree(polytope)
     tree.build_tree()
