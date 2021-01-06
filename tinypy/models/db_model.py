@@ -1,15 +1,13 @@
 import json
 from abc import ABC, abstractmethod
 
-from bson.objectid import ObjectId
-
-from tinypy.utils.db import add_document, delete_document, get_document, update_document
 from tinypy.utils.file import file_exists, get_full_path
 
 CONES = 'cones'
 INSTANCES = 'instances'
 POLYTOPES = 'polytopes'
 SKELETONS = 'skeletons'
+TREES = 'trees'
 
 
 class DBModel(ABC):
@@ -25,23 +23,15 @@ class DBModel(ABC):
         pass
 
     @abstractmethod
+    def get_file_name(self) -> str:
+        pass
+
+    @abstractmethod
     def load_doc(self, doc: dict):
         pass
 
     @abstractmethod
     def get_repr(self) -> dict:
-        pass
-
-    @abstractmethod
-    def get_query(self) -> dict:
-        pass
-
-    @abstractmethod
-    def get_update_values(self) -> dict:
-        pass
-
-    @abstractmethod
-    def get_file_name(self) -> str:
         pass
 
     def get_file_path(self) -> str:
@@ -60,9 +50,3 @@ class DBModel(ABC):
                 self.load_doc(doc)
 
         return doc
-
-    # def update_doc(self):
-    #     update_document(self.get_collection(), self.get_query(), self.get_update_values())
-    #
-    # def delete_doc(self):
-    #     delete_document(self.get_collection(), {'_id': ObjectId(self.id)})

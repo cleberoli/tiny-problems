@@ -1,7 +1,5 @@
 from typing import Dict
 
-from pymongo.collection import Collection
-
 from tinypy.geometry.point import Point
 from tinypy.models.db_model import DBModel, INSTANCES
 
@@ -51,9 +49,3 @@ class Instance(DBModel):
                 'dimension': self.dimension,
                 'size': self.size,
                 'solutions': solutions}
-
-    def get_query(self) -> dict:
-        return {'name': self.name}
-
-    def get_update_values(self) -> dict:
-        pass

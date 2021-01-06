@@ -36,7 +36,7 @@ class Intersections:
     hyperplanes: Dict[int, 'Hyperplane']
     cones: Dict[int, 'Cone']
     intersection_lp: IntersectionProblem
-    positions: Dict[int, Dict[int, Bisection]]
+    positions: Dict[str, Dict[int, Bisection]]
 
     def __init__(self, polytope: Polytope):
         """Initializes the intersections.
@@ -71,15 +71,15 @@ class Intersections:
             hyperplanes = [h for h in self.hyperplanes.keys() if h not in region.hyperplanes and -h not in region.hyperplanes]
 
         if hash(region) in self.positions:
-            hyperplanes = [h for h in hyperplanes if h not in self.positions[hash(region)].keys()]
+            hyperplanes = [h for h in hyperplanes if h not in self.positions[repr(region)].keys()]
 
             if len(hyperplanes) > 0:
                 self.__compute_positions(region, cones, hyperplanes)
         else:
-            self.positions[hash(region)] = dict()
+            self.positions[repr(region)] = dict()
             self.__compute_positions(region, cones, hyperplanes)
 
-        return self.positions[hash(region)]
+        return self.positions[repr(region)]
 
     def __compute_positions(self, region: 'Region', reference_cones: List[int], reference_hyperplanes: List[int]):
         """Returns the the positions of cones with respect to hyperplanes.
@@ -95,14 +95,14 @@ class Intersections:
         intersections = self.__compute_intersections(region, reference_cones, reference_hyperplanes)
 
         for h in reference_hyperplanes:
-            self.positions[hash(region)][h] = Bisection()
+            self.positions[repr(region)][h] = Bisection()
             cones = [c for (c, value) in intersections[h].items() if value[0] is False or value[1] is False]
 
             for c in cones:
                 if intersections[h][c][self.RIGHT] is True:
-                    self.positions[hash(region)][h].add_right(c)
+                    self.positions[repr(region)][h].add_right(c)
                 else:
-                    self.positions[hash(region)][h].add_left(c)
+                    self.positions[repr(region)][h].add_left(c)
 
     def __compute_intersections(self, region: 'Region', cones: List[int], hyperplanes: List[int]) -> Dict[int, Dict[int, Tuple[bool, bool]]]:
         """Computes the intersections of each hyperplane with each cone.

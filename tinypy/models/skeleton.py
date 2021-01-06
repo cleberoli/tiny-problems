@@ -1,7 +1,5 @@
 from typing import Dict, List, Tuple
 
-from pymongo.collection import Collection
-
 from tinypy.geometry.hyperplane import Hyperplane
 from tinypy.geometry.point import Point
 from tinypy.models.db_model import DBModel, SKELETONS
@@ -42,7 +40,7 @@ class Skeleton(DBModel):
         return skeleton
 
     @classmethod
-    def get_collection(cls) -> Collection:
+    def get_collection(cls) -> str:
         return SKELETONS
 
     def get_file_name(self) -> str:
@@ -87,9 +85,3 @@ class Skeleton(DBModel):
                 'hyperplanes': hyperplanes,
                 'skeleton_edges': skeleton_edges,
                 'complement_edges': complement_edges}
-
-    def get_query(self) -> dict:
-        return {'name': self.name}
-
-    def get_update_values(self) -> dict:
-        pass

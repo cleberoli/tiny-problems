@@ -1,5 +1,3 @@
-from pymongo.collection import Collection
-
 from tinypy.models.db_model import DBModel, POLYTOPES
 
 
@@ -30,7 +28,7 @@ class Polytope(DBModel):
         return polytope
 
     @classmethod
-    def get_collection(cls) -> Collection:
+    def get_collection(cls) -> str:
         return POLYTOPES
 
     def get_file_name(self) -> str:
@@ -47,9 +45,3 @@ class Polytope(DBModel):
                 'hyperplanes': self.hyperplanes,
                 'edges': self.edges,
                 'degree': self.degree}
-
-    def get_query(self) -> dict:
-        return {'name': self.name}
-
-    def get_update_values(self) -> dict:
-        pass
