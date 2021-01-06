@@ -42,7 +42,7 @@ class Tree(DBModel):
         return TREES
 
     def get_file_name(self) -> str:
-        return f'{self.name}-{self.k}'
+        return f'{self.name}-k{self.k}'
 
     def load_doc(self, doc: dict):
         self.height = doc['height']
