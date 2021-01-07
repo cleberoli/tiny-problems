@@ -80,7 +80,7 @@ class IterativeTree:
 
             # run computations for k hyperplanes in each level
             # a previous calculated node stores how many hyperplanes as threshold
-            for i in range(k):
+            for i in range(min(k, len(node.hyperplanes))):
                 h = node.hyperplanes[i]
 
                 if len(node.region) >= self.ub:
