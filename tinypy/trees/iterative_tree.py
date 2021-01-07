@@ -125,7 +125,7 @@ class IterativeTree:
                 if i >= node.threshold:
                     node.threshold = node.threshold + 1
 
-                if node.height == lb:
+                if node.height == lb or k >= len(node.hyperplanes):
                     optimal_tree = True
                     break
 
