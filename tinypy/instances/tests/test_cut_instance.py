@@ -11,8 +11,8 @@ def test_cut_instance_5():
     assert cut5.name == 'CUT-n5'
     assert cut5.type == 'cut'
 
-    assert len(cut5_solutions) == 16        # 2^(n-1)
-    assert cut5.size == 16
+    assert len(cut5_solutions) == 15        # 2^(n-1) - 1
+    assert cut5.size == 15
 
     assert cut5_solutions[0].dim == 10      # n*(n-1)/2
     assert cut5.dimension == 10
@@ -29,8 +29,8 @@ def test_cut_instance_6():
     assert cut6.name == 'CUT-n6'
     assert cut6.type == 'cut'
 
-    assert len(cut6_solutions) == 32        # 2^(n-1)
-    assert cut6.size == 32
+    assert len(cut6_solutions) == 31        # 2^(n-1) - 1
+    assert cut6.size == 31
 
     assert cut6_solutions[0].dim == 15      # n*(n-1)/2
     assert cut6.dimension == 15
@@ -54,5 +54,5 @@ def test_invalid_cut_instance():
 
 
 def test_generate_solutions():
-    assert len(CutInstance(n=5).generate_solutions()) == 16
-    assert len(CutInstance(n=6).generate_solutions()) == 32
+    assert len(CutInstance(n=5).generate_solutions()) == 15
+    assert len(CutInstance(n=6).generate_solutions()) == 31

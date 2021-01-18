@@ -23,7 +23,7 @@ class CutInstance(Instance):
 
         n = int(kwargs["n"])
         dimension = int(n * (n - 1) / 2)
-        size = 2 ** (n - 1)
+        size = 2 ** (n - 1) - 1
 
         Instance.__init__(self, f'CUT-n{n}', 'cut', dimension, size, n)
 

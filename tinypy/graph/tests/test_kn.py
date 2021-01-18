@@ -51,16 +51,16 @@ def test_get_cuts():
     cuts5 = k5.get_cuts()
     cuts6 = k6.get_cuts()
 
-    assert len(cuts5) == 16         # 2^(n-1)
-    assert len(cuts6) == 32         # 2^(n-1)
+    assert len(cuts5) == 15         # 2^(n-1) - 1
+    assert len(cuts6) == 31         # 2^(n-1) - 1
 
-    assert cuts5[0].coords == (0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    assert cuts5[4].coords == (0, 1, 0, 0, 1, 0, 0, 1, 1, 0)
-    assert cuts5[15].coords == (1, 1, 1, 1, 0, 0, 0, 0, 0, 0)
+    assert cuts5[0].coords == (0, 0, 0, 1, 0, 0, 1, 0, 1, 1)
+    assert cuts5[3].coords == (0, 1, 0, 0, 1, 0, 0, 1, 1, 0)
+    assert cuts5[14].coords == (1, 1, 1, 1, 0, 0, 0, 0, 0, 0)
 
-    assert cuts6[0].coords == (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    assert cuts6[10].coords == (0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1)
-    assert cuts6[31].coords == (1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    assert cuts6[0].coords == (0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1)
+    assert cuts6[9].coords == (0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1)
+    assert cuts6[30].coords == (1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 
 def test_get_triangles():

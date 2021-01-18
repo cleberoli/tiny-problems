@@ -59,7 +59,7 @@ class Kn:
         Returns:
             All cuts as points that represent that edges to be removed.
         """
-        cuts = {Point.origin(len(self.edges))}
+        cuts = set()
 
         for i in range(1, floor(self.n / 2) + 1):
             combinations = get_combinations(self.nodes, i)
