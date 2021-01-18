@@ -2,8 +2,8 @@
   "name": "CUT-n5",
   "type": "cut",
   "dimension": 10,
-  "solutions": 16,
-  "hyperplanes": 120,
-  "edges": 120,
-  "degree": 15.0
+  "solutions": 15,
+  "hyperplanes": 105,
+  "edges": 105,
+  "degree": 14.0
 }

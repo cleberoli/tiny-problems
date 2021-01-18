@@ -2,8 +2,8 @@
   "name": "CUT-n4",
   "type": "cut",
   "dimension": 6,
-  "solutions": 8,
-  "hyperplanes": 28,
-  "edges": 28,
-  "degree": 7.0
+  "solutions": 7,
+  "hyperplanes": 21,
+  "edges": 21,
+  "degree": 6.0
 }
