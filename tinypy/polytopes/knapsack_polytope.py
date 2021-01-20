@@ -6,7 +6,7 @@ class KnapsackPolytope(Polytope):
     """Extends the base polytope for knapsack instances.
     """
 
-    def __init__(self, n: int, origin: bool = False, save: bool = True):
+    def __init__(self, n: int, origin: bool = True, save: bool = True):
         """Initializes the tsp polytope with the Traveling Salesman instance.
 
         Args:

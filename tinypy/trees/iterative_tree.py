@@ -35,6 +35,7 @@ class IterativeTree:
         self.tree_builder = TreeBuilder(polytope)
 
     def build_tree(self, threshold: int = INFINITY):
+        start_time = time.time()
         region = Region()
         solutions = list(self.polytope.vertices.keys())
         hyperplanes = list(self.polytope.hyperplanes.keys())
@@ -42,10 +43,7 @@ class IterativeTree:
         hyperplanes = self.process_hyperplanes(hyperplanes, positions, len(solutions))
         node = Node(region, solutions, hyperplanes)
         self.threshold = min(threshold, len(hyperplanes))
-        print(self.get_linear_lower_bound(region, solutions, hyperplanes))
         self.lb = self.get_lower_bound(node)
-
-        start_time = time.time()
 
         for k in range(1, self.threshold + 1):
             root = self.explore_node(node, k, self.lb)
