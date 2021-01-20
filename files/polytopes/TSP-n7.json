@@ -3,7 +3,7 @@
   "type": "tsp",
   "dimension": 21,
   "solutions": 360,
-  "hyperplanes": 9660,
+  "hyperplanes": 41835,
   "edges": 30240,
   "degree": 168.0
 }

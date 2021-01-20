@@ -3,7 +3,7 @@
   "type": "knp",
   "dimension": 6,
   "solutions": 14,
-  "hyperplanes": 30,
+  "hyperplanes": 64,
   "edges": 51,
   "degree": 7.286
 }

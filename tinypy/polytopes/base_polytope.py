@@ -65,7 +65,7 @@ class Polytope(ABC):
         self.voronoi.build(self.vertices, save)
 
         db_polytope = DBPolytope(instance.name, instance.type, instance.dimension, instance.size,
-                                 self.n_skeleton_hyperplanes, len(self.skeleton.edges), self.skeleton.degree)
+                                 self.n_skeleton_hyperplanes + self.n_complement_hyperplanes, len(self.skeleton.edges), self.skeleton.degree)
 
         if db_polytope.get_doc() is None and save:
             db_polytope.add_doc()
@@ -172,6 +172,6 @@ class Polytope(ABC):
                f'TYPE: {self.instance.type.upper()}\n' \
                f'DIMENSION: {self.dimension}\n' \
                f'SOLUTIONS: {self.size}\n' \
-               f'HYPERPLANES: {self.n_skeleton_hyperplanes}\n' \
+               f'HYPERPLANES: {self.n_skeleton_hyperplanes + self.n_complement_hyperplanes}\n' \
                f'EDGES: {len(self.skeleton.edges)}\n' \
                f'AVERAGE DEGREE: {self.skeleton.degree}\n'
