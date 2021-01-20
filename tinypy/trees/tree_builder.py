@@ -29,7 +29,7 @@ class TreeBuilder:
 
             right_node = nodes[node.right]
             tree.add_node(right_node.hash, height + 1, right_node.solutions, right_node.hyperplane)
-            tree.add_edge_left(node.hash, right_node.hash)
+            tree.add_edge_right(node.hash, right_node.hash)
 
             if len(right_node.solutions) > 1:
                 queue.append((right_node, height + 1))

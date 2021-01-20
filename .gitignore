@@ -12,5 +12,5 @@ tinypy/test.py
 trees/*/
 files/intersections/*
 files/lps/*
-files/*/PYR*
+files/*/CUB*
 files/*/RND*

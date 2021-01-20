@@ -27,9 +27,9 @@ class RandomInstance(Instance):
         dimension = int(kwargs["d"])
         size = int(kwargs["m"])
 
-        Instance.__init__(self, f'RND-d{dimension}-m{size}', 'rnd', dimension, size, n)
+        Instance.__init__(self, f'RND-d{dimension}-m{size}', 'rnd', dimension, size, n, False, False)
 
-    def generate_solutions(self) -> List['Point']:
+    def generate_solutions(self) -> List[Point]:
         """Generate the solution list.
 
         Returns:

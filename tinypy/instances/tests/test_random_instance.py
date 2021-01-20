@@ -2,7 +2,6 @@ import pytest
 
 from tinypy.geometry.point import Point
 from tinypy.instances.random_instance import RandomInstance
-from tinypy.utils.file import delete_file, file_exists, get_full_path
 
 
 def test_random_instance_3_4():

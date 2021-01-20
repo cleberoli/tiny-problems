@@ -4,19 +4,19 @@ from tinypy.polytopes.tsp_polytope import TSPInstance, TSPPolytope
 
 
 def test_tsp_polytope_5():
-    tsp5 = TSPPolytope(5)
+    tsp5 = TSPPolytope(5, origin=True, save=False)
 
     assert tsp5.full_name == 'traveling salesman'
     assert tsp5.name == 'tsp'
     assert tsp5.dimension == 10
-    assert tsp5.size == 12
+    assert tsp5.size == 13
     assert tsp5.n == 5
-    assert len(tsp5.vertices) == 12
-    assert tsp5.instance.get_solution_dict() == TSPInstance(n=5).get_solution_dict()
+    assert len(tsp5.vertices) == 13
+    assert tsp5.instance.get_solution_dict() == TSPInstance(n=5, origin=True, save=False).get_solution_dict()
 
 
 def test_tsp_polytope_6():
-    tsp6 = TSPPolytope(6)
+    tsp6 = TSPPolytope(6, False, False)
 
     assert tsp6.full_name == 'traveling salesman'
     assert tsp6.name == 'tsp'

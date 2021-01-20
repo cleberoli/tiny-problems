@@ -20,12 +20,10 @@ class Polytope(ABC):
         dimension: The instance dimension.
         size: The instance size.
         n: The instance main parameter.
-        polytope_file: The path where the polytope should be stored.
         instance: The instance.
         skeleton: The skeleton graph.
         complement: The extended skeleton graph.
-        hyperplanes: The set of hyperplanes.
-        delaunay: The Delaunay triangulation.
+        hyperplanes: The set of hyperplanes.'
         voronoi: The Voronoi diagram.
         vertices: The polytope vertices.
     """
@@ -35,7 +33,6 @@ class Polytope(ABC):
     dimension: int
     size: int
     n: int
-    polytope_file: str
 
     instance: Instance
     skeleton: Skeleton
@@ -46,7 +43,7 @@ class Polytope(ABC):
     voronoi: VoronoiDiagram
     vertices: Dict[int, Point]
 
-    def __init__(self, instance: Instance, full_name: str):
+    def __init__(self, instance: Instance, full_name: str, save: bool = True):
         """Initializes the polytope with the given instance and name.
 
         Args:
@@ -63,17 +60,17 @@ class Polytope(ABC):
         self.vertices = self.instance.get_solution_dict().copy()
         self.vertices = dict((key, Point([1] * self.dimension) - 2 * point) for (key, point) in self.vertices.items())
 
-        self.build_skeleton()
+        self.build_skeleton(save)
         self.voronoi = VoronoiDiagram(self.instance, self.skeleton, self.hyperplanes)
-        self.voronoi.build(self.vertices)
+        self.voronoi.build(self.vertices, save)
 
         db_polytope = DBPolytope(instance.name, instance.type, instance.dimension, instance.size,
                                  self.n_skeleton_hyperplanes, len(self.skeleton.edges), self.skeleton.degree)
 
-        if db_polytope.get_doc() is None:
+        if db_polytope.get_doc() is None and save:
             db_polytope.add_doc()
 
-    def build_skeleton(self):
+    def build_skeleton(self, save: bool = True):
         """Build the polytope skeleton.
 
         If the skeleton has been previously computed it is loaded from the file.
@@ -101,7 +98,9 @@ class Polytope(ABC):
             db_skeleton.n_complement_hyperplanes = self.n_complement_hyperplanes
             db_skeleton.skeleton_edges = self.skeleton.graph.edges.data('h')
             db_skeleton.complement_edges = self.complement.graph.edges.data('h')
-            db_skeleton.add_doc()
+
+            if save:
+                db_skeleton.add_doc()
 
     def get_bisector(self, i: int, j: int) -> int:
         """Returns the bisector of two points.
@@ -169,8 +168,6 @@ class Polytope(ABC):
         return {**hyperplanes, **extended_hyperplanes}, skeleton, extended_skeleton, len(hyperplanes), len(extended_hyperplanes)
 
     def __repr__(self):  # pragma: no cover
-        degrees = [self.skeleton.graph.degree(i) for i in self.skeleton.graph.nodes]
-
         return f'NAME: {self.instance.name}\n' \
                f'TYPE: {self.instance.type.upper()}\n' \
                f'DIMENSION: {self.dimension}\n' \

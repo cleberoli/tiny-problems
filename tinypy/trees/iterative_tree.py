@@ -35,6 +35,7 @@ class IterativeTree:
         self.tree_builder = TreeBuilder(polytope)
 
     def build_tree(self, threshold: int = INFINITY):
+        start_time = time.time()
         region = Region()
         solutions = list(self.polytope.vertices.keys())
         hyperplanes = list(self.polytope.hyperplanes.keys())
@@ -43,8 +44,6 @@ class IterativeTree:
         node = Node(region, solutions, hyperplanes)
         self.threshold = min(threshold, len(hyperplanes))
         self.lb = self.get_lower_bound(node)
-
-        start_time = time.time()
 
         for k in range(1, self.threshold + 1):
             root = self.explore_node(node, k, self.lb)
@@ -172,6 +171,29 @@ class IterativeTree:
         best_l = len(node.solutions) - len(self.intersections.positions[node.hash][node.hyperplanes[0]].left)
         best_r = len(node.solutions) - len(self.intersections.positions[node.hash][node.hyperplanes[0]].right)
         return ceil(log2(max(best_l, best_r))) + 1
+
+    def get_linear_lower_bound(self, region: Region, solutions: List[int], hyperplanes: List[int]) -> int:
+        if len(solutions) == 1:
+            return 0
+        elif len(solutions) == 2:
+            return 1
+        else:
+            positions = self.intersections.get_positions(region, solutions)
+            new_hyperplanes = self.process_hyperplanes(hyperplanes, positions, len(solutions))
+            h = new_hyperplanes[0]
+            size_l = len(solutions) - len(positions[h].right)
+            size_r = len(solutions) - len(positions[h].left)
+
+            if size_l > size_r:                                                 # exploring left branch
+                new_region = Region(region.hyperplanes)
+                new_region.add_hyperplane(-h)
+                new_solutions = [x for x in solutions if x not in positions[h].right]
+            else:                                                               # exploring right branch
+                new_region = Region(region.hyperplanes)
+                new_region.add_hyperplane(h)
+                new_solutions = [x for x in solutions if x not in positions[h].left]
+
+            return 1 + self.get_linear_lower_bound(new_region, new_solutions, new_hyperplanes[1:])
 
     def case_1(self, node: Node, solutions: List[int], hyperplanes: List[int], hyperplane: int) -> Node:
         region = Region(node.region)

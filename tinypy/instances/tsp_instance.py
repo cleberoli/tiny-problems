@@ -22,21 +22,31 @@ class TSPInstance(Instance):
         if kwargs['n'] <= 2:
             raise ValueError('The dimensions must be greater than 2.')
 
-        n = int(kwargs["n"])
+        n = int(kwargs['n'])
+        origin = bool(kwargs['origin']) if 'origin' in kwargs else False
+        save = bool(kwargs['save']) if 'save' in kwargs else True
         dimension = int(n * (n - 1) / 2)
         size = int(factorial(n - 1) / 2)
 
-        Instance.__init__(self, f'TSP-n{n}', 'tsp', dimension, size, n)
+        if origin:
+            size = size + 1
 
-    def generate_solutions(self) -> List['Point']:
+        Instance.__init__(self, f'TSP-n{n}', 'tsp', dimension, size, n, origin, save)
+
+    def generate_solutions(self) -> List[Point]:
         """Generate the solution list.
 
         Returns:
             The solution list.
         """
         kn = Kn(self.n)
-        cycles = kn.get_hamilton_cycles()
-        return list(cycles.values())
+
+        if self.origin:
+            cycles = [Point.origin(self.dimension)]
+        else:
+            cycles = []
+
+        return cycles + kn.get_hamilton_cycles()
 
     def get_triangles(self) -> List[List[int]]:
         """Returns the triangles to be consider in the triangle inequalities.

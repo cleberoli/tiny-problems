@@ -49,7 +49,7 @@ class Tree(DBModel):
         self.root = doc['root']
         self.graph = DiGraph()
 
-        for (node, data) in doc['nodes'].values():
+        for node, data in doc['nodes'].items():
             self.add_node(node, data['height'], data['solutions'], data['hyperplane'])
 
         for edge in doc['edges']:

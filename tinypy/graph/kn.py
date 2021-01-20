@@ -1,5 +1,5 @@
 from math import floor
-from typing import Dict, List
+from typing import List
 
 from tinypy.geometry.point import Point
 from tinypy.utils.combinatorics import get_combinations, get_permutations
@@ -35,7 +35,7 @@ class Kn:
             for j in range(i + 1, self.n):
                 self.edges.append(f'{self.nodes[i]}-{self.nodes[j]}')
 
-    def get_hamilton_cycles(self) -> Dict[int, 'Point']:
+    def get_hamilton_cycles(self) -> List[Point]:
         """Returns all Hamiltonian cycles.
 
         Returns:
@@ -51,9 +51,9 @@ class Kn:
         cycles = list(cycles)
         cycles.sort()
 
-        return dict((key, cycles[key]) for key in range(len(cycles)))
+        return cycles
 
-    def get_cuts(self) -> Dict[int, 'Point']:
+    def get_cuts(self) -> List[Point]:
         """Returns all possible cuts.
 
         Returns:
@@ -72,7 +72,7 @@ class Kn:
         cuts = list(cuts)
         cuts.sort()
 
-        return dict((key, cuts[key]) for key in range(len(cuts)))
+        return cuts
 
     def get_triangles(self) -> List[List[int]]:
         """Returns all triangles.
@@ -95,7 +95,7 @@ class Kn:
 
         return triangles
 
-    def __get_point_from_permutation(self, permutation: tuple) -> 'Point':
+    def __get_point_from_permutation(self, permutation: tuple) -> Point:
         """Returns a point from a permutation of the nodes.
 
         Args:
@@ -111,7 +111,7 @@ class Kn:
 
         return self.__get_point_from_edges(edges)
 
-    def __get_point_from_partition(self, a: List[int], b: List[int]) -> 'Point':
+    def __get_point_from_partition(self, a: List[int], b: List[int]) -> Point:
         """Returns a point from a partition of the nodes.
 
         Args:
@@ -129,7 +129,7 @@ class Kn:
 
         return self.__get_point_from_edges(edges)
 
-    def __get_point_from_edges(self, edges: List[str]) -> 'Point':
+    def __get_point_from_edges(self, edges: List[str]) -> Point:
         """Returns a point from a list of edges.
 
         Args:

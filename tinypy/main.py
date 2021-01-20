@@ -7,6 +7,7 @@ sys.path.append('/home/coliveira/tiny-problems')
 if __name__ == '__main__':
     from tinypy.polytopes.cut_polytope import CutPolytope
     from tinypy.polytopes.hypercube_polytope import HypercubePolytope
+    from tinypy.polytopes.knapsack_polytope import KnapsackPolytope
     from tinypy.polytopes.tsp_polytope import TSPPolytope
     from tinypy.trees.iterative_tree import IterativeTree
 
@@ -15,11 +16,14 @@ if __name__ == '__main__':
 
     p = sys.argv[1]
     n = int(sys.argv[2])
+    origin = len(sys.argv) == 4 and sys.argv[3] == 'o'
 
     if p == 'cut':
-        polytope = CutPolytope(n)
+        polytope = CutPolytope(n, origin)
     elif p == 'tsp':
-        polytope = TSPPolytope(n)
+        polytope = TSPPolytope(n, origin)
+    elif p == 'knp':
+        polytope = KnapsackPolytope(n, origin)
     else:
         polytope = HypercubePolytope(n)
 
