@@ -37,3 +37,11 @@ def test_get_permutations():
     assert len(q) == 6
     assert type(q[0]) is tuple
     assert len(q[0]) == 3
+
+
+def test_get_partitions():
+    # https://oeis.org/A000009
+    distinct_partitions_length = [1, 1, 1, 2, 2, 3, 4, 5, 6, 8, 10]
+
+    for i in range(11):
+        assert len(combinatorics.get_distinct_partitions(i)) == distinct_partitions_length[i]

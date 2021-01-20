@@ -4,15 +4,15 @@ from tinypy.instances.tsp_instance import TSPInstance
 
 
 def test_tsp_instance_5():
-    tsp5 = TSPInstance(n=5)
+    tsp5 = TSPInstance(n=5, origin=True, save=False)
     tsp5_solutions = tsp5.get_solution_list()
 
     assert tsp5.n == 5
-    assert tsp5.name == 'TSP-n5'
+    assert tsp5.name == '0-TSP-n5'
     assert tsp5.type == 'tsp'
 
-    assert len(tsp5_solutions) == 12        # (n-1)!/2
-    assert tsp5.size == 12
+    assert len(tsp5_solutions) == 13       # (n-1)!/2
+    assert tsp5.size == 13
 
     assert tsp5_solutions[0].dim == 10      # n*(n-1)/2
     assert tsp5.dimension == 10
