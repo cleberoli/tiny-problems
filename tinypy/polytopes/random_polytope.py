@@ -13,4 +13,4 @@ class RandomPolytope(Polytope):
             d: The number of dimensions.
             m: The number of solutions.
         """
-        Polytope.__init__(self, RandomInstance(d=d, m=m), 'random')
+        Polytope.__init__(self, RandomInstance(d=d, m=m), 'random', False)
