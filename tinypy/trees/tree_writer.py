@@ -1,7 +1,8 @@
 from typing import List
 
-from tinypy.trees.base_tree import Tree
-from tinypy.utils.file import create_directory, file_exists, get_full_path
+from tinypy.models.tree import Tree
+from tinypy.polytopes.base_polytope import Polytope
+from tinypy.utils.file import create_directory, get_full_path
 
 TAB = '    '
 
@@ -15,20 +16,21 @@ class TreeWriter:
     """
 
     tree_file: str
+    tree: Tree
 
-    def __init__(self, tree):
+    def __init__(self, polytope: Polytope):
         """Initializes the writer.
 
-        Args:
-            tree: The tree.
         """
-        self.tree = tree
+        self.polytope = polytope
+        self.tree = Tree(polytope.instance.name, polytope.instance.type, 1)
+        self.tree.get_doc()
         self.tree_file = get_full_path('tinypy', 'generated', 'trees',
-                                       tree.polytope.instance.type, f'{tree.polytope.instance.name.replace("-", "_")}.py')
-        create_directory(get_full_path('tinypy', 'generated', 'trees', tree.polytope.instance.type))
+                                       polytope.instance.type, f'{polytope.instance.name.replace("-", "_")}.py')
+        create_directory(get_full_path('tinypy', 'generated', 'trees', polytope.instance.type))
 
-        with open(get_full_path('tinypy', 'generated', 'trees', tree.polytope.instance.type, '__init__.py'), 'w') as file:
-            file.write(f'"""Contains the generated tree classes for the {tree.polytope.full_name.title()} polytope.\n')
+        with open(get_full_path('tinypy', 'generated', 'trees', polytope.instance.type, '__init__.py'), 'w') as file:
+            file.write(f'"""Contains the generated tree classes for the {polytope.full_name.title()} polytope.\n')
             file.write('"""')
 
     def write_tree(self):
@@ -55,7 +57,7 @@ class TreeWriter:
         Args:
             file: The file.
         """
-        file.write(f'class {self.tree.polytope.instance.type.upper()}Tree(GeneratedTree):\n\n')
+        file.write(f'class {self.polytope.instance.type.upper()}Tree(GeneratedTree):\n\n')
         file.write(f'{TAB}def __init__(self, polytope):\n')
         file.write(f'{TAB}{TAB}GeneratedTree.__init__(self, polytope)\n\n')
 
@@ -68,28 +70,27 @@ class TreeWriter:
         file.write(f'{TAB}def test(self, point: Point):\n')
         self.__write_if(file, self.tree.root, [])
 
-    def __write_if(self, file, index: int, hyperplanes: List[int]):
+    def __write_if(self, file, parent: str, hyperplanes: List[int]):
         """Writes the if condition.
 
         Args:
             file: The file.
-            index: The node index.
         """
-        node = self.tree.graph.nodes[index]
-        solutions, height = node['solutions'], node['height']
+        node = self.tree.graph.nodes[parent]
+        solutions, hyperplane = node['solutions'], node['hyperplane']
+        height = len(hyperplanes)
 
         if len(solutions) == 1:
-            file.write(f'{TAB}{TAB}{TAB * height}return {solutions[0]}, {index}, {height}, {hyperplanes}\n')
+            file.write(f'{TAB}{TAB}{TAB * height}return {solutions[0]}, {height}\n')
         else:
-            hyperplane = int(node['hyperplane'])
-            successors = self.tree.graph.succ[index]
-            left_node, right_node = 0, 0
+            left = None
+            right = None
 
-            for (key, value) in successors.items():
-                if value['direction'] == 'left':
-                    left_node = key
-                if value['direction'] == 'right':
-                    right_node = key
+            for child, direction in self.tree.graph[parent].items():
+                if direction['direction'] == 'left':
+                    left = child
+                else:
+                    right = child
 
             h_right = hyperplanes.copy()
             h_left = hyperplanes.copy()
@@ -97,6 +98,6 @@ class TreeWriter:
             h_left.append(-hyperplane)
 
             file.write(f'{TAB}{TAB}{TAB * height}if self.hyperplanes[{hyperplane}].in_halfspace(point):\n')
-            self.__write_if(file, right_node, h_right)
+            self.__write_if(file, right, h_right)
             file.write(f'{TAB}{TAB}{TAB * height}else:\n')
-            self.__write_if(file, left_node, h_left)
+            self.__write_if(file, left, h_left)
