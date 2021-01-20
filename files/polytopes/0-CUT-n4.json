@@ -1,0 +1,9 @@
+{
+  "name": "0-CUT-n4",
+  "type": "cut",
+  "dimension": 6,
+  "solutions": 8,
+  "hyperplanes": 28,
+  "edges": 28,
+  "degree": 7.0
+}

@@ -12,4 +12,4 @@ class HypercubePolytope(Polytope):
         Args:
             n: The number of dimensions.
         """
-        Polytope.__init__(self, HypercubeInstance(n=n), 'hypercube')
+        Polytope.__init__(self, HypercubeInstance(n=n), 'hypercube', False)

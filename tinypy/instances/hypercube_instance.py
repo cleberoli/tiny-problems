@@ -25,9 +25,9 @@ class HypercubeInstance(Instance):
         dimension = n
         size = 2 ** n
 
-        Instance.__init__(self, f'CUB-n{n}', 'cub', dimension, size, n)
+        Instance.__init__(self, f'CUB-n{n}', 'cub', dimension, size, n, False, False)
 
-    def generate_solutions(self) -> List['Point']:
+    def generate_solutions(self) -> List[Point]:
         """Generate the solution list.
 
         Returns:

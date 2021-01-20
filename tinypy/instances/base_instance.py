@@ -14,6 +14,7 @@ class Instance(ABC):
         dimension: Instance dimension.
         size: Number of solutions.
         n: Main instance parameter.
+        origin: Whether this instance contains the origin.
         solutions: List of solution points.
     """
 
@@ -23,9 +24,10 @@ class Instance(ABC):
     dimension: int
     size: int
     n: int
+    origin: bool
     solutions: List[Point]
 
-    def __init__(self, name: str, instance_type: str, dimension: int, size: int, n: int):
+    def __init__(self, name: str, instance_type: str, dimension: int, size: int, n: int, origin: bool, save: bool):
         """Initializes the instance.
 
         Args:
@@ -34,12 +36,14 @@ class Instance(ABC):
             dimension: Instance dimension.
             size: Number of solutions.
             n: Main instance parameter.
+            origin: Whether this instance contains the origin.
         """
-        self.name = name
+        self.name = f'0-{name}' if origin else name
         self.type = instance_type
         self.dimension = dimension
         self.size = size
         self.n = n
+        self.origin = origin
 
         db_instance = DBInstance(self.name, self.type, self.dimension, self.size)
         doc = db_instance.get_doc()
@@ -49,7 +53,9 @@ class Instance(ABC):
         else:
             self.solutions = self.generate_solutions()
             db_instance.solutions = self.get_solution_dict()
-            db_instance.add_doc()
+
+            if save:
+                db_instance.add_doc()
 
     def get_solution_list(self) -> List[Point]:
         """Returns the solutions as list of points.
@@ -92,7 +98,7 @@ class Instance(ABC):
         pass
 
     @abstractmethod
-    def get_triangles(self) -> List[List[int]]:
+    def get_triangles(self) -> List[List[int]]:  # pragma: no cover
         """Returns the triangles to be consider in the triangle inequalities.
 
         Returns:

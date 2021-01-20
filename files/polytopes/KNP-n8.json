@@ -1,0 +1,9 @@
+{
+  "name": "KNP-n8",
+  "type": "knp",
+  "dimension": 8,
+  "solutions": 24,
+  "hyperplanes": 76,
+  "edges": 141,
+  "degree": 11.75
+}

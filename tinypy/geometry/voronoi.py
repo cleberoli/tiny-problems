@@ -42,11 +42,12 @@ class VoronoiDiagram:
         self.skeleton = skeleton
         self.hyperplanes = hyperplanes
 
-    def build(self, solutions: Dict[int, Point]):
+    def build(self, solutions: Dict[int, Point], save: bool = True):
         """Builds the Voronoi diagram based on the given solutions.
 
         Args:
             solutions: The Voronoi vertices.
+            save: Whether the cones should be saved.
         """
         db_cone = DBCone(self.instance.name, self.instance.type, self.instance.dimension, self.instance.size)
         doc = db_cone.get_doc()
@@ -64,7 +65,9 @@ class VoronoiDiagram:
                 cones[key] = value.hyperplanes
 
             db_cone.cones = cones
-            db_cone.add_doc()
+
+            if save:
+                db_cone.add_doc()
 
     def __generate_cones(self, solutions: Dict[int, Point]) -> Dict[int, Cone]:
         """Generates the Voronoi cones.

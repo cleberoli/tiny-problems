@@ -1,0 +1,9 @@
+{
+  "name": "KNP-n3",
+  "type": "knp",
+  "dimension": 3,
+  "solutions": 4,
+  "hyperplanes": 6,
+  "edges": 6,
+  "degree": 3.0
+}
